@@ -471,27 +471,119 @@ logic in my unit tests instead of fixing the actual bug :/ ."
 </script>
 
 <script>
-    // Ez a rész a diagram generáló kód UTÁN vagy egy új script tag-ben legyen.
+    // Ez a rész a diagram generáló kód UTÁN vagy egy új script tag-ben legyen,
+    // de a DOMContentLoaded eseményen belül.
     document.addEventListener('DOMContentLoaded', function() {
-        // A diagramgeneráló kód itt fut le először...
-        // ...
+        // A diagramgeneráló kód itt már lefutott, vagy egy másik DOMContentLoaded blokkban van.
 
-        // Majd hozzáadjuk a billentyűzetfigyelőt a navigációhoz
-        document.addEventListener('keydown', function(event) {
-            // Navigáció az előző oldalra (balra nyíl)
-            if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
-                event.preventDefault();
-                window.location.href = '01-cover.html';
+        const slideContent = document.querySelector('.slide-content');
+        if (!slideContent) {
+            console.error('.slide-content elem nem található az oldalon.');
+            // Alap oldalnavigáció, ha a .slide-content valamiért hiányozna
+            document.addEventListener('keydown', function(event) {
+                let preventDefaultBehavior = true;
+                if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                    window.location.href = '01-cover.html';
+                } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                    window.location.href = '03-generativ-ai.html'; // Következő oldal
+                } else {
+                    preventDefaultBehavior = false;
+                }
+                if (preventDefaultBehavior) {
+                    event.preventDefault();
+                }
+            });
+            return;
+        }
+
+        // H2 és H3 elemek összegyűjtése (02.html-ben ezek a diagramok címei, H2-k)
+        const headingElements = Array.from(slideContent.querySelectorAll('h2, h3'));
+        const firstContentElement = slideContent.firstElementChild; // Ez lesz az első <div class="column">
+
+        let currentHeadingIndex = -1; // -1: firstContentElement, 0+: headingElements[index]
+        let lastScrollTarget = null;
+
+        function highlightTarget(target) {
+            if (lastScrollTarget && lastScrollTarget !== target) {
+                lastScrollTarget.classList.remove('current-scroll-target');
             }
-            // Navigáció a következő oldalra (jobbra nyíl) - Ha lenne 03-as oldal
-             else if (event.code === 'ArrowRight' || event.key === 'ArrowRight') {
-                 event.preventDefault();
-                 window.location.href = '03-generative-ai.html'; // Cseréld le a valós URL-re
-             }
-            // A Space billentyűnek itt nincs explicit navigációs funkciója,
-            // hacsak nem szeretnéd, hogy az is továbbvigyen.
+            if (target) {
+                target.classList.add('current-scroll-target');
+            }
+            lastScrollTarget = target;
+        }
+
+        if (!firstContentElement) {
+            // Ha nincs első elem, csak az alap navigáció működjön
+            console.warn('.slide-content első gyermeke nem található, csak az alap navigáció fog működni.');
+            document.addEventListener('keydown', function(event) {
+                let preventDefaultBehavior = true;
+                if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                    window.location.href = '01-cover.html';
+                } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                    window.location.href = '03-generative-ai.html';
+                } else {
+                    preventDefaultBehavior = false;
+                }
+                if (preventDefaultBehavior) {
+                    event.preventDefault();
+                }
+            });
+            return;
+        }
+
+        // Kezdeti kiemelés (az első <div class="column"> elemre)
+        highlightTarget(firstContentElement);
+
+        document.addEventListener('keydown', function(event) {
+            let preventDefaultBehavior = true;
+            let scrollTarget = null;
+
+            if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                window.location.href = '01-cover.html'; // Előző oldal
+            } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                window.location.href = '03-generative-ai.html'; // Következő oldal (a 03-as)
+            } else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
+                if (currentHeadingIndex === -1) { // Jelenleg a tartalom tetején (firstContentElement)
+                    if (headingElements.length > 0) {
+                        currentHeadingIndex = 0; // Ugrás az első H2/H3-ra
+                        scrollTarget = headingElements[0];
+                    } else {
+                        scrollTarget = firstContentElement; // Maradás, ha nincsenek H2/H3-k
+                    }
+                } else if (currentHeadingIndex < headingElements.length - 1) { // Címsornál vagyunk, és nem az utolsónál
+                    currentHeadingIndex++;
+                    scrollTarget = headingElements[currentHeadingIndex];
+                } else { // Az utolsó címsornál vagyunk
+                    if (headingElements.length > 0) {
+                         scrollTarget = headingElements[currentHeadingIndex]; // Maradás
+                    } else {
+                        scrollTarget = firstContentElement; // Elvileg nem érjük el
+                    }
+                }
+            } else if (event.code === 'ArrowUp' || event.key === 'ArrowUp') {
+                if (currentHeadingIndex > 0) { // Címsor[1]-nél vagy annál később
+                    currentHeadingIndex--;
+                    scrollTarget = headingElements[currentHeadingIndex];
+                } else if (currentHeadingIndex === 0) { // Az első címsornál (headingElements[0])
+                    currentHeadingIndex = -1; // Ugrás a tartalom tetejére (firstContentElement)
+                    scrollTarget = firstContentElement;
+                } else { // currentHeadingIndex === -1 (Már a tartalom tetején)
+                    scrollTarget = firstContentElement; // Maradás
+                }
+            } else {
+                preventDefaultBehavior = false;
+            }
+
+            if (scrollTarget) {
+                highlightTarget(scrollTarget);
+                scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            if (preventDefaultBehavior) {
+                event.preventDefault();
+            }
         });
     });
-</script>
-</body>
+</script></body>
 </html>
