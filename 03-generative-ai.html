@@ -212,6 +212,41 @@
                 <li><strong>Finomhangolás (Fine-tuning) és Megerősítéses Tanulás Emberi Visszajelzéssel (RLHF):</strong> Az alapmodellek további képzésen eshetnek át specifikusabb feladatokra (finomhangolás), vagy emberi értékelők visszajelzései alapján (RLHF) csiszolják a válaszaikat, hogy azok hasznosabbak, őszintébbek és ártalmatlanabbak legyenek.</li>
             </ul>
 
+            <h3>Fontosabb Generatív MI Modellek és Rövidítések</h3>
+            <p>A generatív MI területén számos specifikus modell típus és technológia létezik, amelyek különböző megközelítéseket alkalmaznak az új tartalmak létrehozására. Íme néhány kulcsfontosságú rövidítés és magyarázatuk:</p>
+            <ul>
+                <li><strong>LLM (Large Language Model - Nagy Nyelvi Modell):</strong>
+                    <ul>
+                        <li>Ezek olyan mélytanulási modellek, amelyeket hatalmas mennyiségű szöveges adaton tanítottak be, hogy képesek legyenek emberihez hasonló szöveget megérteni, generálni, összefoglalni, fordítani és egyéb nyelvi feladatokat elvégezni.</li>
+                        <li>Tipikusan transzformer architektúrán alapulnak. Ilyenek például a GPT (Generative Pre-trained Transformer) sorozat modelljei (pl. ChatGPT), a Google Gemini vagy a Claude.</li>
+                        <li>Az "Nagy" jelző a paraméterek óriási számára (milliárdok vagy akár billiók) és a tanító adathalmaz méretére utal.</li>
+                    </ul>
+                </li>
+                <li><strong>GAN (Generative Adversarial Network - Generatív Ellenséges Hálózat):</strong>
+                    <ul>
+                        <li>Két neurális hálózatból álló rendszer: egy <strong>Generátorból</strong> és egy <strong>Diszkriminátorból</strong>.</li>
+                        <li>A Generátor megpróbál valósághű adatokat létrehozni (pl. képeket), míg a Diszkriminátor megpróbálja megkülönböztetni a valódi adatokat a Generátor által készített hamisítványoktól.</li>
+                        <li>A két hálózat "verseng" egymással: a Generátor egyre jobb hamisítványokat készít, a Diszkriminátor pedig egyre ügyesebben ismeri fel azokat. Ez a folyamat mindkét hálózatot fejleszti.</li>
+                        <li>Gyakran használják realisztikus képek, videók és egyéb vizuális tartalmak generálására.</li>
+                    </ul>
+                </li>
+                <li><strong>VAE (Variational Autoencoder - Variációs Autoenkóder):</strong>
+                    <ul>
+                        <li>Olyan generatív modellek, amelyek az adatokat egy alacsonyabb dimenziós rejtett (látens) térbe kódolják, majd ebből a térből dekódolják vissza az eredetihez hasonló adatokat.</li>
+                        <li>A "variációs" rész arra utal, hogy a látens teret valószínűségi eloszlásokkal modellezik, ami lehetővé teszi új, a tanult adatokhoz hasonló minták generálását a látens térből történő mintavételezéssel.</li>
+                        <li>Jól használhatók képgenerálásra, anomáliadetektálásra és az adatok mögöttes struktúrájának megértésére.</li>
+                    </ul>
+                </li>
+                <li><strong>Diffúziós Modellek (Diffusion Models):</strong>
+                    <ul>
+                        <li>Viszonylag újabb, de rendkívül sikeres megközelítés, különösen a képalkotásban (pl. DALL-E 2, Stable Diffusion, Midjourney).</li>
+                        <li>A folyamat lényege, hogy először fokozatosan zajt adnak a tanító adatokhoz (pl. képekhez), amíg azok teljesen felismerhetetlenné válnak. Ezután a modellt arra tanítják, hogy ezt a folyamatot megfordítsa: egy zajos képből kiindulva fokozatosan eltávolítsa a zajt, és így hozzon létre egy tiszta, új képet.</li>
+                        <li>Képesek rendkívül magas minőségű és részletgazdag képeket generálni szöveges leírások alapján.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>Ezek a modellek és architektúrák adják a mai generatív MI alkalmazások gerincét, és folyamatosan fejlődnek, újabb és újabb képességekkel bővülve.</p>
+
             <h3>Statisztikán Való Alapulás</h3>
             <ul>
                 <li><strong>Valószínűségi Előrejelzések:</strong> A generatív MI lényegében azt tanulja meg, hogy egy adott kontextus (pl. egy bemeneti szöveg, prompt) alapján mi a következő legvalószínűbb elem (szó, képpont, hangjegy). Nem "gondolkodik" vagy "ért" emberi értelemben, hanem statisztikai mintázatok alapján generál.</li>
@@ -232,7 +267,7 @@
                     if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
                         window.location.href = '02-ai-survey-results.html';
                     } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                        window.location.href = '04-llm-mukodes.html';
+                        window.location.href = '04-llm-mukodes.html'; // Feltételezve, hogy ez lesz a következő oldal
                     } else {
                         preventDefaultBehavior = false;
                     }
@@ -254,21 +289,20 @@
                 if (lastScrollTarget && lastScrollTarget !== target) {
                     lastScrollTarget.classList.remove('current-scroll-target');
                 }
-				console.log(target.nodeName);
-                if (target && target.nodeName.startsWith('H')) {
+                // Csak H2 és H3 elemeket emelünk ki vizuálisan, de a görgetés minden target-re működik
+                if (target && (target.nodeName === 'H2' || target.nodeName === 'H3')) {
                     target.classList.add('current-scroll-target');
                 }
                 lastScrollTarget = target;
             }
 
             if (!firstContentElement) {
-                // Ha nincs első elem, csak az alap navigáció működjön
                  document.addEventListener('keydown', function(event) {
                     let preventDefaultBehavior = true;
                     if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
                         window.location.href = '02-ai-survey-results.html';
                     } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                        window.location.href = '04-llm-mukodes.html';
+                        window.location.href = '04-llm-mukodes.html'; // Feltételezve, hogy ez lesz a következő oldal
                     } else {
                         preventDefaultBehavior = false;
                     }
@@ -279,8 +313,8 @@
                 return;
             }
 
-            // Kezdeti kiemelés az első tartalom elemre
-            highlightTarget(firstContentElement);
+            // Kezdeti kiemelés az első tartalom elemre (nem vizuális, csak logikai)
+            // highlightTarget(firstContentElement); // Ha az első P-t is ki akarjuk emelni
 
             document.addEventListener('keydown', function(event) {
                 let preventDefaultBehavior = true;
@@ -289,41 +323,44 @@
                 if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
                     window.location.href = '02-ai-survey-results.html';
                 } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                    window.location.href = '04-llm-mukodes.html';
+                    // Dinamikusan kellene meghatározni a következő oldalt, vagy fixen beírni
+                    // Jelenlegi fájlnév: 03-generative-ai.html
+                    // Következő lehet: 04-....html
+                    window.location.href = '04-llm-mukodes.html'; // Ezt majd cseréld a valós következő oldalra!
                 } else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
-                    if (currentHeadingIndex === -1) {
+                    if (currentHeadingIndex === -1) { // Jelenleg a tartalom tetején (firstContentElement)
                         if (headingElements.length > 0) {
-                            currentHeadingIndex = 0;
+                            currentHeadingIndex = 0; // Ugrás az első H2/H3-ra
                             scrollTarget = headingElements[0];
                         } else {
-                            scrollTarget = firstContentElement;
+                            scrollTarget = firstContentElement; // Maradás, ha nincsenek H2/H3-k
                         }
-                    } else if (currentHeadingIndex < headingElements.length - 1) {
+                    } else if (currentHeadingIndex < headingElements.length - 1) { // Címsornál vagyunk, és nem az utolsónál
                         currentHeadingIndex++;
                         scrollTarget = headingElements[currentHeadingIndex];
-                    } else {
+                    } else { // Az utolsó címsornál vagyunk
                         if (headingElements.length > 0) {
-                             scrollTarget = headingElements[currentHeadingIndex];
+                             scrollTarget = headingElements[currentHeadingIndex]; // Maradás
                         } else {
-                            scrollTarget = firstContentElement;
+                            scrollTarget = firstContentElement; // Elvileg nem érjük el
                         }
                     }
                 } else if (event.code === 'ArrowUp' || event.key === 'ArrowUp') {
-                    if (currentHeadingIndex > 0) {
+                    if (currentHeadingIndex > 0) { // Címsor[1]-nél vagy annál később
                         currentHeadingIndex--;
                         scrollTarget = headingElements[currentHeadingIndex];
-                    } else if (currentHeadingIndex === 0) {
-                        currentHeadingIndex = -1;
+                    } else if (currentHeadingIndex === 0) { // Az első címsornál (headingElements[0])
+                        currentHeadingIndex = -1; // Ugrás a tartalom tetejére (firstContentElement)
                         scrollTarget = firstContentElement;
-                    } else { // currentHeadingIndex === -1
-                        scrollTarget = firstContentElement;
+                    } else { // currentHeadingIndex === -1 (Már a tartalom tetején)
+                        scrollTarget = firstContentElement; // Maradás
                     }
                 } else {
-                    preventDefaultBehavior = false; // Nem általunk kezelt billentyű
+                    preventDefaultBehavior = false;
                 }
 
                 if (scrollTarget) {
-                    highlightTarget(scrollTarget); // Cél kiemelése
+                    highlightTarget(scrollTarget);
                     scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
 
