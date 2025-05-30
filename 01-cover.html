@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatív AI - Lessons Learned - Fedőlap</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            overflow: hidden; /* Prevents scrollbars if content overflows slightly */
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #1a1a2e; /* Sötétkék-lila háttér, hasonló a képhez */
+            /* Ha a kép pontos hátterét szeretnénk használni:
+            background-image: url('eleresi_ut_a_hatterkephez.jpg');
+            background-size: cover;
+            background-position: center;
+            */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 10vw; /* Reszponzív méret a nézetablak szélességéhez képest */
+            font-weight: bold;
+            margin-bottom: 20px;
+            /* A "C" betű speciális megjelenítéséhez SVG vagy kép lenne ideális */
+        }
+
+        .logo .c-letter {
+            /* Itt lehetne egyedi stílust adni a C betűnek, ha szövegként marad.
+               Például más szín, vagy egy körvonallal próbálkozni.
+               De a legjobb egy SVG lenne. */
+        }
+
+        .subtitle {
+            font-size: 3vw; /* Reszponzív méret */
+            font-weight: normal;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        .year {
+            font-size: 2.5vw; /* Reszponzív méret */
+            position: absolute;
+            bottom: 5%;
+        }
+
+        /* Kisebb képernyőkre (pl. mobil) igazítás */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 18vw;
+            }
+            .subtitle {
+                font-size: 5vw;
+            }
+            .year {
+                font-size: 4vw;
+                bottom: 3%;
+            }
+        }
+         @media (min-width: 1200px) {
+            .logo {
+                font-size: 120px; /* Fix méret nagyobb képernyőkön */
+            }
+            .subtitle {
+                font-size: 36px; /* Fix méret */
+            }
+            .year {
+                font-size: 30px; /* Fix méret */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="logo">we<span class="c-letter">C</span>an</div>
+        <div class="subtitle">Generatív AI „Lessons Learned”</div>
+        <div class="year">2025</div>
+    </div>
+</body>
+</html>
