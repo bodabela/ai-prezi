@@ -215,19 +215,104 @@
     </div>
 
     <script>
-        document.addEventListener('keydown', function(event) {
-            // Navigáció az előző oldalra (balra nyíl)
-            if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
-                event.preventDefault();
-                window.location.href = '02-ai-survey-results.html';
+        document.addEventListener('DOMContentLoaded', function() {
+            const slideContent = document.querySelector('.slide-content');
+            if (!slideContent) {
+                console.error('.slide-content elem nem található.');
+                // Alap oldalnavigáció, ha a .slide-content valamiért hiányozna
+                document.addEventListener('keydown', function(event) {
+                    let preventDefaultBehavior = true;
+                    if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                        window.location.href = '02-ai-survey-results.html';
+                    } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                        window.location.href = '04-llm-mukodes.html';
+                    } else {
+                        preventDefaultBehavior = false;
+                    }
+                    if (preventDefaultBehavior) {
+                        event.preventDefault();
+                    }
+                });
+                return;
             }
-            // Navigáció a következő oldalra (jobbra nyíl vagy space)
-            else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                event.preventDefault();
-                // Tegyük fel, hogy a következő oldal az LLM-ek működéséről fog szólni.
-                // Ha más lesz a következő oldal, ezt a linket majd frissíteni kell.
-                window.location.href = '04-llm-mukodes.html';
+
+            const h2Elements = Array.from(slideContent.querySelectorAll('h2'));
+            const firstContentElement = slideContent.firstElementChild;
+
+            // currentH2Index:
+            // -1 jelenti a firstContentElement-et (a tartalom teteje)
+            // 0-tól h2Elements.length-1-ig jelenti a h2Elements[currentH2Index]-et
+            let currentH2Index = -1; // Kezdés a tartalom legtetején
+
+            // Ha egyáltalán nincs görgethető tartalom (sem első elem, sem H2-k),
+            // akkor csak az oldalnavigáció működjön.
+            if (!firstContentElement) { // Ha nincs első gyerek elem, akkor nincs mit görgetni a tartalmon belül.
+                document.addEventListener('keydown', function(event) {
+                    let preventDefaultBehavior = true;
+                    if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                        window.location.href = '02-ai-survey-results.html';
+                    } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                        window.location.href = '04-llm-mukodes.html';
+                    } else {
+                        preventDefaultBehavior = false;
+                    }
+                    if (preventDefaultBehavior) {
+                        event.preventDefault();
+                    }
+                });
+                return; // Kilépés, ha nincs tartalom, amit görgetni lehetne.
             }
+
+            document.addEventListener('keydown', function(event) {
+                let preventDefaultBehavior = true;
+                let scrollTarget = null;
+
+                if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                    window.location.href = '02-ai-survey-results.html';
+                } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                    window.location.href = '04-llm-mukodes.html';
+                } else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
+                    if (currentH2Index === -1) { // Jelenleg a tartalom tetején (firstContentElement)
+                        if (h2Elements.length > 0) {
+                            currentH2Index = 0; // Ugrás az első H2-re
+                            scrollTarget = h2Elements[0];
+                        } else {
+                            scrollTarget = firstContentElement; // Maradás a firstContentElement-nél, ha nincsenek H2-k
+                        }
+                    } else if (currentH2Index < h2Elements.length - 1) { // H2-nél vagyunk, és nem az utolsónál
+                        currentH2Index++;
+                        scrollTarget = h2Elements[currentH2Index];
+                    } else { // Az utolsó H2-nél vagyunk
+                        if (h2Elements.length > 0) {
+                             scrollTarget = h2Elements[currentH2Index]; // Maradás az aktuális (utolsó) H2-nél
+                        } else {
+                            // Ennek az ágnak elvileg nem szabadna teljesülnie, ha a currentH2Index >= 0 és nincsenek H2-k,
+                            // a currentH2Index inicializálása és a H2-k ellenőrzése miatt.
+                            scrollTarget = firstContentElement; // Biztonsági mentés: ugrás a tartalom tetejére
+                        }
+                    }
+                } else if (event.code === 'ArrowUp' || event.key === 'ArrowUp') {
+                    if (currentH2Index > 0) { // H2[1]-nél vagy annál később
+                        currentH2Index--;
+                        scrollTarget = h2Elements[currentH2Index];
+                    } else if (currentH2Index === 0) { // Az első H2-nél (H2[0])
+                        currentH2Index = -1; // Ugrás a tartalom tetejére (firstContentElement)
+                        scrollTarget = firstContentElement; // firstContentElement-nek léteznie kell a korábbi ellenőrzés miatt
+                    } else { // currentH2Index === -1 (Már a tartalom tetején)
+                        scrollTarget = firstContentElement; // Maradás a firstContentElement-nél
+                    }
+                } else {
+                    preventDefaultBehavior = false;
+                }
+
+                if (scrollTarget) {
+                    scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                if (preventDefaultBehavior) {
+                    event.preventDefault();
+                }
+            });
         });
     </script>
 </body>
