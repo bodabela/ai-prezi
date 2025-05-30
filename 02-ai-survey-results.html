@@ -469,5 +469,29 @@ logic in my unit tests instead of fixing the actual bug :/ ."
 
 });
 </script>
+
+<script>
+    // Ez a rész a diagram generáló kód UTÁN vagy egy új script tag-ben legyen.
+    document.addEventListener('DOMContentLoaded', function() {
+        // A diagramgeneráló kód itt fut le először...
+        // ...
+
+        // Majd hozzáadjuk a billentyűzetfigyelőt a navigációhoz
+        document.addEventListener('keydown', function(event) {
+            // Navigáció az előző oldalra (balra nyíl)
+            if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                event.preventDefault();
+                window.location.href = '01-cover.html';
+            }
+            // Navigáció a következő oldalra (jobbra nyíl) - Ha lenne 03-as oldal
+            // else if (event.code === 'ArrowRight' || event.key === 'ArrowRight') {
+            //     event.preventDefault();
+            //     window.location.href = '03-kovetkezo-oldal.html'; // Cseréld le a valós URL-re
+            // }
+            // A Space billentyűnek itt nincs explicit navigációs funkciója,
+            // hacsak nem szeretnéd, hogy az is továbbvigyen.
+        });
+    });
+</script>
 </body>
 </html>

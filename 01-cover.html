@@ -92,5 +92,32 @@
         <div class="subtitle">Generatív AI „Lessons Learned”</div>
         <div class="year">2025</div>
     </div>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Space' || event.key === ' ') {
+                // Megakadályozzuk az alapértelmezett műveletet (pl. görgetés)
+                event.preventDefault();
+                // Átirányítás a következő oldalra
+                window.location.href = '02-ai-survey-results.html';
+            }
+        });
+    </script>
+	
+	<script>
+		document.addEventListener('keydown', function(event) {
+			// Navigáció a következő oldalra (jobbra nyíl vagy space)
+			if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+				event.preventDefault(); // Megakadályozza az alapértelmezett böngészőműveletet
+				window.location.href = '02-ai-survey-results.html';
+			}
+			// A balra nyílnak itt nincs funkciója, mivel ez az első oldal.
+			// Ha lenne előző oldal, itt lehetne kezelni:
+			// else if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+			//     event.preventDefault();
+			//     window.location.href = 'URL_AZ_ELOZO_OLDALHOZ';
+			// }
+		});
+	</script>
 </body>
 </html>
