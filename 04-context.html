@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatív AI - Kontextus és Alkalmazási Módszerek</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .slide-container {
+            width: 1500px;
+            height: 920px;
+            background-color: #ffffff;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-svg-container {
+            width: 100%;
+            height: 120px;
+            flex-shrink: 0;
+        }
+        .slide-title-main-container {
+            padding: 22px 60px;
+            background-color: #f8f8f8;
+            border-bottom: 2px solid #ddd;
+        }
+        .slide-title-main-container h1 {
+            font-size: 36px;
+            color: #2c3e50;
+            margin: 0;
+            font-weight: 600;
+        }
+        .slide-content {
+            padding: 22px 60px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+        }
+
+        /* Szöveges tartalom stílusai ezen az oldalon */
+        .slide-content h2 {
+            font-size: 26px;
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #79C7E3;
+            padding-bottom: 6px;
+            font-weight: 600;
+        }
+        .slide-content h3 {
+            font-size: 21px;
+            color: #2c3e50;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .slide-content p, .slide-content ul {
+            font-size: 17px;
+            line-height: 1.65;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .slide-content ul {
+            list-style-type: disc;
+            padding-left: 35px;
+            margin-left: 5px;
+        }
+        .slide-content ul li {
+            margin-bottom: 7px;
+        }
+        .slide-content ul ul {
+            margin-top: 5px;
+            margin-bottom: 8px;
+            list-style-type: circle;
+        }
+         .slide-content ul ul li {
+            margin-bottom: 5px;
+        }
+        .slide-content strong {
+            font-weight: 600;
+            color: #0A2B4C;
+        }
+
+        .current-scroll-target {
+            text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Az `02-ai-survey-results.html`-ből származó stílusok (diagramokhoz),
+           a konzisztencia és későbbi felhasználhatóság érdekében itt maradnak,
+           de ezen az oldalon nincsenek diagramok. */
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+        .chart-container {
+            background-color: #fff;
+        }
+        .chart-container h2 {
+            font-size: 23px;
+            color: #34495e;
+            margin-top: 0;
+            margin-bottom: 12px;
+            border-bottom: 3px solid #79C7E3;
+            padding-bottom: 6px;
+            font-weight: 600;
+        }
+        .svg-chart {
+            width: 100%;
+            min-height: 180px;
+        }
+        .bar {
+            fill: #3498db;
+            transition: fill 0.2s ease, width 0.3s ease;
+        }
+        .bar:hover {
+            fill: #2980b9;
+        }
+        .bar-label {
+            font-size: 14px;
+            fill: #222;
+            text-anchor: end;
+        }
+        .bar-value {
+            font-size: 14px;
+            fill: #fff;
+            text-anchor: end;
+        }
+        .bar-value-external {
+            font-size: 14px;
+            fill: #333;
+            text-anchor: start;
+        }
+        p.no-data-message {
+            font-size: 16px;
+            color: #777;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="1000" height="80" fill="#0A2B4C"/>
+                <image xlink:href="logo.jfif" x="25" y="15" width="50" height="50" />
+                <text x="180" y="40" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="22" font-weight="600">
+                    <tspan fill="#79C7E3">Generatív</tspan>
+                    <tspan fill="#FFFFFF"> AI</tspan>
+                </text>
+                <text x="180" y="60" font-family="'Segoe UI', Tahoma, sans-serif" font-size="10" fill="#FFFFFF" letter-spacing="0.5">
+                    TAPASZTALATOK MEGOSZTÁSA
+                </text>
+                <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+                <path d="M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z" fill="#79C7E3" fill-opacity="0.15"/>
+                <line x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <div class="slide-title-main-container">
+            <h1>Kontextus és Gyakorlati Alkalmazási Módszerek</h1>
+        </div>
+
+        <div class="slide-content">
+            <h2>A Kontextus Jelentősége a Generatív AI-ban</h2>
+            <p>A generatív AI modellek (különösen az LLM-ek) válaszainak minőségét drámaian befolyásolja az, hogy mennyi és milyen <strong>kontextus</strong> áll rendelkezésükre. A kontextus az az információ (szöveg, adatok), amit a modell a prompton kívül is figyelembe vehet a válasz generálásakor.</p>
+            <ul>
+                <li><strong>Miért fontos?</strong>
+                    <ul>
+                        <li><strong>Relevancia:</strong> Segít a modellnek releváns és pontos válaszokat adni.</li>
+                        <li><strong>Koherencia:</strong> Biztosítja, hogy a generált szöveg logikusan illeszkedjen az előzményekhez.</li>
+                        <li><strong>Pontosság:</strong> Csökkenti a "hallucinációk" (pontatlan vagy kitalált információk) esélyét.</li>
+                        <li><strong>Személyre szabás:</strong> Lehetővé teszi, hogy a válasz jobban illeszkedjen a felhasználó vagy a feladat specifikus igényeihez.</li>
+                    </ul>
+                </li>
+                <li><strong>Hogyan kezelik a kontextust?</strong>
+                    <ul>
+                        <li><strong>Bemeneti ablak (Context Window / Token Limit):</strong> Az LLM-ek csak egy bizonyos mennyiségű szöveget (tokenben mérve) képesek egyszerre feldolgozni. Ebbe az ablakba belefér a bemeneti prompt, az előzménybeli beszélgetés és a generált válasz.
+                            <ul>
+                                <li>Minél nagyobb a kontextus ablak, annál több információt tud "észben tartani" a modell.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>Gyakorlati Alkalmazási Módszerek és Technikák</h2>
+            <p>A generatív AI eszközök hatékony használatához bizonyos technikák és praktikák elsajátítása elengedhetetlen. Ezekkel jelentősen javítható a generált tartalom minősége és relevanciája.</p>
+
+            <h3>1. Prompt Engineering (Prompt Tervezés)</h3>
+            <p>A "prompt" az a bemeneti utasítás, amit a modellnek adunk. A jó prompt a legfontosabb tényező a jó eredmény elérésében.</p>
+            <ul>
+                <li><strong>Tippek:</strong>
+                    <ul>
+                        <li><strong>Legyen egyértelmű és specifikus:</strong> Pontosan fogalmazd meg, mit szeretnél, és kerülj minden kétértelműséget.</li>
+                        <li><strong>Határozz meg szerepet:</strong> Mondd meg a modellnek, milyen "szerepben" gondolkodjon (pl. "Légy egy tapasztalt Python fejlesztő...", "Képzeld magad egy HR szakértőnek...").</li>
+                        <li><strong>Adj példákat (Few-shot learning):</strong> Ha lehetséges, adj meg néhány példát a kívánt kimenetről. Ez segít a modellnek megérteni a mintázatot.</li>
+                        <li><strong>Szabj meg kereteket:</strong> Határozd meg a válasz formátumát (pl. listaként, JSON-ban, 5 mondatban), hosszát, hangnemét (pl. formális, informális, vicces).</li>
+                        <li><strong>Iterálj:</strong> Ritkán sikerül elsőre a tökéletes prompt. Finomítsd és próbáld újra, amíg eléred a kívánt eredményt.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>2. RAG (Retrieval Augmented Generation - Lekérdezésen Alapuló Generálás)</h3>
+            <p>A RAG egy hibrid megközelítés, amely ötvözi az információlekérdezést (retrieval) a generálással.</p>
+            <ul>
+                <li><strong>Működése:</strong>
+                    <ul>
+                        <li>Amikor a felhasználó kérdést tesz fel, a rendszer először releváns dokumentumokat vagy adatokat keres egy külső tudásbázisban (pl. céges dokumentumok, adatbázisok, friss weboldalak).</li>
+                        <li>Ezután a lekérdezett információt kontextusként átadja a generatív AI modellnek, amely ez alapján generálja a választ.</li>
+                    </ul>
+                </li>
+                <li><strong>Előnyök:</strong>
+                    <ul>
+                        <li>Javítja a válaszok pontosságát és megbízhatóságát, mivel a modell valós, friss adatokra támaszkodhat.</li>
+                        <li>Csökkenti a "hallucinációk" kockázatát.</li>
+                        <li>Lehetővé teszi a modell számára, hogy specifikus, céges vagy privát adatokkal is dolgozzon.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>3. Chain-of-Thought (Gondolatmenet) és Step-by-step Reasoning</h3>
+            <p>Ezek a technikák arra ösztönzik a modellt, hogy lépésről lépésre vezesse le a megoldást, hasonlóan az emberi gondolkodáshoz.</p>
+            <ul>
+                <li><strong>Hogyan alkalmazd?</strong>
+                    <ul>
+                        <li>Egyszerűen kérd meg a modellt, hogy "Gondolkodj hangosan", vagy "Fejtsd ki a gondolatmeneted lépésről lépésre".</li>
+                        <li>Ez különösen komplex problémák (pl. matematikai feladatok, kódgenerálás) esetén hasznos, ahol a köztes lépések is fontosak.</li>
+                    </ul>
+                </li>
+                <li><strong>Előnyök:</strong>
+                    <ul>
+                        <li>Pontosabb és részletesebb válaszok.</li>
+                        <li>Átláthatóbbá teszi a modell "érvelését".</li>
+                        <li>Növeli a modell sikerességét összetett feladatokban.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>4. Iteratív Finomhangolás</h3>
+            <p>Gyakran a legjobb eredményt a modell válaszának folyamatos finomhangolásával érhetjük el, ahelyett, hogy egyetlen tökéletes promptra törekednénk.</p>
+            <ul>
+                <li><strong>Módszer:</strong>
+                    <ul>
+                        <li>Kezdj egy általános prompttal.</li>
+                        <li>Értékeld a modell válaszát, és adj további utasításokat vagy kiegészítéseket, hogy a válasz közelebb kerüljön a célhoz.</li>
+                        <li>Például: "Ez jó, de tedd formálisabbá", "Adj hozzá több technikai részletet a harmadik ponthoz", "Egyszerűsítsd az első bekezdést".</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slideContent = document.querySelector('.slide-content');
+            if (!slideContent) {
+                console.error('.slide-content elem nem található.');
+                document.addEventListener('keydown', function(event) {
+                    let preventDefaultBehavior = true;
+                    if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                        window.location.href = '03-generative-ai.html';
+                    } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                        // Későbbi oldalak, ha lesznek
+                        // window.location.href = '05-valami.html';
+                    } else {
+                        preventDefaultBehavior = false;
+                    }
+                    if (preventDefaultBehavior) {
+                        event.preventDefault();
+                    }
+                });
+                return;
+            }
+
+            const headingElements = Array.from(slideContent.querySelectorAll('h2, h3'));
+            const firstContentElement = slideContent.firstElementChild;
+
+            let currentHeadingIndex = -1;
+            let lastScrollTarget = null;
+
+            function highlightTarget(target) {
+                if (lastScrollTarget && lastScrollTarget !== target) {
+                    lastScrollTarget.classList.remove('current-scroll-target');
+                }
+                if (target && (target.nodeName === 'H2' || target.nodeName === 'H3')) {
+                    target.classList.add('current-scroll-target');
+                }
+                lastScrollTarget = target;
+            }
+
+            if (!firstContentElement) {
+                 document.addEventListener('keydown', function(event) {
+                    let preventDefaultBehavior = true;
+                    if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                        window.location.href = '03-generative-ai.html';
+                    } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                        // Későbbi oldalak, ha lesznek
+                        // window.location.href = '05-valami.html';
+                    } else {
+                        preventDefaultBehavior = false;
+                    }
+                    if (preventDefaultBehavior) {
+                        event.preventDefault();
+                    }
+                });
+                return;
+            }
+
+            document.addEventListener('keydown', function(event) {
+                let preventDefaultBehavior = true;
+                let scrollTarget = null;
+
+                if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                    window.location.href = '03-generative-ai.html';
+                } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                    // Ha lesz következő oldal, itt kell frissíteni az URL-t
+                    // window.location.href = '05-valami.html';
+                    // Egyelőre nincs következő oldal, így nem navigál tovább jobbra
+                } else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
+                    if (currentHeadingIndex === -1) {
+                        if (headingElements.length > 0) {
+                            currentHeadingIndex = 0;
+                            scrollTarget = headingElements[0];
+                        } else {
+                            scrollTarget = firstContentElement;
+                        }
+                    } else if (currentHeadingIndex < headingElements.length - 1) {
+                        currentHeadingIndex++;
+                        scrollTarget = headingElements[currentHeadingIndex];
+                    } else {
+                        if (headingElements.length > 0) {
+                             scrollTarget = headingElements[currentHeadingIndex];
+                        } else {
+                            scrollTarget = firstContentElement;
+                        }
+                    }
+                } else if (event.code === 'ArrowUp' || event.key === 'ArrowUp') {
+                    if (currentHeadingIndex > 0) {
+                        currentHeadingIndex--;
+                        scrollTarget = headingElements[currentHeadingIndex];
+                    } else if (currentHeadingIndex === 0) {
+                        currentHeadingIndex = -1;
+                        scrollTarget = firstContentElement;
+                    } else {
+                        scrollTarget = firstContentElement;
+                    }
+                } else {
+                    preventDefaultBehavior = false;
+                }
+
+                if (scrollTarget) {
+                    highlightTarget(scrollTarget);
+                    scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                if (preventDefaultBehavior) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

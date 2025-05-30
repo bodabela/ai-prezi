@@ -187,7 +187,7 @@
             <p>A mesterséges intelligencia (MI) egy rohamosan fejlődő terület, amely számos különböző technológiát és megközelítést foglal magában. Gyakran halljuk az "MI" kifejezést általánosságban, de fontos megértenünk, hogy ezen belül léteznek specializáltabb ágak. Ilyen például a <strong>generatív mesterséges intelligencia</strong>.</p>
             <p>De mit is jelent pontosan az, hogy "generatív"? Miért emeljük ki ezt a jelzőt?</p>
 
-            <h2>A "Generatív" Szó Jelentése az MI Kontextusában</h2>
+            <h2>A "Generatív" Szó Jelentése az AI esetében</h2>
             <ul>
                 <li>A generatív MI olyan modellekre utal, amelyek képesek <strong>új, eredeti tartalmat létrehozni</strong>.</li>
                 <li>Ez a tartalom sokféle lehet: szöveg, kép, hang, videó, sőt akár programkód is.</li>
@@ -208,7 +208,7 @@
             <ul>
                 <li><strong>Óriási Adathalmazok:</strong> A generatív modelleket hatalmas mennyiségű adat felhasználásával tanítják. Szöveggeneráló modellek esetében ez lehet könyvek, cikkek, weboldalak milliárdjai.</li>
                 <li><strong>Felügyelet Nélküli Tanulás (Unsupervised Learning):</strong> A tanítás során a modellek önállóan keresnek mintázatokat, struktúrákat és összefüggéseket a bevitt adatokban. Megtanulják például, hogy bizonyos szavak milyen gyakran követik egymást, milyen egy tipikus mondatszerkezet, vagy hogyan épül fel egy koherens történet.</li>
-                <li><strong>Transzformer Architektúra:</strong> Sok modern generatív MI (pl. GPT modellek) az úgynevezett transzformer architektúrára épül, amely különösen hatékony a szekvenciális adatok (mint a szöveg) közötti hosszú távú függőségek megértésében az "attention" (figyelem) mechanizmusok révén.</li>
+                <li><strong>Transzformer Architektúra:</strong> Sok modern generatív MI (pl. GPT modellek - Generative Pre-trained Transformer) az úgynevezett transzformer architektúrára épül, amely különösen hatékony a szekvenciális adatok (mint a szöveg) közötti hosszú távú függőségek megértésében az "attention" (figyelem) mechanizmusok révén.</li>
                 <li><strong>Finomhangolás (Fine-tuning) és Megerősítéses Tanulás Emberi Visszajelzéssel (RLHF):</strong> Az alapmodellek további képzésen eshetnek át specifikusabb feladatokra (finomhangolás), vagy emberi értékelők visszajelzései alapján (RLHF) csiszolják a válaszaikat, hogy azok hasznosabbak, őszintébbek és ártalmatlanabbak legyenek.</li>
             </ul>
 
@@ -267,7 +267,7 @@
                     if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
                         window.location.href = '02-ai-survey-results.html';
                     } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                        window.location.href = '04-llm-mukodes.html'; // Feltételezve, hogy ez lesz a következő oldal
+                        window.location.href = '04-context.html'; // Feltételezve, hogy ez lesz a következő oldal
                     } else {
                         preventDefaultBehavior = false;
                     }
@@ -302,7 +302,7 @@
                     if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
                         window.location.href = '02-ai-survey-results.html';
                     } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                        window.location.href = '04-llm-mukodes.html'; // Feltételezve, hogy ez lesz a következő oldal
+                        window.location.href = '04-context.html'; // Feltételezve, hogy ez lesz a következő oldal
                     } else {
                         preventDefaultBehavior = false;
                     }
@@ -326,7 +326,7 @@
                     // Dinamikusan kellene meghatározni a következő oldalt, vagy fixen beírni
                     // Jelenlegi fájlnév: 03-generative-ai.html
                     // Következő lehet: 04-....html
-                    window.location.href = '04-llm-mukodes.html'; // Ezt majd cseréld a valós következő oldalra!
+                    window.location.href = '04-context.html'; // Ezt majd cseréld a valós következő oldalra!
                 } else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
                     if (currentHeadingIndex === -1) { // Jelenleg a tartalom tetején (firstContentElement)
                         if (headingElements.length > 0) {
