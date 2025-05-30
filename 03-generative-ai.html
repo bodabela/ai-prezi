@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>"Generatív" AI - Jelentés és Működés</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .slide-container {
+            width: 1500px;
+            height: 920px;
+            background-color: #ffffff;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-svg-container {
+            width: 100%;
+            height: 120px;
+            flex-shrink: 0;
+        }
+        .slide-title-main-container {
+            padding: 22px 60px;
+            background-color: #f8f8f8;
+            border-bottom: 2px solid #ddd;
+        }
+        .slide-title-main-container h1 {
+            font-size: 36px;
+            color: #2c3e50;
+            margin: 0;
+            font-weight: 600;
+        }
+        .slide-content {
+            padding: 22px 60px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column; /* Tartalmi elemek egymás alatt */
+            gap: 15px; /* Kisebb rés az általános szöveges tartalomnál */
+            overflow-y: auto; /* Görgetés, ha több a tartalom */
+        }
+
+        /* Szöveges tartalom stílusai ezen az oldalon */
+        .slide-content h2 {
+            font-size: 26px;
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #79C7E3;
+            padding-bottom: 6px;
+            font-weight: 600;
+        }
+        .slide-content h3 {
+            font-size: 21px;
+            color: #2c3e50;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .slide-content p, .slide-content ul {
+            font-size: 17px;
+            line-height: 1.65;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .slide-content ul {
+            list-style-type: disc;
+            padding-left: 35px; /* Behúzás a listajel miatt */
+            margin-left: 5px; /* Enyhe margó a beágyazott listáknak is */
+        }
+        .slide-content ul li {
+            margin-bottom: 7px;
+        }
+        .slide-content ul ul { /* Beágyazott lista stílusa */
+            margin-top: 5px;
+            margin-bottom: 8px;
+            list-style-type: circle; /* Másfajta listajel */
+        }
+         .slide-content ul ul li {
+            margin-bottom: 5px;
+        }
+        .slide-content strong {
+            font-weight: 600; /* Standard vastagítás */
+            color: #0A2B4C; /* Kiemelés a fejléc sötétkék színével */
+        }
+
+        /* Az `02-ai-survey-results.html`-ből származó stílusok (diagramokhoz),
+           a konzisztencia és későbbi felhasználhatóság érdekében itt maradnak,
+           de ezen az oldalon nincsenek diagramok. */
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+        .chart-container {
+            background-color: #fff;
+        }
+        .chart-container h2 { /* Ez eltér a .slide-content h2-től */
+            font-size: 23px;
+            color: #34495e;
+            margin-top: 0;
+            margin-bottom: 12px;
+            border-bottom: 3px solid #79C7E3;
+            padding-bottom: 6px;
+            font-weight: 600;
+        }
+        .svg-chart {
+            width: 100%;
+            min-height: 180px;
+        }
+        .bar {
+            fill: #3498db;
+            transition: fill 0.2s ease, width 0.3s ease;
+        }
+        .bar:hover {
+            fill: #2980b9;
+        }
+        .bar-label {
+            font-size: 14px;
+            fill: #222;
+            text-anchor: end;
+        }
+        .bar-value {
+            font-size: 14px;
+            fill: #fff;
+            text-anchor: end;
+        }
+        .bar-value-external {
+            font-size: 14px;
+            fill: #333;
+            text-anchor: start;
+        }
+        p.no-data-message {
+            font-size: 16px;
+            color: #777;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="1000" height="80" fill="#0A2B4C"/>
+                <image xlink:href="logo.jfif" x="25" y="15" width="50" height="50" />
+                <text x="180" y="40" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="22" font-weight="600">
+                    <tspan fill="#79C7E3">Generatív</tspan>
+                    <tspan fill="#FFFFFF"> AI</tspan>
+                </text>
+                <text x="180" y="60" font-family="'Segoe UI', Tahoma, sans-serif" font-size="10" fill="#FFFFFF" letter-spacing="0.5">
+                    TAPASZTALATOK MEGOSZTÁSA
+                </text>
+                <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+                <path d="M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z" fill="#79C7E3" fill-opacity="0.15"/>
+                <line x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <div class="slide-title-main-container">
+            <h1>A "Generatív" Jelző Kihangsúlyozása</h1>
+        </div>
+
+        <div class="slide-content">
+            <p>A mesterséges intelligencia (MI) egy rohamosan fejlődő terület, amely számos különböző technológiát és megközelítést foglal magában. Gyakran halljuk az "MI" kifejezést általánosságban, de fontos megértenünk, hogy ezen belül léteznek specializáltabb ágak. Ilyen például a <strong>generatív mesterséges intelligencia</strong>.</p>
+            <p>De mit is jelent pontosan az, hogy "generatív"? Miért emeljük ki ezt a jelzőt?</p>
+
+            <h2>A "Generatív" Szó Jelentése az MI Kontextusában</h2>
+            <ul>
+                <li>A generatív MI olyan modellekre utal, amelyek képesek <strong>új, eredeti tartalmat létrehozni</strong>.</li>
+                <li>Ez a tartalom sokféle lehet: szöveg, kép, hang, videó, sőt akár programkód is.</li>
+                <li>Ellentétben más MI rendszerekkel, amelyek elsősorban adatokat elemeznek, osztályoznak vagy előrejelzéseket tesznek (diszkriminatív modellek), a generatív modellek <strong>alkotnak</strong>.</li>
+                <li>Például:
+                    <ul>
+                        <li>Egy képfelismerő MI (diszkriminatív) meg tudja mondani, hogy egy képen macska van-e.</li>
+                        <li>Egy generatív képalkotó MI (generatív) képes létrehozni egy teljesen új, fotorealisztikus vagy stilizált képet egy macskáról a "rajzolj egy képet egy vörös macskáról kalapban" utasítás alapján.</li>
+                    </ul>
+                </li>
+                <li>A "generatív" jelző tehát az MI <strong>kreatív, tartalomalkotó képességére</strong> utal.</li>
+            </ul>
+
+            <h2>Hogyan Működik a Generatív AI?</h2>
+            <p>A generatív MI modellek, különösen a manapság elterjedt Nagy Nyelvi Modellek (Large Language Models - LLM-ek), összetett folyamatokon keresztül tanulnak és alkotnak.</p>
+
+            <h3>Tanítási Módok</h3>
+            <ul>
+                <li><strong>Óriási Adathalmazok:</strong> A generatív modelleket hatalmas mennyiségű adat felhasználásával tanítják. Szöveggeneráló modellek esetében ez lehet könyvek, cikkek, weboldalak milliárdjai.</li>
+                <li><strong>Felügyelet Nélküli Tanulás (Unsupervised Learning):</strong> A tanítás során a modellek önállóan keresnek mintázatokat, struktúrákat és összefüggéseket a bevitt adatokban. Megtanulják például, hogy bizonyos szavak milyen gyakran követik egymást, milyen egy tipikus mondatszerkezet, vagy hogyan épül fel egy koherens történet.</li>
+                <li><strong>Transzformer Architektúra:</strong> Sok modern generatív MI (pl. GPT modellek) az úgynevezett transzformer architektúrára épül, amely különösen hatékony a szekvenciális adatok (mint a szöveg) közötti hosszú távú függőségek megértésében az "attention" (figyelem) mechanizmusok révén.</li>
+                <li><strong>Finomhangolás (Fine-tuning) és Megerősítéses Tanulás Emberi Visszajelzéssel (RLHF):</strong> Az alapmodellek további képzésen eshetnek át specifikusabb feladatokra (finomhangolás), vagy emberi értékelők visszajelzései alapján (RLHF) csiszolják a válaszaikat, hogy azok hasznosabbak, őszintébbek és ártalmatlanabbak legyenek.</li>
+            </ul>
+
+            <h3>Statisztikán Való Alapulás</h3>
+            <ul>
+                <li><strong>Valószínűségi Előrejelzések:</strong> A generatív MI lényegében azt tanulja meg, hogy egy adott kontextus (pl. egy bemeneti szöveg, prompt) alapján mi a következő legvalószínűbb elem (szó, képpont, hangjegy). Nem "gondolkodik" vagy "ért" emberi értelemben, hanem statisztikai mintázatok alapján generál.</li>
+                <li><strong>Következő Szó Jóslása:</strong> Egy szöveggeneráló modell például egy mondat befejezésekor mindig azt a szót próbálja megjósolni, amelyik a tanító adathalmaz alapján a legnagyobb valószínűséggel következik az addig generált szavak után.</li>
+                <li><strong>Kreativitás vs. Ismétlés:</strong> Bár statisztikán alapulnak, a modellek képesek újszerű kombinációkat létrehozni, mert a lehetőségek tere hatalmas. Azonban fennáll a veszélye annak is, hogy a tanítóadatokban gyakran előforduló mintákat ismétlik, vagy "hallucinálnak" (valótlan információkat állítanak magabiztosan).</li>
+                <li>A generatív képesség tehát a megtanult statisztikai összefüggések komplex alkalmazásából fakad, lehetővé téve új, de a tanult mintákhoz illeszkedő tartalmak létrehozását.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            // Navigáció az előző oldalra (balra nyíl)
+            if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                event.preventDefault();
+                window.location.href = '02-ai-survey-results.html';
+            }
+            // Navigáció a következő oldalra (jobbra nyíl vagy space)
+            else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                event.preventDefault();
+                // Tegyük fel, hogy a következő oldal az LLM-ek működéséről fog szólni.
+                // Ha más lesz a következő oldal, ezt a linket majd frissíteni kell.
+                window.location.href = '04-llm-mukodes.html';
+            }
+        });
+    </script>
+</body>
+</html>
