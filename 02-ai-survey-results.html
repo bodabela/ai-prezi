@@ -18,8 +18,8 @@
             box-sizing: border-box;
         }
         .slide-container {
-            width: 1500px;
-            height: 843.75px;
+            width: 1500px; /* Original width */
+            height: 843.75px; /* Original height for 16:9 aspect ratio */
             background-color: #ffffff;
             box-shadow: 0 0 30px rgba(0,0,0,0.15);
             display: flex;
@@ -29,7 +29,7 @@
         }
         .header-svg-container {
             width: 100%;
-            height: 120px;
+            height: 120px; /* Fixed height for header */
             flex-shrink: 0;
         }
         .slide-title-main-container {
@@ -48,7 +48,7 @@
             flex-grow: 1;
             display: flex;
             gap: 38px;
-            overflow-y: auto;
+            overflow-y: auto; /* Allow content to scroll if it overflows */
         }
         .column {
             flex: 1;
@@ -57,12 +57,15 @@
             gap: 22px;
         }
         .chart-container {
-            background-color: #fff;
+            background-color: #fff; /* Ensure charts have white background */
+            /* Removed padding from here as it's handled by slide-content */
+            /* border: 1px solid #e0e0e0; */ /* Optional: if charts need distinct borders */
+            /* border-radius: 4px; */ /* Optional: for rounded corners */
         }
         .chart-container h2 {
             font-size: 23px;
             color: #34495e;
-            margin-top: 0;
+            margin-top: 0; /* Reset margin */
             margin-bottom: 12px;
             border-bottom: 3px solid #79C7E3;
             padding-bottom: 6px;
@@ -70,8 +73,8 @@
         }
         .svg-chart { 
             width: 100%;
-            height: auto; 
-            min-height: 180px;
+            height: auto; /* Let SVG define its height or be controlled by JS if dynamic */
+            min-height: 180px; /* Fallback min-height */
         }
         .bar { 
             fill: #3498db;
@@ -83,14 +86,17 @@
         .bar-label { 
             font-size: 14px; 
             fill: #222;
+            text-anchor: end; /* Align text to the end, before the bar starts */
         }
         .bar-value { 
             font-size: 14px; 
-            fill: #fff;
+            fill: #fff; /* Text color for value inside bar */
+            text-anchor: end; /* Align text to the end of the bar */
         }
-        .bar-value-external { 
+        .bar-value-external { /* If value is outside the bar */
             font-size: 14px; 
             fill: #333;
+            text-anchor: start; /* Align text to the start, after the bar */
         }
         p.no-data-message {
             font-size: 16px;
@@ -127,20 +133,99 @@
             <div class="column">
                 <div class="chart-container">
                     <h2 id="toolsChartTitle">Melyik generatív MI eszközt használod leggyakrabban?</h2>
-                    <svg class="svg-chart" id="toolsChart"></svg>
+                    <svg class="svg-chart" id="toolsChart" height="365px">
+                        <g transform="translate(150, 20)">
+                            <rect class="bar" x="0" y="0" width="407.4074074074074" height="25"></rect>
+                            <text class="bar-label" x="-10" y="12.5" dy=".35em">ChatGPT</text>
+                            <text class="bar-value" x="402.4074074074074" y="12.5" dy=".35em">27</text>
+                            <rect class="bar" x="0" y="35" width="177.77777777777777" height="25"></rect>
+                            <text class="bar-label" x="-10" y="47.5" dy=".35em">GitHub Copilot</text>
+                            <text class="bar-value" x="172.77777777777777" y="47.5" dy=".35em">12</text>
+                            <rect class="bar" x="0" y="70" width="103.7037037037037" height="25"></rect>
+                            <text class="bar-label" x="-10" y="82.5" dy=".35em">Gemini</text>
+                            <text class="bar-value" x="98.7037037037037" y="82.5" dy=".35em">7</text>
+                            <rect class="bar" x="0" y="105" width="29.629629629629626" height="25"></rect>
+                            <text class="bar-label" x="-10" y="117.5" dy=".35em">Cursor</text>
+                            <text class="bar-value" x="24.629629629629626" y="117.5" dy=".35em">2</text>
+                            <rect class="bar" x="0" y="140" width="29.629629629629626" height="25"></rect>
+                            <text class="bar-label" x="-10" y="152.5" dy=".35em">Perplexity</text>
+                            <text class="bar-value" x="24.629629629629626" y="152.5" dy=".35em">2</text>
+                            <rect class="bar" x="0" y="175" width="14.814814814814813" height="25"></rect>
+                            <text class="bar-label" x="-10" y="187.5" dy=".35em">Claude</text>
+                            <text class="bar-value-external" x="19.814814814814813" y="187.5" dy=".35em" fill="#333">1</text>
+                            <rect class="bar" x="0" y="210" width="14.814814814814813" height="25"></rect>
+                            <text class="bar-label" x="-10" y="222.5" dy=".35em">Deepseek</text>
+                            <text class="bar-value-external" x="19.814814814814813" y="222.5" dy=".35em" fill="#333">1</text>
+                            <rect class="bar" x="0" y="245" width="14.814814814814813" height="25"></rect>
+                            <text class="bar-label" x="-10" y="257.5" dy=".35em">Grok</text>
+                            <text class="bar-value-external" x="19.814814814814813" y="257.5" dy=".35em" fill="#333">1</text>
+                            <rect class="bar" x="0" y="280" width="14.814814814814813" height="25"></rect>
+                            <text class="bar-label" x="-10" y="292.5" dy=".35em">Ollama+Continue in vscode</text>
+                            <text class="bar-value-external" x="19.814814814814813" y="292.5" dy=".35em" fill="#333">1</text>
+                        </g>
+                    </svg>
                 </div>
                 <div class="chart-container">
                     <h2 id="frequencyChartTitle">Milyen gyakran használod a generatív MI-t?</h2>
-                    <svg class="svg-chart" id="frequencyChart"></svg>
+                    <svg class="svg-chart" id="frequencyChart" height="225px">
+                        <g transform="translate(150, 20)">
+                            <rect class="bar" x="0" y="0" width="423.0769230769231" height="25"></rect>
+                            <text class="bar-label" x="-10" y="12.5" dy=".35em">Several times a day</text>
+                            <text class="bar-value" x="418.0769230769231" y="12.5" dy=".35em">13</text>
+                            <rect class="bar" x="0" y="35" width="227.6923076923077" height="25"></rect>
+                            <text class="bar-label" x="-10" y="47.5" dy=".35em">Daily</text>
+                            <text class="bar-value" x="222.6923076923077" y="47.5" dy=".35em">7</text>
+                            <rect class="bar" x="0" y="70" width="195.3846153846154" height="25"></rect>
+                            <text class="bar-label" x="-10" y="82.5" dy=".35em">Occasionally</text>
+                            <text class="bar-value" x="190.3846153846154" y="82.5" dy=".35em">6</text>
+                            <rect class="bar" x="0" y="105" width="97.6923076923077" height="25"></rect>
+                            <text class="bar-label" x="-10" y="117.5" dy=".35em">Weekly</text>
+                            <text class="bar-value" x="92.6923076923077" y="117.5" dy=".35em">3</text>
+                            <rect class="bar" x="0" y="140" width="65.12820512820514" height="25"></rect>
+                            <text class="bar-label" x="-10" y="152.5" dy=".35em">I am addicted</text>
+                            <text class="bar-value" x="60.12820512820514" y="152.5" dy=".35em">2</text>
+                        </g>
+                    </svg>
                 </div>
             </div>
             <div class="column">
                 <div class="chart-container">
                     <h2 id="useCasesChartTitle">Mire használod leggyakrabban a generatív MI-t?</h2>
-                    <svg class="svg-chart" id="useCasesChart"></svg>
+                    <svg class="svg-chart" id="useCasesChart" height="330px">
+                        <g transform="translate(200, 20)">
+                            <rect class="bar" x="0" y="0" width="426.3157894736842" height="25"></rect>
+                            <text class="bar-label" x="-10" y="12.5" dy=".35em">Code generation</text>
+                            <text class="bar-value" x="421.3157894736842" y="12.5" dy=".35em">19</text>
+                            <rect class="bar" x="0" y="35" width="426.3157894736842" height="25"></rect>
+                            <text class="bar-label" x="-10" y="47.5" dy=".35em">Learning new technologies</text>
+                            <text class="bar-value" x="421.3157894736842" y="47.5" dy=".35em">19</text>
+                            <rect class="bar" x="0" y="70" width="358.9473684210526" height="25"></rect>
+                            <text class="bar-label" x="-10" y="82.5" dy=".35em">Code completion</text>
+                            <text class="bar-value" x="353.9473684210526" y="82.5" dy=".35em">16</text>
+                            <rect class="bar" x="0" y="105" width="358.9473684210526" height="25"></rect>
+                            <text class="bar-label" x="-10" y="117.5" dy=".35em">Debugging</text>
+                            <text class="bar-value" x="353.9473684210526" y="117.5" dy=".35em">16</text>
+                            <rect class="bar" x="0" y="140" width="246.84210526315788" height="25"></rect>
+                            <text class="bar-label" x="-10" y="152.5" dy=".35em">Refactoring existing code</text>
+                            <text class="bar-value" x="241.84210526315788" y="152.5" dy=".35em">11</text>
+                            <rect class="bar" x="0" y="175" width="246.84210526315788" height="25"></rect>
+                            <text class="bar-label" x="-10" y="187.5" dy=".35em">Documentation writing</text>
+                            <text class="bar-value" x="241.84210526315788" y="187.5" dy=".35em">11</text>
+                            <rect class="bar" x="0" y="210" width="179.47368421052633" height="25"></rect>
+                            <text class="bar-label" x="-10" y="222.5" dy=".35em">Test case generation</text>
+                            <text class="bar-value" x="174.47368421052633" y="222.5" dy=".35em">8</text>
+                            <rect class="bar" x="0" y="245" width="89.73684210526316" height="25"></rect>
+                            <text class="bar-label" x="-10" y="257.5" dy=".35em">Other</text>
+                            <text class="bar-value" x="84.73684210526316" y="257.5" dy=".35em">4</text>
+                        </g>
+                    </svg>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        // Potential JavaScript for more complex interactions or dynamic updates if needed later.
+        // For now, SVGs are directly embedded with data.
+    </script>
 </body>
 </html>
