@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatív AI - Kontextus Degradáció és Kezelése</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .slide-container {
+            width: 1500px;
+            height: 920px;
+            background-color: #ffffff;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-svg-container {
+            width: 100%;
+            height: 120px;
+            flex-shrink: 0;
+        }
+        .slide-title-main-container {
+            padding: 22px 60px;
+            background-color: #f8f8f8;
+            border-bottom: 2px solid #ddd;
+        }
+        .slide-title-main-container h1 {
+            font-size: 36px;
+            color: #2c3e50;
+            margin: 0;
+            font-weight: 600;
+        }
+        .slide-content {
+            padding: 22px 60px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+        }
+        .slide-content h2 {
+            font-size: 26px;
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #79C7E3;
+            padding-bottom: 6px;
+            font-weight: 600;
+        }
+        .slide-content h3 {
+            font-size: 21px;
+            color: #2c3e50;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .slide-content p, .slide-content ul {
+            font-size: 17px;
+            line-height: 1.65;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .slide-content ul {
+            list-style-type: disc;
+            padding-left: 35px;
+            margin-left: 5px;
+        }
+        .slide-content ul li {
+            margin-bottom: 7px;
+        }
+        .slide-content ul ul {
+            margin-top: 5px;
+            margin-bottom: 8px;
+            list-style-type: circle;
+        }
+         .slide-content ul ul li {
+            margin-bottom: 5px;
+        }
+        .slide-content strong {
+            font-weight: 600;
+            color: #0A2B4C;
+        }
+        .current-scroll-target {
+            text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="1000" height="80" fill="#0A2B4C"/>
+                <image xlink:href="logo.jfif" x="25" y="15" width="50" height="50" />
+                <text x="180" y="40" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="22" font-weight="600">
+                    <tspan fill="#79C7E3">Generatív</tspan>
+                    <tspan fill="#FFFFFF"> AI</tspan>
+                </text>
+                <text x="180" y="60" font-family="'Segoe UI', Tahoma, sans-serif" font-size="10" fill="#FFFFFF" letter-spacing="0.5">
+                    TAPASZTALATOK MEGOSZTÁSA
+                </text>
+                <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+                <path d="M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z" fill="#79C7E3" fill-opacity="0.15"/>
+                <line x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <div class="slide-title-main-container">
+            <h1>Kontextus Degradáció és Kezelése</h1>
+        </div>
+
+        <div class="slide-content">
+            <h2>Mi az a Kontextus Degradáció?</h2>
+            <p>A <strong>kontextus degradáció</strong> az a jelenség, amikor egy mesterséges intelligencia modell, különösen egy Nagy Nyelvi Modell (LLM), egy hosszabb interakció vagy komplex feladat során elveszíti, félreértelmezi vagy figyelmen kívül hagyja a korábban megadott releváns információkat (kontextust).</p>
+            <ul>
+                <li><strong>Következményei:</strong>
+                    <ul>
+                        <li>Kevésbé releváns, pontatlan vagy akár teljesen téves válaszok.</li>
+                        <li>A generált tartalom koherenciájának csökkenése.</li>
+                        <li>A modell "elfelejti" a korábbi utasításokat vagy a beszélgetés fonalát.</li>
+                        <li>Ellentmondások jelenhetnek meg a modell által adott válaszok között.</li>
+                    </ul>
+                </li>
+                <li><strong>Fontossága:</strong> Jelentős mértékben ronthatja a felhasználói élményt és csökkentheti a generált tartalom megbízhatóságát, illetve hasznosságát.</li>
+            </ul>
+
+            <h2>A Kontextus Degradáció Főbb Okai</h2>
+            <ul>
+                <li><strong>Korlátozott Kontextus Ablak (Limited Context Window):</strong>
+                    <ul>
+                        <li>Az LLM-ek csak meghatározott mennyiségű szöveget (tokenben mérve) képesek egyszerre feldolgozni. Ha a beszélgetés vagy a dokumentum túl hosszú, a régebbi információk "kieshetnek" ebből az ablakból.</li>
+                    </ul>
+                </li>
+                <li><strong>Figyelmi Mechanizmusok Terhelése (Attention Mechanism Strain):</strong>
+                    <ul>
+                        <li>Bár a transzformer architektúra figyelmi mechanizmusai lehetővé teszik a kontextus releváns részeinek súlyozását, extrém hosszú vagy összetett kontextus esetén a hatékonyságuk csökkenhet. Nehezebbé válik a valóban fontos információk azonosítása a "zajban".</li>
+                    </ul>
+                </li>
+                <li><strong>Összefoglalási Kihívások (Summarization Issues):</strong>
+                    <ul>
+                        <li>Néhány rendszer megpróbálja a korábbi interakciókat automatikusan összefoglalni, hogy a kontextus ablak keretein belül maradjon. Ha ez az összefoglalás pontatlan vagy fontos részleteket hagy ki, az információvesztéshez és degradációhoz vezet.</li>
+                    </ul>
+                </li>
+                <li><strong>Kumulatív Hibák (Cumulative Errors):</strong>
+                    <ul>
+                        <li>Egy korai szakaszban történt apró félreértés vagy pontatlanság a modell részéről a későbbiekben felhalmozódhat, és egyre nagyobb eltéréseket okozhat a kívánt eredménytől, mivel a modell a hibás alapokra építkezik tovább.</li>
+                    </ul>
+                </li>
+                <li><strong>Felhasználói Promptok Változékonysága és Kétértelműsége:</strong>
+                    <ul>
+                        <li>Ha a felhasználó gyakran változtat témát, inkonzisztens vagy kétértelmű utasításokat ad, az megnehezíti a modell számára a koherens és stabil kontextus fenntartását.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>A Kontextus Degradáció Jellegzetes Tünetei</h2>
+            <ul>
+                <li><strong>"Elfelejtett" Utasítások:</strong> A modell nem veszi figyelembe a korábban expliciten megadott instrukciókat, formázási kéréseket vagy korlátozásokat.</li>
+                <li><strong>Koherencia Veszteség:</strong> A generált válaszok logikailag nem kapcsolódnak a beszélgetés előzményeihez, vagy hirtelen témaváltások történnek.</li>
+                <li><strong>Irreleváns Információk Bevitel:</strong> A modell olyan adatokat, tényeket vagy gondolatokat hoz be, amelyek nem kapcsolódnak szorosan az aktuális feladathoz vagy kérdéshez.</li>
+                <li><strong>Megnövekedett "Hallucináció":</strong> A modell magabiztosan állít valótlan vagy nem ellenőrizhető információkat, mert elvesztette a kapcsolatot a valós kontextussal.</li>
+                <li><strong>Ellentmondások:</strong> A modell korábbi állításaival ellentétes információkat közöl a beszélgetés későbbi szakaszaiban.</li>
+                <li><strong>Téma Elcsúszása (Topic Drift):</strong> A beszélgetés fokozatosan, szinte észrevétlenül eltávolodik az eredeti céltól vagy kérdéskörtől a modell által generált irreleváns asszociációk miatt.</li>
+                <li><strong>Válaszok Általánossá Válása:</strong> A modell egyre inkább sablonos, kevésbé specifikus és kevésbé részletgazdag válaszokat ad.</li>
+            </ul>
+
+            <h2>Stratégiák a Kontextus Degradáció Kezelésére és Megelőzésére</h2>
+            <ul>
+                <li><strong>Rövidebb, Fókuszált Interakciók:</strong>
+                    <ul>
+                        <li>Bontsuk le a komplex feladatokat kisebb, jól körülhatárolt részekre. Egy-egy interakció során koncentráljunk egy specifikus problémára.</li>
+                    </ul>
+                </li>
+                <li><strong>Periodikus Kontextus Frissítés és Összefoglalás:</strong>
+                    <ul>
+                        <li>Időnként emlékeztessük a modellt a fő célokra, a korábban megállapított kulcsfontosságú tényekre vagy a beszélgetés elején rögzített szerepére.</li>
+                        <li>Kérhetjük a modellt, hogy foglalja össze az addig elhangzottakat, vagy mi magunk adjunk egy rövid összefoglalót, mielőtt újabb komplexebb kérést fogalmaznánk meg.</li>
+                    </ul>
+                </li>
+                <li><strong>Egyértelmű és Konzisztens Promptok:</strong>
+                    <ul>
+                        <li>Használjunk precíz, félreérthetetlen utasításokat. Kerüljük a kétértelműséget és az inkonzisztens kéréseket. (Lásd: Prompt Engineering technikák)</li>
+                    </ul>
+                </li>
+                <li><strong>RAG (Retrieval Augmented Generation) Alkalmazása:</strong>
+                    <ul>
+                        <li>Ahogy a korábbi oldalon említettük, külső tudásbázis használatával dinamikusan biztosíthatjuk a legfrissebb és legrelevánsabb információkat a modell számára, csökkentve annak szükségességét, hogy minden kontextust a saját "memóriájában" tartson.</li>
+                    </ul>
+                </li>
+                <li><strong>Kontextus Ablak Tudatos Kezelése (Windowing/Chunking):</strong>
+                    <ul>
+                        <li>Komplex dokumentumok feldolgozásakor használjunk technikákat, amelyek a dokumentumot kisebb, kezelhető részekre (chunkokra) bontják, és ezeket adják át a modellnek, szükség esetén összefoglalókkal vagy átfedésekkel.</li>
+                    </ul>
+                </li>
+                <li><strong>Modell Újraindítása / Kontextus "Reset":</strong>
+                    <ul>
+                        <li>Ha a kontextus már súlyosan degradálódott és a fenti technikák nem segítenek, a legegyszerűbb megoldás lehet egy új beszélgetés indítása tiszta kontextussal.</li>
+                    </ul>
+                </li>
+                <li><strong>Megfelelő Modell Kiválasztása:</strong>
+                    <ul>
+                        <li>Olyan modellek választása, amelyek nagyobb kontextusablakkal rendelkeznek, ha a feladat ezt igényli. Azonban tudatosítani kell, hogy a nagyobb ablakméret sem nyújt teljes védelmet a degradáció ellen, csupán kitolja annak határait.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slideContent = document.querySelector('.slide-content');
+            if (!slideContent) {
+                console.error('.slide-content elem nem található.');
+                // Alap navigáció, ha a tartalomkezelő szkript nem tudna futni
+                document.addEventListener('keydown', function(event) {
+                    let preventDefaultBehavior = true;
+                    if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                        window.location.href = '04-context.html';
+                    } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                        // Jelenleg ez az utolsó oldal, nincs következő.
+                        // Ha lenne: window.location.href = '06-kovetkezo.html';
+                    } else {
+                        preventDefaultBehavior = false;
+                    }
+                    if (preventDefaultBehavior) {
+                        event.preventDefault();
+                    }
+                });
+                return;
+            }
+
+            const headingElements = Array.from(slideContent.querySelectorAll('h2, h3'));
+            const firstContentElement = slideContent.firstElementChild; // Legelső elem a görgethető tartalomban
+
+            let currentHeadingIndex = -1; // -1: az első tartalom elem (pl. p), 0+: a headingElements[index]-edik címsor
+            let lastScrollTarget = null;
+
+            function highlightTarget(target) {
+                if (lastScrollTarget && lastScrollTarget !== target) {
+                    lastScrollTarget.classList.remove('current-scroll-target');
+                }
+                if (target && (target.nodeName === 'H2' || target.nodeName === 'H3')) {
+                    target.classList.add('current-scroll-target');
+                }
+                lastScrollTarget = target;
+            }
+            
+            // Kezdetben nincs kiemelve semmi, vagy az első H2/H3, ha látható
+            // Az első görgetésre/navigációra aktiválódik majd
+
+            if (!firstContentElement) {
+                 // Ha nincs első elem, csak az alap navigáció működjön (redundáns, de biztonsági)
+                document.addEventListener('keydown', function(event) {
+                    let preventDefaultBehavior = true;
+                    if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                        window.location.href = '04-context.html';
+                    } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                        // Nincs következő oldal
+                    } else {
+                        preventDefaultBehavior = false;
+                    }
+                    if (preventDefaultBehavior) {
+                        event.preventDefault();
+                    }
+                });
+                return;
+            }
+
+
+            document.addEventListener('keydown', function(event) {
+                let preventDefaultBehavior = true;
+                let scrollTarget = null;
+
+                if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                    window.location.href = '04-context.html';
+                } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                    // Mivel ez az utolsó oldal, itt nem navigálunk tovább jobbra.
+                    // Ha lenne következő oldal: window.location.href = '06-kovetkezo.html';
+                    preventDefaultBehavior = false; // Engedjük az alapértelmezett space műveletet, ha nincs hova menni.
+                                                // Vagy tartsuk a preventDefault-ot, hogy ne görgessen feleslegesen.
+                } else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
+                    if (currentHeadingIndex === -1) { 
+                        if (headingElements.length > 0) {
+                            currentHeadingIndex = 0; 
+                            scrollTarget = headingElements[0];
+                        } else {
+                            scrollTarget = firstContentElement; 
+                        }
+                    } else if (currentHeadingIndex < headingElements.length - 1) {
+                        currentHeadingIndex++;
+                        scrollTarget = headingElements[currentHeadingIndex];
+                    } else { 
+                        if (headingElements.length > 0) {
+                             scrollTarget = headingElements[currentHeadingIndex]; 
+                        } else {
+                            scrollTarget = firstContentElement; 
+                        }
+                    }
+                } else if (event.code === 'ArrowUp' || event.key === 'ArrowUp') {
+                    if (currentHeadingIndex > 0) { 
+                        currentHeadingIndex--;
+                        scrollTarget = headingElements[currentHeadingIndex];
+                    } else if (currentHeadingIndex === 0) { 
+                        currentHeadingIndex = -1; 
+                        scrollTarget = firstContentElement;
+                    } else { // currentHeadingIndex === -1
+                        scrollTarget = firstContentElement; 
+                    }
+                } else {
+                    preventDefaultBehavior = false;
+                }
+
+                if (scrollTarget) {
+                    highlightTarget(scrollTarget);
+                    scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                if (preventDefaultBehavior) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

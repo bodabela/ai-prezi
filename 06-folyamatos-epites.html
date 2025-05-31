@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatív AI - A Béla-féle Folyamatos Építés Elve</title>
+    <style>
+        /* ... (a fájl elején lévő CSS szabályok változatlanul) ... */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .slide-container {
+            width: 1500px;
+            height: 920px;
+            background-color: #ffffff;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-svg-container {
+            width: 100%;
+            height: 120px;
+            flex-shrink: 0;
+        }
+        .slide-title-main-container {
+            padding: 22px 60px;
+            background-color: #f8f8f8;
+            border-bottom: 2px solid #ddd;
+        }
+        .slide-title-main-container h1 {
+            font-size: 36px;
+            color: #2c3e50;
+            margin: 0;
+            font-weight: 600;
+        }
+        .slide-content {
+            padding: 22px 60px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+        }
+        .slide-content h2 {
+            font-size: 26px;
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #79C7E3;
+            padding-bottom: 6px;
+            font-weight: 600;
+        }
+        .slide-content h3 {
+            font-size: 21px;
+            color: #2c3e50;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .slide-content p, .slide-content ul {
+            font-size: 17px;
+            line-height: 1.65;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .slide-content ul {
+            list-style-type: disc;
+            padding-left: 35px;
+            margin-left: 5px;
+        }
+        .slide-content ul li {
+            margin-bottom: 7px;
+        }
+        .slide-content ul ul {
+            margin-top: 5px;
+            margin-bottom: 8px;
+            list-style-type: circle;
+        }
+         .slide-content ul ul li {
+            margin-bottom: 5px;
+        }
+        .slide-content strong {
+            font-weight: 600;
+            color: #0A2B4C;
+        }
+        .current-scroll-target {
+            text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+        }
+        .diagram-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            /* overflow-x: auto; */ /* <<< EZT A SORT KIVETTEM / KOMMENTELTEM */
+        }
+        .diagram-container svg {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="1000" height="80" fill="#0A2B4C"/>
+                <image xlink:href="logo.jfif" x="25" y="15" width="50" height="50" />
+                <text x="180" y="40" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="22" font-weight="600">
+                    <tspan fill="#79C7E3">Generatív</tspan>
+                    <tspan fill="#FFFFFF"> AI</tspan>
+                </text>
+                <text x="180" y="60" font-family="'Segoe UI', Tahoma, sans-serif" font-size="10" fill="#FFFFFF" letter-spacing="0.5">
+                    TAPASZTALATOK MEGOSZTÁSA
+                </text>
+                <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+                <path d="M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z" fill="#79C7E3" fill-opacity="0.15"/>
+                <line x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <div class="slide-title-main-container">
+            <h1>A "Béla-féle Folyamatos Építés Elve" a Generatív AI-ban</h1>
+        </div>
+
+        <div class="slide-content">
+            <h2>Az Elv Meghatározása</h2>
+            <p>A <strong>"Béla-féle folyamatos építés elve"</strong> egy olyan stratégia a generatív AI modellekkel (különösen LLM-ekkel) való együttműködés során, amely a tartalom fokozatos, lépésről lépésre történő felépítésére összpontosít. </p>
+            <ul>
+                <li>Lényege, hogy minden újabb interakciós lépésben <strong>újabb tartalmi részt adunk hozzá</strong> a már meglévőhöz, anélkül, hogy a korábban legenerált és "elfogadott" részek alapvető követelményeit vagy struktúráját módosítanánk <em>ugyanabban a hosszúra nyúló, folyamatos kontextusban</em>.</li>
+                <li>Amennyiben egy korábbi, már lefektetett rész jelentős módosítására van szükség, azt egy előre meghatározott <strong>"mérföldkő"</strong> (milestone) elérése után, egy <strong>új, fókuszált kontextusban</strong> (gyakorlatilag egy új, célzott beszélgetési szakaszban) végezzük el. Ilyenkor az adott, módosítandó résznek mintegy "újra nekifutunk", míg a mérföldkőig elért többi, nem módosítandó rész stabil alapként szolgálhat.</li>
+            </ul>
+
+            <h2>Miért Hasznos Ez az Elv? Kapcsolódás Korábbi Pontokhoz</h2>
+            <p>Ez a megközelítés több, korábban tárgyalt kihívásra is megoldást kínálhat, és jobban illeszkedik az LLM-ek működési sajátosságaihoz:</p>
+            <ul>
+                <li><strong>A Kontextus Degradáció Kivédése:</strong> Ahogy azt a Kontextus Degradációról szóló részben (05. oldal) tárgyaltuk, a hosszú és sokszor módosított kontextus könnyen vezethet a modell "felejtéséhez" vagy a koherencia elvesztéséhez. A folyamatos építés elve ezt úgy kerüli el, hogy:
+                    <ul>
+                        <li>Minden lépés egy jól definiált, új hozzáadandó elemre koncentrál, csökkentve a kétértelműséget.</li>
+                        <li>A "mérföldkövek" beiktatása és a módosítások új, tiszta kontextusba helyezése gyakorlatilag a "Periodikus Kontextus Frissítés" és a "Kontextus Reset" technikák tudatos alkalmazása a problémás részekre, anélkül, hogy a teljes addigi munkát eldobnánk.</li>
+                    </ul>
+                </li>
+                <li><strong>Az LLM-ek Működési Sajátosságainak Jobb Kihasználása:</strong>
+                    <ul>
+                        <li>Az LLM-ek alapvetően a következő elem (szó, kódrészlet) statisztikai alapon történő generálására vannak kihegyezve (lásd: 03. oldal, "Statisztikán Való Alapulás"). A folyamatos, új elemekkel történő bővítés összhangban van ezzel az alapvető működéssel.</li>
+                        <li>Tiszteletben tartja a "Korlátozott Kontextus Ablakot" (04. és 05. oldal), mivel nem terheli túl egyetlen kontextust azzal, hogy folyamatosan újraértelmezteti és potenciálisan félreérti a korábbi, komplex részeket.</li>
+                        <li>Könnyebbé teszi a modell "Figyelmi Mechanizmusainak" dolgát, mivel a fókusz mindig az aktuálisan hozzáadandó, viszonylag kisebb és új részen van, nem pedig egy hatalmas, rétegzett előzményen.</li>
+                    </ul>
+                </li>
+                <li><strong>Hatékonyabb Prompt Engineering Támogatása:</strong>
+                    <ul>
+                        <li>Ahogy a Prompt Engineering technikáknál (04. oldal) láttuk, az "egyértelmű és specifikus" promptok kulcsfontosságúak. Sokkal könnyebb ilyen promptokat írni, ha azok egy új elem hozzáadására, egy ismert alap továbbfejlesztésére irányulnak, nem pedig egy bonyolult, meglévő struktúra komplex átalakítására egyetlen, mindentudó promptban.</li>
+                        <li>Az "iteratív finomhangolás" továbbra is fontos, de az elv azt sugallja, hogy a nagyobb, struktúrát vagy alapvető logikát érintő iterációkat inkább szakaszosan (mérföldkövenként), elkülönített, célzott kontextusokban végezzük a problémásnak ítélt részeken.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>Az Elv Vizuális Illusztrációja</h2>
+            <p>Az alábbi diagram szemlélteti a folyamatos építést, és azt, mi történik, ha ettől eltérve egy korábbi elemhez nyúlunk vissza ugyanabban a kontextusban, problémákat okozva.</p>
+            <div class="diagram-container">
+                <svg width="740" height="280" viewBox="0 0 740 280" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#555" />
+                        </marker>
+                    </defs>
+                    <line x1="40" y1="250" x2="720" y2="250" stroke="#555" stroke-width="2" marker-end="url(#arrow)" />
+                    <text x="700" y="270" font-family="Segoe UI" font-size="12" fill="#333">Idő / Interakciók</text>
+                    <line x1="50" y1="260" x2="50" y2="20" stroke="#555" stroke-width="2" marker-end="url(#arrow)" />
+                    <text x="10" y="30" font-family="Segoe UI" font-size="12" fill="#333" transform="rotate(-90, 20, 100)">Tartalom</text>
+                    <text x="90" y="20" font-family="Segoe UI" font-size="13" font-weight="bold" fill="#333">1. Új (A)</text>
+                    <text x="190" y="20" font-family="Segoe UI" font-size="13" font-weight="bold" fill="#333">2. Új (B)</text>
+                    <text x="285" y="20" font-family="Segoe UI" font-size="13" font-weight="bold" fill="#333">3. Új (C) - Mérföldkő</text>
+                    <text x="400" y="20" font-family="Segoe UI" font-size="13" font-weight="bold" fill="#333">4. Módosít (A)</text>
+                    <text x="530" y="20" font-family="Segoe UI" font-size="13" font-weight="bold" fill="#333">5. Probléma (A)</text>
+                    <rect x="80" y="190" width="70" height="45" fill="#77DD77" stroke="#333" stroke-width="1"/>
+                    <text x="115" y="215" text-anchor="middle" font-family="Segoe UI" font-size="14">A</text>
+                    <rect x="180" y="190" width="70" height="45" fill="#BBBBBB" stroke="#333" stroke-width="1"/>
+                    <text x="215" y="215" text-anchor="middle" font-family="Segoe UI" font-size="14">A</text>
+                    <rect x="180" y="140" width="70" height="45" fill="#77DD77" stroke="#333" stroke-width="1"/>
+                    <text x="215" y="165" text-anchor="middle" font-family="Segoe UI" font-size="14">B</text>
+                    <rect x="280" y="190" width="70" height="45" fill="#BBBBBB" stroke="#333" stroke-width="1"/>
+                    <text x="315" y="215" text-anchor="middle" font-family="Segoe UI" font-size="14">A</text>
+                    <rect x="280" y="140" width="70" height="45" fill="#BBBBBB" stroke="#333" stroke-width="1"/>
+                    <text x="315" y="165" text-anchor="middle" font-family="Segoe UI" font-size="14">B</text>
+                    <rect x="280" y="90" width="70" height="45" fill="#77DD77" stroke="#333" stroke-width="1"/>
+                    <text x="315" y="115" text-anchor="middle" font-family="Segoe UI" font-size="14">C</text>
+                    <rect x="390" y="190" width="70" height="45" fill="#FDFD96" stroke="#333" stroke-width="1"/>
+                    <text x="425" y="215" text-anchor="middle" font-family="Segoe UI" font-size="14">A'</text>
+                    <rect x="390" y="140" width="70" height="45" fill="#BBBBBB" stroke="#333" stroke-width="1"/>
+                    <text x="425" y="165" text-anchor="middle" font-family="Segoe UI" font-size="14">B</text>
+                    <rect x="390" y="90" width="70" height="45" fill="#BBBBBB" stroke="#333" stroke-width="1"/>
+                    <text x="425" y="115" text-anchor="middle" font-family="Segoe UI" font-size="14">C</text>
+                    <rect x="510" y="190" width="70" height="45" fill="#FF6961" stroke="#333" stroke-width="1"/>
+                    <text x="545" y="215" text-anchor="middle" font-family="Segoe UI" font-size="14">A*</text>
+                    <rect x="510" y="140" width="70" height="45" fill="#FFB347" stroke="#333" stroke-width="1"/>
+                    <text x="545" y="165" text-anchor="middle" font-family="Segoe UI" font-size="14">B?</text>
+                    <rect x="510" y="90" width="70" height="45" fill="#FFB347" stroke="#333" stroke-width="1"/>
+                    <text x="545" y="115" text-anchor="middle" font-family="Segoe UI" font-size="14">C?</text>
+                    <path d="M 150 212 Q 165 212 180 212" stroke="#555" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/>
+                    <path d="M 150 162 Q 165 162 180 162" stroke="#555" stroke-width="1.5" fill="none" stroke-dasharray="3,3" style="opacity:0"/>
+                    <path d="M 250 212 Q 265 212 280 212" stroke="#555" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/>
+                    <path d="M 250 162 Q 265 162 280 162" stroke="#555" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/>
+                    <path d="M 250 112 Q 265 112 280 112" stroke="#555" stroke-width="1.5" fill="none" stroke-dasharray="3,3" style="opacity:0"/>
+                    <path d="M 350 212 Q 370 212 390 212" stroke="#555" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/>
+                    <path d="M 350 162 Q 370 162 390 162" stroke="#555" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/>
+                    <path d="M 350 112 Q 370 112 390 112" stroke="#555" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/>
+                    <path d="M 460 212 Q 485 212 510 212" stroke="#555" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/>
+                    <path d="M 460 162 Q 485 162 510 162" stroke="#555" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/>
+                    <path d="M 460 112 Q 485 112 510 112" stroke="#555" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/>
+                    <text x="80" y="70" font-family="Segoe UI" font-size="12" fill="#333">A zöld blokkok az újonnan, sikeresen hozzáadott tartalmi egységeket jelzik.</text>
+                    <text x="80" y="55" font-family="Segoe UI" font-size="12" fill="#333">A sárga egy korábbi elem módosítását jelöli, ami kockázatot hordoz.</text>
+                    <text x="80" y="40" font-family="Segoe UI" font-size="12" fill="#333">A piros/narancs a módosítási kísérlet miatti problémákat, kontextusromlást mutatja.</text>
+                </svg>
+            </div>
+
+            <h2>Az Elv Alkalmazása a Gyakorlatban</h2>
+            <ul>
+                <li><strong>Mérföldkövek Definiálása:</strong> Mielőtt hozzákezdünk egy nagyobb feladathoz, határozzuk meg a logikai egységeket vagy szakaszokat a generálandó tartalomban (pl. egy dokumentum fejezetei, egy prezentáció diái, egy szoftvermodul fő funkciói). Ezek lesznek a mérföldköveink.</li>
+                <li><strong>Fokozatos Hozzáadás:</strong> Minden interakciós lépésben a prompt arra irányuljon, hogy a következő információt, kódrészletet, szövegrészt adja hozzá a modell az előzőleg már elfogadott és stabilizált tartalomhoz.</li>
+                <li><strong>Stabilizálás és Ellenőrzés:</strong> Egy mérföldkő elérésekor az addig generált tartalom "stabilnak" tekinthető az adott kontextuson belül. Érdemes itt átnézni, tesztelni, és ha szükséges, kisebb korrekciókat végezni még ebben a fázisban.</li>
+                <li><strong>Célzott Módosítás Új Kontextusban (ha elkerülhetetlen):</strong>
+                    <ol>
+                        <li>Ha egy korábbi, már stabilizált rész mégis jelentős módosítást igényel (amit a mérföldkőnél nem vettünk észre vagy új igényként merült fel):</li>
+                        <li>Indítsunk egy teljesen <strong>új beszélgetési szakaszt</strong> (új kontextust) kifejezetten csak ennek a résznek a módosítására.</li>
+                        <li>Vigyük át a módosítandó részt (pl. az előző mérföldkő releváns kimenetét, a kódrészletet, a szöveget) ebbe az új kontextusba alapként.</li>
+                        <li>Fogalmazzunk meg egyértelmű promptot, amely <em>kizárólag az adott rész kívánt módosítására</em> koncentrál.</li>
+                        <li>Az itt kapott, javított eredményt illesszük vissza a teljes tartalom megfelelő helyére, felülírva az eredeti, hibás/elavult részt.</li>
+                    </ol>
+                </li>
+                <li>Ezzel a módszerrel elkerülhető, hogy egyetlen, rosszul irányzott vagy túl komplex módosítási kísérlet az egész, addig gondosan felépített kontextust és tartalmat "megfertőzze" vagy visszafordíthatatlanul degradálja.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slideContent = document.querySelector('.slide-content');
+            if (!slideContent) {
+                console.error('.slide-content elem nem található.');
+                document.addEventListener('keydown', function(event) {
+                    let preventDefaultBehavior = true;
+                    if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                        window.location.href = '05-context-degradation.html';
+                    } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                        // Nincs következő oldal
+                    } else {
+                        preventDefaultBehavior = false;
+                    }
+                    if (preventDefaultBehavior) {
+                        event.preventDefault();
+                    }
+                });
+                return;
+            }
+
+            const headingElements = Array.from(slideContent.querySelectorAll('h2, h3'));
+            const firstContentElement = slideContent.firstElementChild;
+
+            let currentHeadingIndex = -1;
+            let lastScrollTarget = null;
+
+            function highlightTarget(target) {
+                if (lastScrollTarget && lastScrollTarget !== target) {
+                    lastScrollTarget.classList.remove('current-scroll-target');
+                }
+                if (target && (target.nodeName === 'H2' || target.nodeName === 'H3')) {
+                    target.classList.add('current-scroll-target');
+                }
+                lastScrollTarget = target;
+            }
+
+            if (!firstContentElement) {
+                 document.addEventListener('keydown', function(event) {
+                    let preventDefaultBehavior = true;
+                    if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                        window.location.href = '05-context-degradation.html';
+                    } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                        // Nincs következő oldal
+                    } else {
+                        preventDefaultBehavior = false;
+                    }
+                    if (preventDefaultBehavior) {
+                        event.preventDefault();
+                    }
+                });
+                return;
+            }
+
+            document.addEventListener('keydown', function(event) {
+                let preventDefaultBehavior = true;
+                let scrollTarget = null;
+
+                if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                    window.location.href = '05-context-degradation.html';
+                } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                } else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
+                    if (currentHeadingIndex === -1) {
+                        if (headingElements.length > 0) {
+                            currentHeadingIndex = 0;
+                            scrollTarget = headingElements[0];
+                        } else {
+                            scrollTarget = firstContentElement;
+                        }
+                    } else if (currentHeadingIndex < headingElements.length - 1) {
+                        currentHeadingIndex++;
+                        scrollTarget = headingElements[currentHeadingIndex];
+                    } else {
+                        if (headingElements.length > 0) {
+                             scrollTarget = headingElements[currentHeadingIndex];
+                        } else {
+                            scrollTarget = firstContentElement;
+                        }
+                    }
+                } else if (event.code === 'ArrowUp' || event.key === 'ArrowUp') {
+                    if (currentHeadingIndex > 0) {
+                        currentHeadingIndex--;
+                        scrollTarget = headingElements[currentHeadingIndex];
+                    } else if (currentHeadingIndex === 0) {
+                        currentHeadingIndex = -1;
+                        scrollTarget = firstContentElement;
+                    } else {
+                        scrollTarget = firstContentElement;
+                    }
+                } else {
+                    preventDefaultBehavior = false;
+                }
+
+                if (scrollTarget) {
+                    highlightTarget(scrollTarget);
+                    scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                if (preventDefaultBehavior) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
