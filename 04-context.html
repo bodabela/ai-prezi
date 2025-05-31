@@ -193,9 +193,12 @@
                 </li>
                 <li><strong>Hogyan kezelik a kontextust?</strong>
                     <ul>
-                        <li><strong>Bemeneti ablak (Context Window / Token Limit):</strong> Az LLM-ek csak egy bizonyos mennyiségű szöveget (tokenben mérve) képesek egyszerre feldolgozni. Ebbe az ablakba belefér a bemeneti prompt, az előzménybeli beszélgetés és a generált válasz.
+                        <li><strong>Bemeneti ablak (Context Window / Token Limit):</strong> Az LLM-ek csak egy bizonyos mennyiségű szöveget (tokenben mérve) képesek egyszerre feldolgozni. Minél nagyobb a kontextus ablak, annál több információt tud "észben tartani" a modell.
                             <ul>
-                                <li>Minél nagyobb a kontextus ablak, annál több információt tud "észben tartani" a modell.</li>
+                                <li>Bemeneti prompt</li>
+                                <li>Előzménybeli beszélgetés</li>
+                                <li>Generált válasz</li>
+                                <li>Fájlok</li>
                             </ul>
                         </li>
                     </ul>
@@ -219,7 +222,7 @@
                 </li>
             </ul>
 
-            <h3>2. RAG (Retrieval Augmented Generation - Lekérdezésen Alapuló Generálás)</h3>
+            <h3>2. RAG (Retrieval Augmented Generation - Lekérdezésen Alapuló Generálás) - Gemini Research</h3>
             <p>A RAG egy hibrid megközelítés, amely ötvözi az információlekérdezést (retrieval) a generálással.</p>
             <ul>
                 <li><strong>Működése:</strong>
@@ -242,7 +245,7 @@
             <ul>
                 <li><strong>Hogyan alkalmazd?</strong>
                     <ul>
-                        <li>Egyszerűen kérd meg a modellt, hogy "Gondolkodj hangosan", vagy "Fejtsd ki a gondolatmeneted lépésről lépésre".</li>
+                        <li>Egyszerűen kérd meg a modellt, hogy <strong>"Gondolkodj hangosan"</strong>, vagy "Fejtsd ki a gondolatmeneted lépésről lépésre".</li>
                         <li>Ez különösen komplex problémák (pl. matematikai feladatok, kódgenerálás) esetén hasznos, ahol a köztes lépések is fontosak.</li>
                     </ul>
                 </li>

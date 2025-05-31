@@ -47,14 +47,25 @@
             padding: 22px 60px;
             flex-grow: 1;
             display: flex;
-            gap: 38px;
+            flex-direction: column; 
+            gap: 30px; 
             overflow-y: auto;
         }
-        .column {
+        .chart-row {
+            width: 100%;
+        }
+        .chart-row.two-column {
+            display: flex;
+            gap: 38px; 
+        }
+        .column { 
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 22px;
+            gap: 22px; 
+            min-width: 0; 
+        }
+        .chart-row.full-width .chart-container {
         }
         .chart-container {
             background-color: #fff;
@@ -70,12 +81,11 @@
         }
         .svg-chart {
             width: 100%;
-            /* height: auto; -- will be set by JS */
             min-height: 180px;
         }
         .bar {
             fill: #3498db;
-            transition: fill 0.2s ease, width 0.3s ease; /* Added width transition */
+            transition: fill 0.2s ease, width 0.3s ease;
         }
         .bar:hover {
             fill: #2980b9;
@@ -102,16 +112,10 @@
             padding: 20px;
             margin: 0;
         }
-        /* CSS osztály a kiemeléshez a navigáció során */
-        .current-scroll-target {
-            /* text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4); */ /* H2-re nem feltétlen kell */
-            /* Inkább a chart-container-t emeljük ki, ha H2 van fókuszban */
-        }
         .chart-container.current-scroll-target-container {
             outline: 2px solid #79C7E3;
             box-shadow: 0 0 15px rgba(121, 199, 227, 0.5);
         }
-
     </style>
 </head>
 <body>
@@ -138,44 +142,59 @@
         </div>
 
         <div class="slide-content">
-            <div class="column" id="column1">
-                <div class="chart-container">
-                    <h2 id="toolsChartTitle">Melyik generatív MI eszközt használod leggyakrabban?</h2>
-                    <svg class="svg-chart" id="toolsChart"></svg>
+            <div class="chart-row two-column">
+                <div class="column">
+                    <div class="chart-container">
+                        <h2 id="toolsChartTitle">Melyik generatív AI eszközt használod leggyakrabban?</h2>
+                        <svg class="svg-chart" id="toolsChart"></svg>
+                    </div>
+                    <div class="chart-container">
+                        <h2 id="frequencyChartTitle">Milyen gyakran használod a Generatív AI-t?</h2>
+                        <svg class="svg-chart" id="frequencyChart"></svg>
+                    </div>
+                    <div class="chart-container">
+                        <h2 id="progLangChartTitle">Leggyakrabban használt programozási nyelvek</h2>
+                        <svg class="svg-chart" id="progLangChart"></svg>
+                    </div>
                 </div>
-                <div class="chart-container">
-                    <h2 id="frequencyChartTitle">Milyen gyakran használod a generatív MI-t?</h2>
-                    <svg class="svg-chart" id="frequencyChart"></svg>
+                <div class="column">
+                    <div class="chart-container">
+                        <h2 id="useCasesChartTitle">Mire használod leggyakrabban a Generatív AI-t?</h2>
+                        <svg class="svg-chart" id="useCasesChart"></svg>
+                    </div>
+                    <div class="chart-container">
+                        <h2 id="benefitsChartTitle">Legnagyobb tapasztalt előnyök</h2>
+                        <svg class="svg-chart" id="benefitsChart"></svg>
+                    </div>
                 </div>
+            </div>
+
+            <div class="chart-row full-width">
                 <div class="chart-container">
-                    <h2 id="progLangChartTitle">Leggyakrabban használt programozási nyelvek</h2>
-                    <svg class="svg-chart" id="progLangChart"></svg>
-                </div>
-                <div class="chart-container">
-                    <h2 id="effectivenessChartTitle">Generatív MI hatékonysága a produktivitás javításában</h2>
+                    <h2 id="effectivenessChartTitle">Generatív AI hatékonysága a produktivitás javításában</h2>
                     <svg class="svg-chart" id="effectivenessChart"></svg>
                 </div>
+            </div>
+
+            <div class="chart-row full-width">
                 <div class="chart-container">
-                    <h2 id="futureRoleChartTitle">Generatív MI szerepe a szoftverfejlesztésben (köv. 5 év)</h2>
+                    <h2 id="futureRoleChartTitle">Generatív AI szerepe a szoftverfejlesztésben (köv. 5 év)</h2>
                     <svg class="svg-chart" id="futureRoleChart"></svg>
                 </div>
             </div>
-            <div class="column" id="column2">
-                <div class="chart-container">
-                    <h2 id="useCasesChartTitle">Mire használod leggyakrabban a generatív MI-t?</h2>
-                    <svg class="svg-chart" id="useCasesChart"></svg>
+
+            <div class="chart-row two-column">
+                <div class="column">
+                    <div class="chart-container">
+                        <h2 id="challengesChartTitle">Legnagyobb problémák a Generatív AI-jal kapcsolatban</h2>
+                        <svg class="svg-chart" id="challengesChart"></svg>
+                    </div>
                 </div>
-                 <div class="chart-container">
-                    <h2 id="benefitsChartTitle">Legnagyobb tapasztalt előnyök</h2>
-                    <svg class="svg-chart" id="benefitsChart"></svg>
-                </div>
-                <div class="chart-container">
-                    <h2 id="challengesChartTitle">Legnagyobb kihívások</h2>
-                    <svg class="svg-chart" id="challengesChart"></svg>
-                </div>
-                <div class="chart-container">
-                    <h2 id="improvementsChartTitle">Javasolt fejlesztések, funkciók</h2>
-                    <svg class="svg-chart" id="improvementsChart"></svg>
+                <div class="column">
+                    <div class="chart-container">
+                        <h2 id="improvementsChartTitle">Javasolt fejlesztések, funkciók</h2>
+                        <svg class="svg-chart" id="improvementsChart"></svg>
+                    </div>
                 </div>
             </div>
         </div>
@@ -183,7 +202,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Header lines are simplified here for brevity, they are correctly skipped by `^\d+\t`
     const rawTsvData = `ID	Start time	Completion time	Email	Name	Last modified time	What is your current role? (Select one) 	What is your level of experience in software development? 	What programming languages do you use most frequently? (Select all that apply) 	How often do you use generative AI tools in your development process? 	What generative AI tools do you use? (Select all that apply) 	In which areas do you use generative AI the most? (Select all that apply) 	How would you rate the effectiveness of generative AI in improving your productivity?	What are the biggest benefits you have experienced using generative AI? (Select up to three) 	What are the biggest challenges you face while using generative AI? (Select up to three) 	How do you see the role of generative AI in software development evolving over the next 5 years?	What improvements or features would you like to see in generative AI tools?	Do you have any additional comments or thoughts on generative AI in software development?
 1	5.8.25 11:23:14	5.8.25 11:24:22	anonymous			Software Engineer	10+ years	Python ;JavaScript/Typescript ;Java ;Kotlin ;	I am addicted	Gemini ;	Code generation ;Code completion ;Refactoring existing code ;Learning new technologies ;	Very effective	Faster coding ;Reduced cognitive load ;Enhanced learning ;	Dependency on AI instead of critical thinking;Integration issues with existing tools;Lack of customization for project-specific needs;	It will become an essential part of every developer's workflow.	More contextual awareness of my codebase	Aki lemarad, kimarad.
 2	5.8.25 11:22:39	5.8.25 11:24:41	anonymous			Software Engineer	10+ years	JavaScript/Typescript ;Kotlin ;php :(;	Several times a day	ChatGPT ;Gemini ;	Refactoring existing code ;Learning new technologies ;Code generation ;Code completion ;Debugging ;	Very effective	Faster coding ;Easier debugging ;Reduced cognitive load ;	Incorrect or low-quality suggestions;Dependency on AI instead of critical thinking;Integration issues with existing tools;	It will become an essential part of every developer's workflow.	More contextual awareness of my codebase	
@@ -221,12 +239,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const records = [];
         const lines = tsvString.split(/\r?\n/);
         for (const line of lines) {
-            const contentLine = line.trim(); // Trim whitespace from both ends
-            if (contentLine.match(/^\d+\t/)) { // Check if line starts with an ID (number) followed by a tab
+            const contentLine = line.trim();
+            if (contentLine.match(/^\d+\t/)) {
                 const parts = contentLine.split('\t');
-                // We need up to index 17 (18th column for "comments", though not charted, ensure all parts are there)
-                // Index 16 is "improvements". We need at least 17 parts for parts[16] to be safe.
-                if (parts.length > 16) {
+                if (parts.length > 16) { // Ensure all expected columns are present
                     records.push({
                         progLanguages: parts[8] ? parts[8].trim() : '',
                         frequency: parts[9] ? parts[9].trim() : '',
@@ -237,7 +253,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         challenges: parts[14] ? parts[14].trim() : '',
                         futureRole: parts[15] ? parts[15].trim() : '',
                         improvements: parts[16] ? parts[16].trim() : ''
-                        // comments: parts[17] ? parts[17].trim() : '' // If needed later
                     });
                 }
             }
@@ -245,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return records;
     }
 
-    function aggregateData(records, fieldName, isMultiValue, valueMap = null, itemDelimiter = ';') {
+    function aggregateData(records, fieldName, isMultiValue, valueMap = null, itemDelimiter = ';', translationMap = null) {
         const counts = {};
         records.forEach(record => {
             let rawFieldData = record[fieldName] || "";
@@ -255,317 +270,255 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             values.forEach(val => {
                 let processedValue = val;
+                // Apply valueMap first (e.g., for typos or variations)
                 if (valueMap) {
                     const lowerVal = val.toLowerCase();
-                    for (const key in valueMap) {
-                        if (lowerVal === key.toLowerCase()) {
-                            processedValue = valueMap[key];
+                    for (const keyInMap in valueMap) {
+                        if (lowerVal === keyInMap.toLowerCase()) {
+                            processedValue = valueMap[keyInMap];
                             break;
                         }
                     }
                 }
+                // Add to counts using the (potentially valueMapped) key
                 if (processedValue) {
                     counts[processedValue] = (counts[processedValue] || 0) + 1;
                 }
             });
         });
-        return Object.entries(counts)
+
+        // Apply translations
+        const finalCounts = {};
+        if (translationMap) {
+            for (const keyInCounts in counts) {
+                const translatedLabel = translationMap[keyInCounts] || keyInCounts; // Translate or use original key
+                finalCounts[translatedLabel] = (finalCounts[translatedLabel] || 0) + counts[keyInCounts];
+            }
+        } else {
+             for (const keyInCounts in counts) {
+                finalCounts[keyInCounts] = counts[keyInCounts];
+            }
+        }
+
+        return Object.entries(finalCounts)
             .map(([label, value]) => ({ label, value }))
             .sort((a, b) => b.value - a.value || a.label.localeCompare(b.label));
     }
 
-    const toolNameMap = {
+    // --- Translation Maps ---
+    const frequencyTranslationMap = {
+        "Several times a day": "Naponta többször",
+        "Daily": "Naponta",
+        "Occasionally": "Alkalmanként",
+        "Weekly": "Hetente",
+        "I am addicted": "Függő vagyok"
+    };
+    const progLangTranslationMap = {
+        "None (Documents)": "Dokumentumok",
+        "Perl, bash": "Perl, Bash" // Capitalize Bash for consistency
+        // Other languages are proper nouns, typically not translated
+    };
+    const effectivenessTranslationMap = {
+        "Very effective": "Nagyon hatékony",
+        "Somewhat effective": "Eléggé hatékony",
+        "Neutral": "Semleges"
+    };
+    const useCasesTranslationMap = {
+        "Code generation": "Kódgenerálás",
+        "Learning new technologies": "Új technológiák tanulása",
+        "Code completion": "Kódkiegészítés",
+        "Debugging": "Hibakeresés",
+        "Refactoring existing code": "Meglévő kód refaktorálása",
+        "Documentation writing": "Dokumentáció írása",
+        "Test case generation": "Tesztesetek generálása",
+        "Create shell one liners, update charts, any kind of repetitive task": "Shell parancsok, diagram frissítés, stb.",
+        "log evaluation": "Log elemzés",
+        "Project management tasks and document generation": "Projektmenedzsment, dokumentum generálás",
+        "Refactoring messages (checking my grammer with it)": "Üzenetek átfogalmazása (nyelvhelyesség)"
+    };
+    const benefitsTranslationMap = {
+        "Faster coding": "Gyorsabb kódolás",
+        "Reduced cognitive load": "Csökkentett kognitív terhelés",
+        "Enhanced learning": "Hatékonyabb tanulás",
+        "Easier debugging": "Könnyebb hibakeresés",
+        "Better documentation": "Jobb dokumentáció",
+        "Improved code quality": "Javuló kódminőség",
+        "it can generate many boilerplate faster": "Gyorsabb boilerplate generálás",
+        "Quicker documentation, less repetitive tasks": "Gyorsabb doksi, kevesebb repetíció"
+    };
+    const challengesTranslationMap = {
+        "Dependency on AI instead of critical thinking": "AI-függőség kritikus gondolkodás helyett",
+        "Integration issues with existing tools": "Integrációs problémák meglévő eszközökkel",
+        "Lack of customization for project-specific needs": "Projekt-specifikus testreszabás hiánya",
+        "Incorrect or low-quality suggestions": "Helytelen/gyenge minőségű javaslatok",
+        "Security and privacy concerns": "Biztonsági és adatvédelmi aggályok",
+        "Limited usage with free plan": "Korlátozott ingyenes használat",
+        "writing the correct promt": "Megfelelő prompt írása" // Handles typo in data
+    };
+    const futureRoleTranslationMap = {
+        "It will become an essential part of every developer's workflow.": "Minden fejlesztő munkafolyamatának elengedhetetlen része lesz.",
+        "It will remain a helpful assistant but not a necessity.": "Hasznos asszisztens marad, de nem létszükséglet.",
+        "It will lead to automation replacing certain development tasks.": "Bizonyos feladatok automatizálásához vezet.",
+        "It will plateau in usefulness due to limitations.": "Hasznossága korlátok miatt stagnálni fog."
+    };
+    const improvementsTranslationMap = {
+        "More contextual awareness of my codebase": "A kódom jobb megértése",
+        "Better accuracy in code generation": "Pontosabb kódgenerálás",
+        "More seamless integration with development environments": "Jobb IDE integráció",
+        "Non-biased reasoning, critical thinking": "Elfogulatlan érvelés, kritikus gondolkodás",
+        "Better word/excel/ppw generation": "Jobb Office dokumentum generálás",
+        "Stronger security and privacy controls": "Erősebb biztonsági és adatvédelmi kontrollok"
+    };
+    // --- End of Translation Maps ---
+
+    const toolNameMap = { // For normalizing tool names before aggregation (translations are not needed for these proper nouns)
         "cursor": "Cursor",
         "perplexity": "Perplexity",
-        "ollama+continue in vscode": "Ollama+Continue in vscode", // Corrected label
+        "ollama+continue in vscode": "Ollama+Continue in vscode",
         "deepseek": "Deepseek",
         "grok": "Grok",
         "claude": "Claude"
-        // GitHub Copilot, Gemini, ChatGPT are handled by their exact names
     };
 
     function generateBarChart(chartId, data, {
-        marginTop = 20,
-        marginRight = 25,
-        marginBottom = 20,
-        marginLeft = 150,
-        barHeight = 25,
-        barSpacing = 10,
-        valueInsideMinWidth = 40
+        marginTop = 20, marginRight = 25, marginBottom = 20, marginLeft = 150,
+        barHeight = 25, barSpacing = 10, valueInsideMinWidth = 40
     } = {}) {
         const svgElement = document.getElementById(chartId);
-        if (!svgElement) {
-            console.error('SVG element not found:', chartId);
-            return;
-        }
+        if (!svgElement) { console.error('SVG element not found:', chartId); return; }
         svgElement.innerHTML = '';
-
         const numBars = data.length;
         if (numBars === 0) {
             svgElement.setAttribute('height', '50px');
             const noDataText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            noDataText.setAttribute('x', '10');
-            noDataText.setAttribute('y', '25');
+            noDataText.setAttribute('x', '10'); noDataText.setAttribute('y', '25');
             noDataText.setAttribute('font-family', "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif");
-            noDataText.setAttribute('font-size', '14px');
-            noDataText.setAttribute('fill', '#777');
+            noDataText.setAttribute('font-size', '14px'); noDataText.setAttribute('fill', '#777');
             noDataText.textContent = 'Nincs megjeleníthető adat.';
             svgElement.appendChild(noDataText);
             return;
         }
-
         const svgHeight = numBars * (barHeight + barSpacing) - barSpacing + marginTop + marginBottom;
         svgElement.setAttribute('height', svgHeight + 'px');
-
         const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
         group.setAttribute('transform', `translate(${marginLeft}, ${marginTop})`);
         svgElement.appendChild(group);
-
         let chartAreaWidth = 0;
-        try { // Added try-catch for clientWidth robustness
-            if (svgElement.clientWidth > 0) {
-                chartAreaWidth = svgElement.clientWidth - marginLeft - marginRight;
-            } else {
-                const parentStyle = getComputedStyle(svgElement.parentNode);
-                let parentWidth = parseFloat(parentStyle.width);
-                if (parentStyle.boxSizing === 'border-box') {
-                    parentWidth -= (parseFloat(parentStyle.paddingLeft) + parseFloat(parentStyle.paddingRight));
-                }
-                chartAreaWidth = parentWidth > 0 ? parentWidth - marginLeft - marginRight : 300;
+        try {
+            const chartContainerStyle = getComputedStyle(svgElement.parentNode);
+            let chartContainerWidth = parseFloat(chartContainerStyle.width);
+            if (chartContainerStyle.boxSizing === 'border-box') {
+                chartContainerWidth -= (parseFloat(chartContainerStyle.paddingLeft) + parseFloat(chartContainerStyle.paddingRight));
             }
-        } catch (e) {
-            chartAreaWidth = 300; // Fallback
-        }
+            chartAreaWidth = chartContainerWidth > 0 ? chartContainerWidth - marginLeft - marginRight : 300;
+        } catch (e) { chartAreaWidth = 300; }
         chartAreaWidth = Math.max(50, chartAreaWidth);
-
         const maxValue = Math.max(...data.map(d => d.value), 0);
-        if (maxValue === 0 && numBars > 0) {
-            svgElement.setAttribute('height', '50px');
-            const allZeroText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            allZeroText.setAttribute('x', '10');
-            allZeroText.setAttribute('y', '25');
-            // ... (styling for allZeroText)
-            allZeroText.textContent = 'Minden érték nulla.';
-            svgElement.appendChild(allZeroText);
-            return;
-        }
 
         data.forEach((d, i) => {
             const barY = i * (barHeight + barSpacing);
             const barActualWidth = maxValue > 0 ? (d.value / maxValue) * chartAreaWidth : 0;
-
             const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-            rect.setAttribute('class', 'bar');
-            rect.setAttribute('x', 0);
-            rect.setAttribute('y', barY);
-            rect.setAttribute('width', barActualWidth > 0 ? barActualWidth : 0.1);
-            rect.setAttribute('height', barHeight);
+            rect.setAttribute('class', 'bar'); rect.setAttribute('x', 0); rect.setAttribute('y', barY);
+            rect.setAttribute('width', barActualWidth > 0 ? barActualWidth : 0.1); rect.setAttribute('height', barHeight);
             group.appendChild(rect);
-
             const labelTextNode = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            labelTextNode.setAttribute('class', 'bar-label');
-            labelTextNode.setAttribute('x', -10);
-            labelTextNode.setAttribute('y', barY + barHeight / 2);
-            labelTextNode.setAttribute('dy', '.35em');
-            labelTextNode.textContent = d.label;
-            group.appendChild(labelTextNode);
-
+            labelTextNode.setAttribute('class', 'bar-label'); labelTextNode.setAttribute('x', -10);
+            labelTextNode.setAttribute('y', barY + barHeight / 2); labelTextNode.setAttribute('dy', '.35em');
+            labelTextNode.textContent = d.label; group.appendChild(labelTextNode);
             const valueTextNode = document.createElementNS("http://www.w3.org/2000/svg", "text");
             if (barActualWidth >= valueInsideMinWidth) {
-                valueTextNode.setAttribute('class', 'bar-value');
-                valueTextNode.setAttribute('x', barActualWidth - 5);
+                valueTextNode.setAttribute('class', 'bar-value'); valueTextNode.setAttribute('x', barActualWidth - 5);
             } else {
                 valueTextNode.setAttribute('class', 'bar-value-external');
                 valueTextNode.setAttribute('x', (barActualWidth > 0 ? barActualWidth : 0) + 5);
             }
-            valueTextNode.setAttribute('y', barY + barHeight / 2);
-            valueTextNode.setAttribute('dy', '.35em');
-            valueTextNode.textContent = d.value;
-            group.appendChild(valueTextNode);
+            valueTextNode.setAttribute('y', barY + barHeight / 2); valueTextNode.setAttribute('dy', '.35em');
+            valueTextNode.textContent = d.value; group.appendChild(valueTextNode);
         });
     }
 
-    // --- Main execution ---
     const surveyRecords = parseRawData(rawTsvData);
+    if (surveyRecords.length === 0) { console.warn("Nincsenek feldolgozható rekordok."); }
+    else { console.log(`Sikeresen feldolgozva ${surveyRecords.length} rekord.`); }
 
-    if (surveyRecords.length === 0) {
-        console.warn("Nincsenek feldolgozható rekordok a TSV adatokból. Ellenőrizd a parseRawData logikát és a rawTsvData tartalmát, különösen a sortöréseket a cellákon belül.");
-    } else {
-        console.log(`Successfully parsed ${surveyRecords.length} records.`);
-    }
-
-    // Original Charts
-    const toolData = aggregateData(surveyRecords, 'tools', true, toolNameMap);
+    // Charts - "Egyéb" logic removed, translationMap added
+    const toolData = aggregateData(surveyRecords, 'tools', true, toolNameMap, ';', null); // No translation for tool names
     generateBarChart('toolsChart', toolData, { marginLeft: 220 });
 
-    const frequencyData = aggregateData(surveyRecords, 'frequency', false);
+    const frequencyData = aggregateData(surveyRecords, 'frequency', false, null, ';', frequencyTranslationMap);
     generateBarChart('frequencyChart', frequencyData, { marginLeft: 160 });
 
-    const useCasesRawData = aggregateData(surveyRecords, 'useCases', true);
-    const commonUseCasesNames = ['Code generation', 'Learning new technologies', 'Code completion', 'Debugging', 'Refactoring existing code', 'Documentation writing', 'Test case generation'];
-    let useCasesProcessed = [];
-    let otherUseCasesCount = 0;
-    const maxLabelLengthDefault = 35;
-
-    useCasesRawData.forEach(item => {
-        if (item.label.length > maxLabelLengthDefault || (!commonUseCasesNames.includes(item.label) && item.value <= 1 && item.label !== "Egyéb") ) { // item.value <=1 to group rarer single items
-            otherUseCasesCount += item.value;
-        } else {
-            useCasesProcessed.push(item);
-        }
-    });
-    if (otherUseCasesCount > 0) {
-        const existingOther = useCasesProcessed.find(item => item.label === "Egyéb");
-        if (existingOther) {
-            existingOther.value += otherUseCasesCount;
-        } else {
-            useCasesProcessed.push({ label: "Egyéb", value: otherUseCasesCount });
-        }
-    }
-    useCasesProcessed.sort((a, b) => b.value - a.value || a.label.localeCompare(b.label));
-    generateBarChart('useCasesChart', useCasesProcessed, { marginLeft: 200 });
-
-    // New Charts
-    const progLangData = aggregateData(surveyRecords, 'progLanguages', true, { "php :(": "PHP" });
+    const progLangValueMap = { "php :(": "PHP" };
+    const progLangData = aggregateData(surveyRecords, 'progLanguages', true, progLangValueMap, ';', progLangTranslationMap);
     generateBarChart('progLangChart', progLangData, { marginLeft: 200 });
+    
+    const useCasesData = aggregateData(surveyRecords, 'useCases', true, null, ';', useCasesTranslationMap);
+    generateBarChart('useCasesChart', useCasesData, { marginLeft: 280 }); // Increased margin for potentially longer translated labels
 
-    const effectivenessData = aggregateData(surveyRecords, 'effectiveness', false);
-    generateBarChart('effectivenessChart', effectivenessData, { marginLeft: 160 });
+    const benefitsData = aggregateData(surveyRecords, 'benefits', true, null, ';', benefitsTranslationMap);
+    generateBarChart('benefitsChart', benefitsData, { marginLeft: 250 }); // Increased margin
 
-    const benefitsData = aggregateData(surveyRecords, 'benefits', true, null);
-    generateBarChart('benefitsChart', benefitsData, { marginLeft: 200 });
+    const effectivenessData = aggregateData(surveyRecords, 'effectiveness', false, null, ';', effectivenessTranslationMap);
+    generateBarChart('effectivenessChart', effectivenessData, { marginLeft: 260 });
 
-    const challengesDataRaw = aggregateData(surveyRecords, 'challenges', true, null);
-    let challengesProcessed = [];
-    let otherChallengesCount = 0;
-    challengesDataRaw.forEach(item => {
-        // For challenges, labels can be long. Group if very long OR very infrequent.
-        if (item.label.length > 45 || (item.value <=1 && item.label !== "Egyéb") ) {
-            otherChallengesCount += item.value;
-        } else {
-            challengesProcessed.push(item);
-        }
-    });
-    if (otherChallengesCount > 0) {
-        const existingOther = challengesProcessed.find(item => item.label === "Egyéb");
-        if (existingOther) { existingOther.value += otherChallengesCount; }
-        else { challengesProcessed.push({ label: "Egyéb", value: otherChallengesCount }); }
-    }
-    challengesProcessed.sort((a,b) => b.value - a.value || a.label.localeCompare(b.label));
-    generateBarChart('challengesChart', challengesProcessed, { marginLeft: 280 });
+    const futureRoleData = aggregateData(surveyRecords, 'futureRole', false, null, ';', futureRoleTranslationMap);
+    generateBarChart('futureRoleChart', futureRoleData, { marginLeft: 420 });
 
-    const futureRoleData = aggregateData(surveyRecords, 'futureRole', false);
-    generateBarChart('futureRoleChart', futureRoleData, { marginLeft: 280 });
+    const challengesValueMap = {"writing the correct promt": "writing the correct prompt"}; // Normalize typo before translation
+    const challengesData = aggregateData(surveyRecords, 'challenges', true, challengesValueMap, ';', challengesTranslationMap);
+    generateBarChart('challengesChart', challengesData, { marginLeft: 300 }); // Increased margin
 
-    const improvementsDataRaw = aggregateData(surveyRecords, 'improvements', false);
-    let improvementsProcessed = [];
-    let otherImprovementsCount = 0;
-    const commonImprovementsLabels = [
-        "More contextual awareness of my codebase",
-        "Better accuracy in code generation",
-        "More seamless integration with development environments"
-    ];
-    improvementsDataRaw.forEach(item => {
-        if (item.label.length > 50 || (!commonImprovementsLabels.includes(item.label) && item.value <=1 && item.label !== "Egyéb")) {
-            otherImprovementsCount += item.value;
-        } else {
-            improvementsProcessed.push(item);
-        }
-    });
-     if (otherImprovementsCount > 0) {
-        const existingOther = improvementsProcessed.find(item => item.label === "Egyéb");
-        if (existingOther) { existingOther.value += otherImprovementsCount; }
-        else { improvementsProcessed.push({ label: "Egyéb", value: otherImprovementsCount }); }
-    }
-    improvementsProcessed.sort((a,b) => b.value - a.value || a.label.localeCompare(b.label));
-    generateBarChart('improvementsChart', improvementsProcessed, { marginLeft: 280 });
+    const improvementsData = aggregateData(surveyRecords, 'improvements', false, null, ';', improvementsTranslationMap);
+    generateBarChart('improvementsChart', improvementsData, { marginLeft: 300 }); // Increased margin
 
 });
 </script>
 
 <script>
-    // Navigation script (remains largely the same)
+    // Navigation script
     document.addEventListener('DOMContentLoaded', function() {
         const slideContent = document.querySelector('.slide-content');
-        if (!slideContent) {
-            console.error('.slide-content elem nem található az oldalon.');
-            document.addEventListener('keydown', function(event) {
-                let preventDefaultBehavior = true;
-                if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
-                    window.location.href = '01-cover.html';
-                } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                    window.location.href = '03-generative-ai.html';
-                } else {
-                    preventDefaultBehavior = false;
-                }
-                if (preventDefaultBehavior) { event.preventDefault(); }
-            });
-            return;
-        }
-
+        if (!slideContent) { return; }
         const headingElements = Array.from(slideContent.querySelectorAll('h2'));
         let currentFocusableIndex = -1;
         let lastScrollTargetElement = null;
-
         function highlightTarget(element) {
             if (lastScrollTargetElement && lastScrollTargetElement.parentElement.classList.contains('chart-container')) {
                 lastScrollTargetElement.parentElement.classList.remove('current-scroll-target-container');
             }
             if (element && element.nodeName === 'H2' && element.parentElement.classList.contains('chart-container')) {
                 element.parentElement.classList.add('current-scroll-target-container');
-                element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                element.parentElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 lastScrollTargetElement = element;
             } else if (element === slideContent) {
-                 // Optional: remove highlight if going back to overall content scroll
                 if(lastScrollTargetElement && lastScrollTargetElement.parentElement.classList.contains('chart-container')) {
                     lastScrollTargetElement.parentElement.classList.remove('current-scroll-target-container');
                 }
                 lastScrollTargetElement = slideContent;
             }
         }
-        
-        highlightTarget(slideContent); // Initial state
-
+        highlightTarget(slideContent);
         document.addEventListener('keydown', function(event) {
-            let preventDefaultBehavior = true;
-            let scrollTarget = null;
-
-            if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
-                window.location.href = '01-cover.html';
-            } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                window.location.href = '03-generative-ai.html';
-            } else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
+            let preventDefaultBehavior = true; let scrollTarget = null;
+            if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') { window.location.href = '01-cover.html'; }
+            else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') { window.location.href = '03-generative-ai.html'; }
+            else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
                 if (headingElements.length > 0) {
                     currentFocusableIndex++;
-                    if (currentFocusableIndex >= headingElements.length) {
-                        currentFocusableIndex = headingElements.length - 1;
-                    }
+                    if (currentFocusableIndex >= headingElements.length) { currentFocusableIndex = headingElements.length - 1; }
                     scrollTarget = headingElements[currentFocusableIndex];
                 }
             } else if (event.code === 'ArrowUp' || event.key === 'ArrowUp') {
                  if (headingElements.length > 0) {
                     currentFocusableIndex--;
-                    if (currentFocusableIndex < 0) {
-                        currentFocusableIndex = -1;
-                        scrollTarget = slideContent; // Scroll to top of content area
-                    } else {
-                         scrollTarget = headingElements[currentFocusableIndex];
-                    }
+                    if (currentFocusableIndex < 0) { currentFocusableIndex = -1; scrollTarget = slideContent; }
+                    else { scrollTarget = headingElements[currentFocusableIndex]; }
                  }
-                 if (currentFocusableIndex === -1 && scrollTarget === slideContent) {
-                    slideContent.scrollTop = 0; // Explicitly scroll to top
-                 }
-            } else {
-                preventDefaultBehavior = false;
-            }
-
-            if (scrollTarget) {
-                highlightTarget(scrollTarget);
-            }
-
-            if (preventDefaultBehavior) {
-                event.preventDefault();
-            }
+                 if (currentFocusableIndex === -1 && scrollTarget === slideContent) { slideContent.scrollTop = 0; }
+            } else { preventDefaultBehavior = false; }
+            if (scrollTarget) { highlightTarget(scrollTarget); }
+            if (preventDefaultBehavior) { event.preventDefault(); }
         });
     });
 </script>

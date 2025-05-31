@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generatív AI - A Béla-féle Folyamatos Építés Elve</title>
+    <title>Generatív AI - A Béla-féle Folyamatos Építés Módszer</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -133,42 +133,56 @@
         </div>
 
         <div class="slide-title-main-container">
-            <h1>A "Béla-féle Folyamatos Építés Elve" a Generatív AI-ban</h1>
+            <h1>A "Béla-féle Folyamatos Építés Módszer" a Generatív AI-ban</h1>
         </div>
 
         <div class="slide-content">
-            <h2>Az Elv Meghatározása</h2>
-            <p>A <strong>"Béla-féle folyamatos építés elve"</strong> egy olyan stratégia a generatív AI modellekkel (különösen LLM-ekkel) való együttműködés során, amely a tartalom fokozatos, lépésről lépésre történő felépítésére összpontosít. </p>
+            <h2>A Módszer Meghatározása</h2>
+            <p>A <strong>"Béla-féle folyamatos építés módszere"</strong> egy olyan stratégia a generatív AI modellekkel (különösen LLM-ekkel) való együttműködés során, amely a tartalom fokozatos, lépésről lépésre történő felépítésére összpontosít. </p>
             <ul>
-                <li>Lényege, hogy minden újabb interakciós lépésben <strong>újabb tartalmi részt adunk hozzá</strong> a már meglévőhöz, anélkül, hogy a korábban legenerált és "elfogadott" részek alapvető követelményeit vagy struktúráját módosítanánk <em>ugyanabban a hosszúra nyúló, folyamatos kontextusban</em>.</li>
+                <li>Lényege, hogy minden újabb interakciós lépésben <strong>újabb tartalmi részt adunk hozzá</strong> a már meglévőhöz, anélkül, hogy a korábban legenerált és "elfogadott" részek alapvető követelményeit vagy struktúráját módosítanánk <em>ugyanabban a folyamatos kontextusban</em>.</li>
                 <li>Amennyiben egy korábbi, már lefektetett rész jelentős módosítására van szükség, azt egy előre meghatározott <strong>"mérföldkő"</strong> (milestone) elérése után, egy <strong>új, fókuszált kontextusban</strong> (gyakorlatilag egy új, célzott beszélgetési szakaszban) végezzük el. Ilyenkor az adott, módosítandó résznek mintegy "újra nekifutunk", míg a mérföldkőig elért többi, nem módosítandó rész stabil alapként szolgálhat.</li>
             </ul>
 
-            <h2>Miért Hasznos Ez az Elv? Kapcsolódás Korábbi Pontokhoz</h2>
+            <h2>Miért Hasznos?</h2>
             <p>Ez a megközelítés több, korábban tárgyalt kihívásra is megoldást kínálhat, és jobban illeszkedik az LLM-ek működési sajátosságaihoz:</p>
             <ul>
-                <li><strong>A Kontextus Degradáció Kivédése:</strong> A hosszú és sokszor módosított kontextus könnyen vezethet a modell "felejtéséhez" vagy a koherencia elvesztéséhez. A folyamatos építés elve ezt úgy kerüli el, hogy:
+                <li><strong>A Kontextus Degradáció Kivédése:</strong> A hosszú és sokszor módosított kontextus könnyen vezethet a modell "felejtéséhez" vagy a koherencia elvesztéséhez. A folyamatos építés módszere ezt úgy kerüli el, hogy:
                     <ul>
                         <li>Minden lépés egy jól definiált, új hozzáadandó elemre koncentrál, csökkentve a kétértelműséget.</li>
                         <li>A "mérföldkövek" beiktatása és a módosítások új, tiszta kontextusba helyezése gyakorlatilag a "Periodikus Kontextus Frissítés" és a "Kontextus Reset" technikák tudatos alkalmazása a problémás részekre, anélkül, hogy a teljes addigi munkát eldobnánk.</li>
                     </ul>
                 </li>
-                <li><strong>Az LLM-ek Működési Sajátosságainak Jobb Kihasználása:</strong>
+                <li><strong>A Generatív AI Működési Sajátosságainak Jobb Kihasználása:</strong>
                     <ul>
-                        <li>Az LLM-ek alapvetően a következő elem (szó, kódrészlet) statisztikai alapon történő generálására vannak kihegyezve (lásd: 03. oldal, "Statisztikán Való Alapulás"). A folyamatos, új elemekkel történő bővítés összhangban van ezzel az alapvető működéssel.</li>
-                        <li>Tiszteletben tartja a "Korlátozott Kontextus Ablakot" (04. és 05. oldal), mivel nem terheli túl egyetlen kontextust azzal, hogy folyamatosan újraértelmezteti és potenciálisan félreérti a korábbi, komplex részeket.</li>
+                        <li>A Generatív AI alapvetően alkotásra vannak kihegyezve. A folyamatos, új kérésekkel, igényekkel történő bővítés összhangban van ezzel az alapvető működéssel.<br>(Még akkor is, ha az új építő elemek az előállított tartalmat azonos "helyen" módosítják.)</li>
+						<ul>
+							<li>A gond akkor kezdődik, amikor egymásnak ellentmondó koncepciók, fogalmak kerülnek a kontextusba (a változott koncepció ellent mond a régebbinek). Béla sejtés: A bemeneti promptban érkező koncepciók változása szélesebb körben érinti a kontextust, mint a válaszban módosított kód.</li>
+							<li>A felejtés és nem felejtés dilemmája: Mikor felejtsem el a korábbi koncepciót, és cseréljem le az újra és hogy? Erre a kérdésre nem tud most jó választ adni a Generatív AI, mert nem érti magukat a koncepciókat.
+							<br>Pl.:
+							<br>egy elrontott kontextus:
+							<br> - Piros csőrű, sárga tollú madár
+							<br> - Zöld tollú madár
+							<br> - Sárgaréz
+							<br>amit valójában most szeretnénk:
+							<br> - Piros csőrű madár
+							<br> - Zöld tollú madár
+							<br> - Sárgaréz
+							</li>
+						</ul>
+                        <li>Tiszteletben tartja a "Korlátozott Kontextus Ablakot", mivel nem terheli túl egyetlen kontextust azzal, hogy folyamatosan újraértelmezteti és potenciálisan félreérti a korábbi, komplex részeket.</li>
                         <li>Könnyebbé teszi a modell "Figyelmi Mechanizmusainak" dolgát, mivel a fókusz mindig az aktuálisan hozzáadandó, viszonylag kisebb és új részen van, nem pedig egy hatalmas, rétegzett előzményen.</li>
                     </ul>
                 </li>
                 <li><strong>Hatékonyabb Prompt Engineering Támogatása:</strong>
                     <ul>
-                        <li>Ahogy a Prompt Engineering technikáknál (04. oldal) láttuk, az "egyértelmű és specifikus" promptok kulcsfontosságúak. Sokkal könnyebb ilyen promptokat írni, ha azok egy új elem hozzáadására, egy ismert alap továbbfejlesztésére irányulnak, nem pedig egy bonyolult, meglévő struktúra komplex átalakítására egyetlen, mindentudó promptban.</li>
-                        <li>Az "iteratív finomhangolás" továbbra is fontos, de az elv azt sugallja, hogy a nagyobb, struktúrát vagy alapvető logikát érintő iterációkat inkább szakaszosan (mérföldkövenként), elkülönített, célzott kontextusokban végezzük a problémásnak ítélt részeken.</li>
+                        <li>Ahogy a Prompt Engineering technikáknál láttuk, az "egyértelmű és specifikus" promptok kulcsfontosságúak. Sokkal könnyebb ilyen promptokat írni, ha azok egy új elem hozzáadására, egy ismert alap továbbfejlesztésére irányulnak, nem pedig egy bonyolult, meglévő struktúra komplex átalakítására egyetlen, mindentudó promptban.</li>
+                        <li>Az "iteratív finomhangolás" továbbra is fontos, de a módszer azt sugallja, hogy a nagyobb, struktúrát vagy alapvető logikát érintő iterációkat inkább szakaszosan (mérföldkövenként), elkülönített, célzott kontextusokban végezzük a problémásnak ítélt részeken.</li>
                     </ul>
                 </li>
             </ul>
 
-            <h3>Az Elv Vizuális Illusztrációja: Problémás Eset</h3>
+            <h3>A Módszer Vizuális Illusztrációja: Problémás Eset</h3>
             <p>Az alábbi diagram szemlélteti a folyamatos építést, és azt, mi történik (kontextusromlás), ha ettől eltérve egy korábbi elemhez nyúlunk vissza ugyanabban a hosszú kontextusban, problémákat okozva.</p>
             <div class="diagram-container">
                 <svg width="740" height="280" viewBox="0 0 740 280" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
@@ -179,8 +193,8 @@
                     </defs>
                     <line x1="40" y1="250" x2="720" y2="250" stroke="#555" stroke-width="2" marker-end="url(#arrow1)" />
                     <text x="680" y="270" font-family="Segoe UI" font-size="12" fill="#333">Interakciók</text>
-                    <text x="30" y="10" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#333">Bővülő</text>
-                    <text x="30" y="25" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#333">koncepció</text>
+                    <text x="30" y="9" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#333">Bővülő</text>
+                    <text x="30" y="19" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#333">koncepció</text>
                     <line x1="50" y1="260" x2="50" y2="20" stroke="#555" stroke-width="2" marker-end="url(#arrow1)" />
                     <text x="10" y="30" font-family="Segoe UI" font-size="12" fill="#333" transform="rotate(-90, 20, 100)">Tartalom</text>
                     <text x="90" y="20" font-family="Segoe UI" font-size="13" font-weight="bold" fill="#333">1. Új (A)</text>
@@ -229,8 +243,8 @@
                 </svg>
             </div>
 
-            <h3>Az Elv Helyes Alkalmazása Új Kontextusokkal</h3>
-            <p>Ez az ábra azt mutatja be, hogyan alkalmazható az elv helyesen: az első kontextusban elért mérföldkő után egy új, fókuszált második kontextusban végezzük el a szükséges módosítást egy korábbi elemen, megőrizve a munka integritását és elkerülve a kontextusromlást.</p>
+            <h3>A Módszer Helyes Alkalmazása Új Kontextusokkal</h3>
+            <p>Ez az ábra azt mutatja be, hogyan alkalmazható a módszer helyesen: az első kontextusban elért mérföldkő után egy új, fókuszált második kontextusban végezzük el a szükséges módosítást egy korábbi elemen, megőrizve a munka integritását és elkerülve a kontextusromlást.</p>
             <div class="diagram-container">
                 <svg width="740" height="330" viewBox="0 0 740 330" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
                     <defs>
@@ -286,7 +300,7 @@
                 </svg>
             </div>
 
-            <h2>Az Elv Alkalmazása a Gyakorlatban</h2>
+            <h2>A Módszer Alkalmazása a Gyakorlatban</h2>
             <ul>
                 <li><strong>Mérföldkövek Definiálása:</strong> Mielőtt hozzákezdünk egy nagyobb feladathoz, határozzuk meg a logikai egységeket vagy szakaszokat a generálandó tartalomban (pl. egy dokumentum fejezetei, egy prezentáció diái, egy szoftvermodul fő funkciói). Ezek lesznek a mérföldköveink.</li>
                 <li><strong>Fokozatos Hozzáadás:</strong> Minden interakciós lépésben a prompt arra irányuljon, hogy a következő információt, kódrészletet, szövegrészt adja hozzá a modell az előzőleg már elfogadott és stabilizált tartalomhoz.</li>
