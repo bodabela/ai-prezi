@@ -35,7 +35,7 @@
         .slide-title-main-container {
             padding: 22px 60px;
             background-color: #f8f8f8;
-            border-bottom: 2px solid #ddd; 
+            border-bottom: 2px solid #ddd;
         }
         .slide-title-main-container h1 {
             font-size: 36px;
@@ -68,30 +68,30 @@
             padding-bottom: 6px;
             font-weight: 600;
         }
-        .svg-chart { 
+        .svg-chart {
             width: 100%;
             /* height: auto; -- will be set by JS */
-            min-height: 180px; 
+            min-height: 180px;
         }
-        .bar { 
+        .bar {
             fill: #3498db;
             transition: fill 0.2s ease, width 0.3s ease; /* Added width transition */
         }
         .bar:hover {
             fill: #2980b9;
         }
-        .bar-label { 
-            font-size: 14px; 
+        .bar-label {
+            font-size: 14px;
             fill: #222;
             text-anchor: end;
         }
-        .bar-value { 
-            font-size: 14px; 
+        .bar-value {
+            font-size: 14px;
             fill: #fff;
             text-anchor: end;
         }
-        .bar-value-external { 
-            font-size: 14px; 
+        .bar-value-external {
+            font-size: 14px;
             fill: #333;
             text-anchor: start;
         }
@@ -102,6 +102,16 @@
             padding: 20px;
             margin: 0;
         }
+        /* CSS osztály a kiemeléshez a navigáció során */
+        .current-scroll-target {
+            /* text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4); */ /* H2-re nem feltétlen kell */
+            /* Inkább a chart-container-t emeljük ki, ha H2 van fókuszban */
+        }
+        .chart-container.current-scroll-target-container {
+            outline: 2px solid #79C7E3;
+            box-shadow: 0 0 15px rgba(121, 199, 227, 0.5);
+        }
+
     </style>
 </head>
 <body>
@@ -128,7 +138,7 @@
         </div>
 
         <div class="slide-content">
-            <div class="column">
+            <div class="column" id="column1">
                 <div class="chart-container">
                     <h2 id="toolsChartTitle">Melyik generatív MI eszközt használod leggyakrabban?</h2>
                     <svg class="svg-chart" id="toolsChart"></svg>
@@ -137,11 +147,35 @@
                     <h2 id="frequencyChartTitle">Milyen gyakran használod a generatív MI-t?</h2>
                     <svg class="svg-chart" id="frequencyChart"></svg>
                 </div>
+                <div class="chart-container">
+                    <h2 id="progLangChartTitle">Leggyakrabban használt programozási nyelvek</h2>
+                    <svg class="svg-chart" id="progLangChart"></svg>
+                </div>
+                <div class="chart-container">
+                    <h2 id="effectivenessChartTitle">Generatív MI hatékonysága a produktivitás javításában</h2>
+                    <svg class="svg-chart" id="effectivenessChart"></svg>
+                </div>
+                <div class="chart-container">
+                    <h2 id="futureRoleChartTitle">Generatív MI szerepe a szoftverfejlesztésben (köv. 5 év)</h2>
+                    <svg class="svg-chart" id="futureRoleChart"></svg>
+                </div>
             </div>
-            <div class="column">
+            <div class="column" id="column2">
                 <div class="chart-container">
                     <h2 id="useCasesChartTitle">Mire használod leggyakrabban a generatív MI-t?</h2>
                     <svg class="svg-chart" id="useCasesChart"></svg>
+                </div>
+                 <div class="chart-container">
+                    <h2 id="benefitsChartTitle">Legnagyobb tapasztalt előnyök</h2>
+                    <svg class="svg-chart" id="benefitsChart"></svg>
+                </div>
+                <div class="chart-container">
+                    <h2 id="challengesChartTitle">Legnagyobb kihívások</h2>
+                    <svg class="svg-chart" id="challengesChart"></svg>
+                </div>
+                <div class="chart-container">
+                    <h2 id="improvementsChartTitle">Javasolt fejlesztések, funkciók</h2>
+                    <svg class="svg-chart" id="improvementsChart"></svg>
                 </div>
             </div>
         </div>
@@ -149,139 +183,61 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const rawTsvData = `ID	Start time	Completion time	Email	Name	Last modified time	What is your current role? (Select one) 	What is your level of experience in software development? \n	What programming languages do you use most frequently?
-(Select all that apply) 	How often do you use generative AI tools in your development process? \n	What generative AI tools do you use?
-(Select all that apply) 	In which areas do you use generative AI the most?
-(Select all that apply) 	How would you rate the effectiveness of generative AI in improving your productivity?
-What are the biggest benefits you have experienced using generative AI?
-(Select up to three) 	What are the biggest challenges you face while using generative AI?
-(Select up to three) 	How do you see the role of generative AI in software development evolving over the next 5 years?
-What improvements or features would you like to see in generative AI tools?
-Do you have any additional comments or thoughts on generative AI in software development?
-1	5.8.25 11:23:14	5.8.25 11:24:22	anonymous			Software Engineer 	10+ years 	Python ;JavaScript/Typescript ;Java ;Kotlin ;	I am addicted 	Gemini ;	Code generation ;Code completion ;Refactoring existing code ;Learning new technologies ;	Very effective 	Faster coding ;Reduced cognitive load ;Enhanced learning ;	Dependency on AI instead of critical thinking;Integration issues with existing tools;Lack of customization for project-specific needs;	It will become an essential part of every developer's workflow. 	More contextual awareness of my codebase	Aki lemarad, kimarad.
-2	5.8.25 11:22:39	5.8.25 11:24:41	anonymous			Software Engineer 	10+ years 	JavaScript/Typescript ;Kotlin ;php :(;	Several times a day 	ChatGPT ;Gemini ;	Refactoring existing code ;Learning new technologies ;Code generation ;Code completion ;Debugging ;	Very effective 	Faster coding ;Easier debugging ;Reduced cognitive load ;	Incorrect or low-quality suggestions;Dependency on AI instead of critical thinking;Integration issues with existing tools;	It will become an essential part of every developer's workflow. 	More contextual awareness of my codebase	
-3	5.8.25 11:22:40	5.8.25 11:25:01	anonymous			Solution Architect 	0-2 years 	Python ;JavaScript/Typescript ;Java ;	Several times a day 	ChatGPT ;Gemini ;Cursor;	Debugging ;Documentation writing ;Test case generation ;Learning new technologies ;Code generation ;	Very effective 	Reduced cognitive load ;Better documentation ;Enhanced learning ;	Incorrect or 
-low-quality suggestions;Dependency on AI instead of critical thinking;Security and privacy concerns;	It will become an essential part of every developer's workflow.
-Non-biased reasoning, critical thinking	
-4	5.8.25 11:22:58	5.8.25 11:25:12	anonymous			DevOps Engineer 	0-2 years 	None (Documents) ;	Several times a day 	ChatGPT ;	Debugging ;Learning new technologies ;	Neutral 	Faster coding ;	Dependency on AI instead of critical thinking;Lack of customization for project-specific needs;Security and privacy concerns;	It will become an essential part of every developer's workflow.
-Better accuracy in code generation 	
-5	5.8.25 11:22:33	5.8.25 11:25:22	anonymous			DevOps Engineer 	10+ years 	Python ;Java ;C# ;JavaScript/Typescript ;	Occasionally 	ChatGPT ;GitHub Copilot ;Gemini ;	Code completion ;Code generation ;	Somewhat effective 	Reduced cognitive load ;Faster coding ;	Security and privacy concerns;Integration issues with existing tools;	It will remain a helpful assistant but not a necessity.
-More seamless integration with development environments	
-6	5.8.25 11:23:35	5.8.25 11:26:14	anonymous			Software Engineer 	10+ years 	Java ;	Daily 	GitHub Copilot ;	Code generation ;Code completion ;Test case generation ;Documentation writing ;	Somewhat effective 	Faster coding ;	Integration issues with existing tools;	It will become an essential part of every developer's workflow.
-Better accuracy in code generation 	
-7	5.8.25 11:22:39	5.8.25 11:26:32	anonymous			Intern	0-2 years 	Java ;JavaScript/Typescript ;Kotlin ;	Several times a day 	ChatGPT ;Deepseek;	Documentation writing ;Learning new technologies ;Debugging ;	Somewhat effective 	Enhanced learning ;Faster coding ;Better documentation ;	Incorrect or low-quality suggestions;Security and privacy concerns;Dependency on AI instead of critical thinking;	It will remain a helpful assistant but not a necessity.
-Better accuracy in code generation 	
-8	5.8.25 11:24:15	5.8.25 11:26:42	anonymous			Software Engineer 	3-5 years 	Java ;JavaScript/Typescript ;Python ;Kotlin ;	Several times a day 	GitHub Copilot ;ChatGPT ;	Code generation ;Code completion ;Debugging ;Documentation writing ;Test case generation ;Refactoring existing code ;Learning new technologies ;	Somewhat effective 	Reduced cognitive load ;Faster coding ;Easier debugging ;	Incorrect or low-quality suggestions;Dependency on AI instead of critical thinking;Integration issues with existing tools;	It will become an essential part of every developer's workflow.
-Better accuracy in code generation 	
-9	5.8.25 11:22:33	5.8.25 11:27:20	anonymous			Software Engineer 	10+ years 	Kotlin ;	Several times a day 	ChatGPT ;	Code generation ;Debugging ;Refactoring existing code ;Learning new technologies ;	Very effective 	Faster coding ;Easier debugging ;Enhanced learning ;	Integration issues with existing tools;Incorrect or low-quality suggestions;	It will lead to automation replacing certain development tasks.
-More seamless integration with development environments	
-10	5.8.25 11:22:38	5.8.25 11:30:38	anonymous			Manual Tester	0-2 years 	Python ;Java ;	Occasionally 	ChatGPT ;Gemini ;GitHub Copilot ;	Code generation ;Code completion ;Debugging ;Refactoring existing code ;Learning new technologies ;	Very effective 	Faster coding ;Improved code quality ;Enhanced learning ;	Incorrect or low-quality suggestions;Limited usage with free plan ;	It will remain a helpful assistant but not a necessity.
-Better accuracy in code generation 	
-11	5.8.25 11:27:47	5.8.25 11:31:17	anonymous			Software Engineer 	0-2 years 	JavaScript/Typescript ;C# ;Bash;	Occasionally 	ChatGPT ;	Test case generation ;Learning new technologies ;	Neutral 	Enhanced learning ;	Dependency on AI instead of critical thinking;	It will remain a helpful assistant but not a necessity.
-Better accuracy in code generation 	
-12	5.8.25 11:24:19	5.8.25 11:31:54	anonymous			Software Engineer 	10+ years 	Python ;JavaScript/Typescript ;Swift ;	Several times a day 	ChatGPT ;GitHub Copilot ;cursor;	Code generation ;Code completion ;	Somewhat effective 	Faster coding ;it can generate many boilerplate faster;	Incorrect or low-quality suggestions;Security and privacy concerns;	It will remain a helpful assistant but not a necessity.
-More contextual awareness of my codebase	
-13	5.8.25 11:29:40	5.8.25 11:32:41	anonymous			Test Engineer 	3-5 years 	Python ;	Weekly 	GitHub Copilot ;	Debugging ;Learning new technologies ;	Somewhat effective 	Easier debugging ;Enhanced learning ;Faster coding ;	Incorrect or low-quality suggestions;	It will remain a helpful assistant but not a necessity.
-Better accuracy in code generation 	
-14	5.8.25 11:27:08	5.8.25 11:34:48	anonymous			DevOps Engineer 	3-5 years 	Python ;shell;	Weekly 	ChatGPT ;Ollama+Continue in vscode;	Code completion ;Code generation ;Learning new technologies ;Documentation writing ;Create shell one liners, update charts, any kind of repetitive task;	Somewhat effective 	Enhanced learning ;Easier debugging ;Better documentation ;	Incorrect or low-quality suggestions;Dependency on AI instead of critical thinking;Security and privacy concerns;	It will plateau in usefulness due to limitations.	Better accuracy in code generation 	Two comments:
-1) Most answers have to be double checked so while it helps spotting typos and is useful in general, using llms can add additional overhead to daily tasks for sanity checks.
-2) When using online llms in corporate environments, leaking data becomes very easy. I would limit the ability to reach public AI services and would introduce substitutes within companies in order to prevent accidental leaks - if the data is leaked it would be still leaked to an internal service, or even better to an llm 
-running locally, if the user workstations can support it.
-15	5.8.25 11:24:49	5.8.25 11:34:54	anonymous			Software Engineer 	0-2 years 	JavaScript/Typescript ;Python ;	Several times a day 	ChatGPT ;GitHub Copilot ;Gemini ;	Code generation ;Code completion ;Debugging ;Refactoring existing code ;	Very effective 	Faster coding ;Reduced cognitive load ;Improved code quality ;	Dependency on AI instead of critical thinking;Incorrect or low-quality suggestions;	It will become an essential part of every developer's workflow.
-More contextual awareness of my codebase	
-16	5.8.25 11:28:56	5.8.25 11:38:04	anonymous			Test Engineer 	0-2 years 	JavaScript/Typescript ;None (Documents) ;	Weekly 	ChatGPT ;	Code completion ;Debugging ;	Very effective 	Faster coding ;Better documentation ;Reduced cognitive load ;	Security and privacy concerns;Integration issues with existing tools;	It will become an essential part of every developer's workflow.
-More contextual awareness of my codebase	
-17	5.8.25 11:38:48	5.8.25 11:42:57	anonymous			DevOps Engineer 	10+ years 	Perl, bash;	Occasionally 	ChatGPT ;	Code generation ;Learning new technologies ;	Somewhat effective 	Enhanced learning ;Faster coding ;Easier debugging ;	Dependency on AI instead of critical thinking;Integration issues with existing tools;Incorrect or low-quality suggestions;	It will remain a helpful assistant but not a necessity.
-Better accuracy in code generation 	
-18	5.8.25 11:54:02	5.8.25 11:55:50	anonymous			Software Engineer 	10+ years 	JavaScript/Typescript ;Java ;	Daily 	ChatGPT ;GitHub Copilot ;Gemini ;	Code generation ;Code completion ;Debugging ;Test case generation ;Refactoring existing code ;Learning new technologies ;	Very effective 	Faster coding ;Reduced cognitive load ;Enhanced learning ;	Dependency on AI instead of critical thinking;	It will become an essential part of every developer's workflow.
-More contextual awareness of my codebase	
-19	5.8.25 11:58:08	5.8.25 12:00:31	anonymous			Product Manager 	0-2 years 	None (Documents) ;	Daily 	ChatGPT ;Perplexity;	Documentation writing ;Learning new technologies ;	Somewhat effective 	Better documentation ;Enhanced learning ;	Security and privacy concerns;Dependency on AI instead of critical thinking;	It will become an essential part of every developer's workflow.
-More seamless integration with development environments	
-20	5.8.25 11:58:52	5.8.25 12:03:08	anonymous			Solution Architect 	6-10 years 	None (Documents) ;	Daily 	ChatGPT ;	Debugging ;Documentation writing ;Learning new technologies ;	Somewhat effective 	Enhanced learning ;Easier debugging ;Better documentation ;	Dependency on AI instead of critical thinking;Lack of customization for project-specific needs;	It will remain a helpful assistant but not a necessity.
-More contextual awareness of my codebase	
-21	5.8.25 12:05:37	5.8.25 12:07:14	anonymous			Software Engineer 	3-5 years 	Python ;	Several times a day 	ChatGPT ;GitHub Copilot ;	Code generation ;Code completion ;Refactoring existing code ;Learning new technologies ;Debugging ;	Somewhat effective 	Enhanced learning ;Faster coding ;Improved code quality ;	Lack of customization for project-specific needs;Security and privacy concerns;Incorrect or low-quality suggestions;	It will become an essential part of every developer's workflow.
-More contextual awareness of my codebase	
-22	5.8.25 12:13:11	5.8.25 12:19:10	anonymous			Product Manager 	0-2 years 	None (Documents) ;	Several times a day 	ChatGPT ;	Documentation writing ;log evaluation;	Very effective 	Enhanced learning ;Better documentation ;	writing the correct promt;	It will remain a helpful assistant but not a necessity.
-More contextual awareness of my codebase	
-23	5.8.25 13:23:45	5.8.25 13:23:57	anonymous			Software Engineer 	6-10 years 	JavaScript/Typescript ;	Several times a day 	ChatGPT ;Gemini ;	Code completion ;Refactoring existing code ;Learning new technologies ;	Somewhat effective 	Improved code quality ;Reduced cognitive load ;Enhanced learning ;	Dependency on AI instead of critical thinking;Security and privacy concerns;Incorrect or low-quality suggestions;	It will become an essential part of every developer's workflow.
-More contextual awareness of my codebase	
-24	5.8.25 13:26:48	5.8.25 13:29:31	anonymous			Software Engineer 	3-5 years 	Kotlin ;Swift ;	Daily 	ChatGPT ;	Debugging ;Code generation ;Learning new technologies ;	Very effective 	Faster coding ;Easier debugging ;Reduced cognitive load ;	Incorrect or low-quality suggestions;	It will remain a helpful assistant but not a necessity.
-More contextual awareness of my codebase	
-25	5.8.25 14:34:50	5.8.25 14:42:45	anonymous			Product Manager 	10+ years 	None (Documents) ;	Daily 	ChatGPT ;	Learning new technologies ;Project management tasks and document generation;	Very effective 	Enhanced learning ;Better documentation ;	word/excel/ppw generation;	It will become an essential part of every developer's workflow. 	Better word/excel/ppw generation	
-26	5.8.25 15:59:57	5.8.25 16:04:20	anonymous			Trainee	0-2 years 	JavaScript/Typescript ;	Occasionally 	ChatGPT ;GitHub Copilot ;	Code generation ;Documentation writing ;Refactoring existing code ;Test case generation ;	Somewhat effective 	Improved code quality ;Better documentation ;	Incorrect or low-quality suggestions;Integration issues with existing tools;	It will become an essential part of every developer's workflow.
-Better accuracy in code generation 	
-27	5.9.25 9:32:18	5.9.25 9:40:18	anonymous			Software Engineer 	6-10 years 	JavaScript/Typescript ;	I am addicted 	ChatGPT ;GitHub Copilot ;Grok;	Code generation ;Code completion ;Refactoring existing code ;	Somewhat effective 	Faster coding ;Improved code quality ;	Incorrect or low-quality suggestions;Integration issues with existing tools;	It will become an essential part of every developer's workflow.
-More contextual awareness of my codebase	
-28	5.9.25 17:29:24	5.9.25 17:32:18	anonymous			Solution Architect 	10+ years 	JavaScript/Typescript ;Php;	Occasionally 	ChatGPT ;	Code generation ;Documentation writing ;	Somewhat effective 	Quicker documentation, less repetitive tasks;	Incorrect or low-quality suggestions;Security and privacy concerns;	It will become an essential part of every developer's workflow.
-More contextual awareness of my codebase	
-29	5.12.25 12:05:52	5.12.25 12:09:14	anonymous			Test Engineer 	10+ years 	Python ;JavaScript/Typescript ;	Several times a day 	ChatGPT ;GitHub Copilot ;perplexity;	Code generation ;Debugging ;Test case generation ;Learning new technologies ;	Very effective 	Faster coding ;Enhanced learning ;	Incorrect or low-quality suggestions;	It will lead to automation replacing certain development tasks.
-More seamless integration with development environments	
-30	5.29.25 13:02:27	5.29.25 13:24:56	anonymous			Test Engineer 	0-2 years 	Python ;Java ;SQL;	Daily 	ChatGPT ;Claude ;	Learning new technologies ;Documentation writing ;Code generation ;Refactoring messages (checking my grammer with it);	Neutral 	Faster coding ;Better documentation ;Enhanced learning ;	Security and privacy concerns;Incorrect or low-quality suggestions;	It will become an essential part of every developer's workflow.
-Stronger security and privacy controls	With well-crafted prompts, it's a useful tool, but not something you can fully rely on.
-It struggles with tracking larger project structures and managing dependencies, and the code it generates can include potential security issues.
-
-While it produces working code, it's often not optimal.
-For example, it may write something like:
-
-if char.lower() == 'A' or char.lower() == 'a':
-    pass
-
-It tends to produce redundant code in larger tasks and doesn't consistently follow principles like DRY or KISS.
-
-Debugging support is also limited. In one case, when I asked it to help with my thesis, it modified the assert 
-logic in my unit tests instead of fixing the actual bug :/ .
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-logic in my unit tests instead of fixing the actual bug :/ ."
-`; // Note: The rawTsvData string should contain the exact content of your .tsv file.
+    // Header lines are simplified here for brevity, they are correctly skipped by `^\d+\t`
+    const rawTsvData = `ID	Start time	Completion time	Email	Name	Last modified time	What is your current role? (Select one) 	What is your level of experience in software development? 	What programming languages do you use most frequently? (Select all that apply) 	How often do you use generative AI tools in your development process? 	What generative AI tools do you use? (Select all that apply) 	In which areas do you use generative AI the most? (Select all that apply) 	How would you rate the effectiveness of generative AI in improving your productivity?	What are the biggest benefits you have experienced using generative AI? (Select up to three) 	What are the biggest challenges you face while using generative AI? (Select up to three) 	How do you see the role of generative AI in software development evolving over the next 5 years?	What improvements or features would you like to see in generative AI tools?	Do you have any additional comments or thoughts on generative AI in software development?
+1	5.8.25 11:23:14	5.8.25 11:24:22	anonymous			Software Engineer	10+ years	Python ;JavaScript/Typescript ;Java ;Kotlin ;	I am addicted	Gemini ;	Code generation ;Code completion ;Refactoring existing code ;Learning new technologies ;	Very effective	Faster coding ;Reduced cognitive load ;Enhanced learning ;	Dependency on AI instead of critical thinking;Integration issues with existing tools;Lack of customization for project-specific needs;	It will become an essential part of every developer's workflow.	More contextual awareness of my codebase	Aki lemarad, kimarad.
+2	5.8.25 11:22:39	5.8.25 11:24:41	anonymous			Software Engineer	10+ years	JavaScript/Typescript ;Kotlin ;php :(;	Several times a day	ChatGPT ;Gemini ;	Refactoring existing code ;Learning new technologies ;Code generation ;Code completion ;Debugging ;	Very effective	Faster coding ;Easier debugging ;Reduced cognitive load ;	Incorrect or low-quality suggestions;Dependency on AI instead of critical thinking;Integration issues with existing tools;	It will become an essential part of every developer's workflow.	More contextual awareness of my codebase	
+3	5.8.25 11:22:40	5.8.25 11:25:01	anonymous			Solution Architect	0-2 years	Python ;JavaScript/Typescript ;Java ;	Several times a day	ChatGPT ;Gemini ;Cursor;	Debugging ;Documentation writing ;Test case generation ;Learning new technologies ;Code generation ;	Very effective	Reduced cognitive load ;Better documentation ;Enhanced learning ;	Incorrect or low-quality suggestions;Dependency on AI instead of critical thinking;Security and privacy concerns;	It will become an essential part of every developer's workflow.	Non-biased reasoning, critical thinking	
+4	5.8.25 11:22:58	5.8.25 11:25:12	anonymous			DevOps Engineer	0-2 years	None (Documents) ;	Several times a day	ChatGPT ;	Debugging ;Learning new technologies ;	Neutral	Faster coding ;	Dependency on AI instead of critical thinking;Lack of customization for project-specific needs;Security and privacy concerns;	It will become an essential part of every developer's workflow.	Better accuracy in code generation	
+5	5.8.25 11:22:33	5.8.25 11:25:22	anonymous			DevOps Engineer	10+ years	Python ;Java ;C# ;JavaScript/Typescript ;	Occasionally	ChatGPT ;GitHub Copilot ;Gemini ;	Code completion ;Code generation ;	Somewhat effective	Reduced cognitive load ;Faster coding ;	Security and privacy concerns;Integration issues with existing tools;	It will remain a helpful assistant but not a necessity.	More seamless integration with development environments	
+6	5.8.25 11:23:35	5.8.25 11:26:14	anonymous			Software Engineer	10+ years	Java ;	Daily	GitHub Copilot ;	Code generation ;Code completion ;Test case generation ;Documentation writing ;	Somewhat effective	Faster coding ;	Integration issues with existing tools;	It will become an essential part of every developer's workflow.	Better accuracy in code generation	
+7	5.8.25 11:22:39	5.8.25 11:26:32	anonymous			Intern	0-2 years	Java ;JavaScript/Typescript ;Kotlin ;	Several times a day	ChatGPT ;Deepseek;	Documentation writing ;Learning new technologies ;Debugging ;	Somewhat effective	Enhanced learning ;Faster coding ;Better documentation ;	Incorrect or low-quality suggestions;Security and privacy concerns;Dependency on AI instead of critical thinking;	It will remain a helpful assistant but not a necessity.	Better accuracy in code generation	
+8	5.8.25 11:24:15	5.8.25 11:26:42	anonymous			Software Engineer	3-5 years	Java ;JavaScript/Typescript ;Python ;Kotlin ;	Several times a day	GitHub Copilot ;ChatGPT ;	Code generation ;Code completion ;Debugging ;Documentation writing ;Test case generation ;Refactoring existing code ;Learning new technologies ;	Somewhat effective	Reduced cognitive load ;Faster coding ;Easier debugging ;	Incorrect or low-quality suggestions;Dependency on AI instead of critical thinking;Integration issues with existing tools;	It will become an essential part of every developer's workflow.	Better accuracy in code generation	
+9	5.8.25 11:22:33	5.8.25 11:27:20	anonymous			Software Engineer	10+ years	Kotlin ;	Several times a day	ChatGPT ;	Code generation ;Debugging ;Refactoring existing code ;Learning new technologies ;	Very effective	Faster coding ;Easier debugging ;Enhanced learning ;	Integration issues with existing tools;Incorrect or low-quality suggestions;	It will lead to automation replacing certain development tasks.	More seamless integration with development environments	
+10	5.8.25 11:22:38	5.8.25 11:30:38	anonymous			Manual Tester	0-2 years	Python ;Java ;	Occasionally	ChatGPT ;Gemini ;GitHub Copilot ;	Code generation ;Code completion ;Debugging ;Refactoring existing code ;Learning new technologies ;	Very effective	Faster coding ;Improved code quality ;Enhanced learning ;	Incorrect or low-quality suggestions;Limited usage with free plan ;	It will remain a helpful assistant but not a necessity.	Better accuracy in code generation	
+11	5.8.25 11:27:47	5.8.25 11:31:17	anonymous			Software Engineer	0-2 years	JavaScript/Typescript ;C# ;Bash;	Occasionally	ChatGPT ;	Test case generation ;Learning new technologies ;	Neutral	Enhanced learning ;	Dependency on AI instead of critical thinking;	It will remain a helpful assistant but not a necessity.	Better accuracy in code generation	
+12	5.8.25 11:24:19	5.8.25 11:31:54	anonymous			Software Engineer	10+ years	Python ;JavaScript/Typescript ;Swift ;	Several times a day	ChatGPT ;GitHub Copilot ;cursor;	Code generation ;Code completion ;	Somewhat effective	Faster coding ;it can generate many boilerplate faster;	Incorrect or low-quality suggestions;Security and privacy concerns;	It will remain a helpful assistant but not a necessity.	More contextual awareness of my codebase	
+13	5.8.25 11:29:40	5.8.25 11:32:41	anonymous			Test Engineer	3-5 years	Python ;	Weekly	GitHub Copilot ;	Debugging ;Learning new technologies ;	Somewhat effective	Easier debugging ;Enhanced learning ;Faster coding ;	Incorrect or low-quality suggestions;	It will remain a helpful assistant but not a necessity.	Better accuracy in code generation	
+14	5.8.25 11:27:08	5.8.25 11:34:48	anonymous			DevOps Engineer	3-5 years	Python ;shell;	Weekly	ChatGPT ;Ollama+Continue in vscode;	Code completion ;Code generation ;Learning new technologies ;Documentation writing ;Create shell one liners, update charts, any kind of repetitive task;	Somewhat effective	Enhanced learning ;Easier debugging ;Better documentation ;	Incorrect or low-quality suggestions;Dependency on AI instead of critical thinking;Security and privacy concerns;	It will plateau in usefulness due to limitations.	Better accuracy in code generation	Two comments: 1) Most answers have to be double checked so while it helps spotting typos and is useful in general, using llms can add additional overhead to daily tasks for sanity checks. 2) When using online llms in corporate environments, leaking data becomes very easy. I would limit the ability to reach public AI services and would introduce substitutes within companies in order to prevent accidental leaks - if the data is leaked it would be still leaked to an internal service, or even better to an llm running locally, if the user workstations can support it.
+15	5.8.25 11:24:49	5.8.25 11:34:54	anonymous			Software Engineer	0-2 years	JavaScript/Typescript ;Python ;	Several times a day	ChatGPT ;GitHub Copilot ;Gemini ;	Code generation ;Code completion ;Debugging ;Refactoring existing code ;	Very effective	Faster coding ;Reduced cognitive load ;Improved code quality ;	Dependency on AI instead of critical thinking;Incorrect or low-quality suggestions;	It will become an essential part of every developer's workflow.	More contextual awareness of my codebase	
+16	5.8.25 11:28:56	5.8.25 11:38:04	anonymous			Test Engineer	0-2 years	JavaScript/Typescript ;None (Documents) ;	Weekly	ChatGPT ;	Code completion ;Debugging ;	Very effective	Faster coding ;Better documentation ;Reduced cognitive load ;	Security and privacy concerns;Integration issues with existing tools;	It will become an essential part of every developer's workflow.	More contextual awareness of my codebase	
+17	5.8.25 11:38:48	5.8.25 11:42:57	anonymous			DevOps Engineer	10+ years	Perl, bash;	Occasionally	ChatGPT ;	Code generation ;Learning new technologies ;	Somewhat effective	Enhanced learning ;Faster coding ;Easier debugging ;	Dependency on AI instead of critical thinking;Integration issues with existing tools;Incorrect or low-quality suggestions;	It will remain a helpful assistant but not a necessity.	Better accuracy in code generation	
+18	5.8.25 11:54:02	5.8.25 11:55:50	anonymous			Software Engineer	10+ years	JavaScript/Typescript ;Java ;	Daily	ChatGPT ;GitHub Copilot ;Gemini ;	Code generation ;Code completion ;Debugging ;Test case generation ;Refactoring existing code ;Learning new technologies ;	Very effective	Faster coding ;Reduced cognitive load ;Enhanced learning ;	Dependency on AI instead of critical thinking;	It will become an essential part of every developer's workflow.	More contextual awareness of my codebase	
+19	5.8.25 11:58:08	5.8.25 12:00:31	anonymous			Product Manager	0-2 years	None (Documents) ;	Daily	ChatGPT ;Perplexity;	Documentation writing ;Learning new technologies ;	Somewhat effective	Better documentation ;Enhanced learning ;	Security and privacy concerns;Dependency on AI instead of critical thinking;	It will become an essential part of every developer's workflow.	More seamless integration with development environments	
+20	5.8.25 11:58:52	5.8.25 12:03:08	anonymous			Solution Architect	6-10 years	None (Documents) ;	Daily	ChatGPT ;	Debugging ;Documentation writing ;Learning new technologies ;	Somewhat effective	Enhanced learning ;Easier debugging ;Better documentation ;	Dependency on AI instead of critical thinking;Lack of customization for project-specific needs;	It will remain a helpful assistant but not a necessity.	More contextual awareness of my codebase	
+21	5.8.25 12:05:37	5.8.25 12:07:14	anonymous			Software Engineer	3-5 years	Python ;	Several times a day	ChatGPT ;GitHub Copilot ;	Code generation ;Code completion ;Refactoring existing code ;Learning new technologies ;Debugging ;	Somewhat effective	Enhanced learning ;Faster coding ;Improved code quality ;	Lack of customization for project-specific needs;Security and privacy concerns;Incorrect or low-quality suggestions;	It will become an essential part of every developer's workflow.	More contextual awareness of my codebase	
+22	5.8.25 12:13:11	5.8.25 12:19:10	anonymous			Product Manager	0-2 years	None (Documents) ;	Several times a day	ChatGPT ;	Documentation writing ;log evaluation;	Very effective	Enhanced learning ;Better documentation ;	writing the correct promt;	It will remain a helpful assistant but not a necessity.	More contextual awareness of my codebase	
+23	5.8.25 13:23:45	5.8.25 13:23:57	anonymous			Software Engineer	6-10 years	JavaScript/Typescript ;	Several times a day	ChatGPT ;Gemini ;	Code completion ;Refactoring existing code ;Learning new technologies ;	Somewhat effective	Improved code quality ;Reduced cognitive load ;Enhanced learning ;	Dependency on AI instead of critical thinking;Security and privacy concerns;Incorrect or low-quality suggestions;	It will become an essential part of every developer's workflow.	More contextual awareness of my codebase	
+24	5.8.25 13:26:48	5.8.25 13:29:31	anonymous			Software Engineer	3-5 years	Kotlin ;Swift ;	Daily	ChatGPT ;	Debugging ;Code generation ;Learning new technologies ;	Very effective	Faster coding ;Easier debugging ;Reduced cognitive load ;	Incorrect or low-quality suggestions;	It will remain a helpful assistant but not a necessity.	More contextual awareness of my codebase	
+25	5.8.25 14:34:50	5.8.25 14:42:45	anonymous			Product Manager	10+ years	None (Documents) ;	Daily	ChatGPT ;	Learning new technologies ;Project management tasks and document generation;	Very effective	Enhanced learning ;Better documentation ;	word/excel/ppw generation;	It will become an essential part of every developer's workflow.	Better word/excel/ppw generation	
+26	5.8.25 15:59:57	5.8.25 16:04:20	anonymous			Trainee	0-2 years	JavaScript/Typescript ;	Occasionally	ChatGPT ;GitHub Copilot ;	Code generation ;Documentation writing ;Refactoring existing code ;Test case generation ;	Somewhat effective	Improved code quality ;Better documentation ;	Incorrect or low-quality suggestions;Integration issues with existing tools;	It will become an essential part of every developer's workflow.	Better accuracy in code generation	
+27	5.9.25 9:32:18	5.9.25 9:40:18	anonymous			Software Engineer	6-10 years	JavaScript/Typescript ;	I am addicted	ChatGPT ;GitHub Copilot ;Grok;	Code generation ;Code completion ;Refactoring existing code ;	Somewhat effective	Faster coding ;Improved code quality ;	Incorrect or low-quality suggestions;Integration issues with existing tools;	It will become an essential part of every developer's workflow.	More contextual awareness of my codebase	
+28	5.9.25 17:29:24	5.9.25 17:32:18	anonymous			Solution Architect	10+ years	JavaScript/Typescript ;Php;	Occasionally	ChatGPT ;	Code generation ;Documentation writing ;	Somewhat effective	Quicker documentation, less repetitive tasks;	Incorrect or low-quality suggestions;Security and privacy concerns;	It will become an essential part of every developer's workflow.	More contextual awareness of my codebase	
+29	5.12.25 12:05:52	5.12.25 12:09:14	anonymous			Test Engineer	10+ years	Python ;JavaScript/Typescript ;	Several times a day	ChatGPT ;GitHub Copilot ;perplexity;	Code generation ;Debugging ;Test case generation ;Learning new technologies ;	Very effective	Faster coding ;Enhanced learning ;	Incorrect or low-quality suggestions;	It will lead to automation replacing certain development tasks.	More seamless integration with development environments	
+30	5.29.25 13:02:27	5.29.25 13:24:56	anonymous			Test Engineer	0-2 years	Python ;Java ;SQL;	Daily	ChatGPT ;Claude ;	Learning new technologies ;Documentation writing ;Code generation ;Refactoring messages (checking my grammer with it);	Neutral	Faster coding ;Better documentation ;Enhanced learning ;	Security and privacy concerns;Incorrect or low-quality suggestions;	It will become an essential part of every developer's workflow.	Stronger security and privacy controls	With well-crafted prompts, it's a useful tool, but not something you can fully rely on. It struggles with tracking larger project structures and managing dependencies, and the code it generates can include potential security issues. While it produces working code, it's often not optimal. For example, it may write something like: if char.lower() == 'A' or char.lower() == 'a': pass It tends to produce redundant code in larger tasks and doesn't consistently follow principles like DRY or KISS. Debugging support is also limited. In one case, when I asked it to help with my thesis, it modified the assert logic in my unit tests instead of fixing the actual bug :/ .
+`;
 
     function parseRawData(tsvString) {
         const records = [];
-        const lines = tsvString.split(/\r?\n/); // Handles Windows and Unix line endings
+        const lines = tsvString.split(/\r?\n/);
         for (const line of lines) {
-            // Remove the prefix (e.g., "") to get the actual TSV line
-            const contentLine = line.replace(/^\\s*/, '');
-            
-            // Now check if the remaining line starts with an ID (number) followed by a tab
-            // This indicates a data row rather than a header/comment row from the original file structure
-            if (contentLine.match(/^\d+\t/)) {
+            const contentLine = line.trim(); // Trim whitespace from both ends
+            if (contentLine.match(/^\d+\t/)) { // Check if line starts with an ID (number) followed by a tab
                 const parts = contentLine.split('\t');
-                // Ensure all required columns are present to avoid errors
-                // We need up to index 11 (12th column)
-                if (parts.length > 11) { 
+                // We need up to index 17 (18th column for "comments", though not charted, ensure all parts are there)
+                // Index 16 is "improvements". We need at least 17 parts for parts[16] to be safe.
+                if (parts.length > 16) {
                     records.push({
+                        progLanguages: parts[8] ? parts[8].trim() : '',
                         frequency: parts[9] ? parts[9].trim() : '',
                         tools: parts[10] ? parts[10].trim() : '',
-                        useCases: parts[11] ? parts[11].trim() : ''
+                        useCases: parts[11] ? parts[11].trim() : '',
+                        effectiveness: parts[12] ? parts[12].trim() : '',
+                        benefits: parts[13] ? parts[13].trim() : '',
+                        challenges: parts[14] ? parts[14].trim() : '',
+                        futureRole: parts[15] ? parts[15].trim() : '',
+                        improvements: parts[16] ? parts[16].trim() : ''
+                        // comments: parts[17] ? parts[17].trim() : '' // If needed later
                     });
                 }
             }
@@ -289,65 +245,64 @@ logic in my unit tests instead of fixing the actual bug :/ ."
         return records;
     }
 
-    function aggregateData(records, fieldName, isMultiValue, valueMap = null) {
+    function aggregateData(records, fieldName, isMultiValue, valueMap = null, itemDelimiter = ';') {
         const counts = {};
-        const itemDelimiter = ';';
-
         records.forEach(record => {
-            let rawFieldData = record[fieldName] || ""; 
-            let values = [rawFieldData]; 
-            
-            if (isMultiValue && rawFieldData) { 
+            let rawFieldData = record[fieldName] || "";
+            let values = [rawFieldData];
+            if (isMultiValue && rawFieldData) {
                 values = rawFieldData.split(itemDelimiter).map(v => v.trim()).filter(v => v);
             }
-
-            values.forEach(val => { 
+            values.forEach(val => {
                 let processedValue = val;
-                if (valueMap && typeof valueMap[processedValue.toLowerCase()] !== 'undefined') {
-                    processedValue = valueMap[processedValue.toLowerCase()];
-                } else if (valueMap && typeof valueMap[processedValue] !== 'undefined') { 
-                     processedValue = valueMap[processedValue];
+                if (valueMap) {
+                    const lowerVal = val.toLowerCase();
+                    for (const key in valueMap) {
+                        if (lowerVal === key.toLowerCase()) {
+                            processedValue = valueMap[key];
+                            break;
+                        }
+                    }
                 }
-                // Removed multi-line comment block that was here
-
-                if (processedValue) { 
-                    counts[processedValue] = (counts[processedValue] || 0) + 1; 
+                if (processedValue) {
+                    counts[processedValue] = (counts[processedValue] || 0) + 1;
                 }
             });
         });
-        
         return Object.entries(counts)
             .map(([label, value]) => ({ label, value }))
             .sort((a, b) => b.value - a.value || a.label.localeCompare(b.label));
     }
-    
+
     const toolNameMap = {
         "cursor": "Cursor",
-        "perplexity": "Perplexity"
+        "perplexity": "Perplexity",
+        "ollama+continue in vscode": "Ollama+Continue in vscode", // Corrected label
+        "deepseek": "Deepseek",
+        "grok": "Grok",
+        "claude": "Claude"
+        // GitHub Copilot, Gemini, ChatGPT are handled by their exact names
     };
 
     function generateBarChart(chartId, data, {
         marginTop = 20,
-        marginRight = 25, 
+        marginRight = 25,
         marginBottom = 20,
-        marginLeft = 150, 
+        marginLeft = 150,
         barHeight = 25,
         barSpacing = 10,
-        valueInsideMinWidth = 40 
+        valueInsideMinWidth = 40
     } = {}) {
         const svgElement = document.getElementById(chartId);
         if (!svgElement) {
             console.error('SVG element not found:', chartId);
             return;
         }
-        svgElement.innerHTML = ''; 
+        svgElement.innerHTML = '';
 
         const numBars = data.length;
         if (numBars === 0) {
-            // Instead of inserting a <p>, set text content for the SVG for simplicity or keep it empty
-            // Or, more robustly, add a text element to the SVG itself if you want the message inside.
-            // For now, let's ensure the SVG container shows it's meant for a chart but might be empty.
-            svgElement.setAttribute('height', '50px'); // Minimal height for an empty chart message
+            svgElement.setAttribute('height', '50px');
             const noDataText = document.createElementNS("http://www.w3.org/2000/svg", "text");
             noDataText.setAttribute('x', '10');
             noDataText.setAttribute('y', '25');
@@ -358,7 +313,7 @@ logic in my unit tests instead of fixing the actual bug :/ ."
             svgElement.appendChild(noDataText);
             return;
         }
-        
+
         const svgHeight = numBars * (barHeight + barSpacing) - barSpacing + marginTop + marginBottom;
         svgElement.setAttribute('height', svgHeight + 'px');
 
@@ -367,29 +322,34 @@ logic in my unit tests instead of fixing the actual bug :/ ."
         svgElement.appendChild(group);
 
         let chartAreaWidth = 0;
-        if (svgElement.clientWidth > 0) {
-            chartAreaWidth = svgElement.clientWidth - marginLeft - marginRight;
-        } else {
-            const parentStyle = getComputedStyle(svgElement.parentNode);
-            const parentWidth = parseFloat(parentStyle.width) - parseFloat(parentStyle.paddingLeft) - parseFloat(parentStyle.paddingRight);
-            chartAreaWidt = parentWidth > 0 ? parentWidth - marginLeft - marginRight : 300; 
+        try { // Added try-catch for clientWidth robustness
+            if (svgElement.clientWidth > 0) {
+                chartAreaWidth = svgElement.clientWidth - marginLeft - marginRight;
+            } else {
+                const parentStyle = getComputedStyle(svgElement.parentNode);
+                let parentWidth = parseFloat(parentStyle.width);
+                if (parentStyle.boxSizing === 'border-box') {
+                    parentWidth -= (parseFloat(parentStyle.paddingLeft) + parseFloat(parentStyle.paddingRight));
+                }
+                chartAreaWidth = parentWidth > 0 ? parentWidth - marginLeft - marginRight : 300;
+            }
+        } catch (e) {
+            chartAreaWidth = 300; // Fallback
         }
         chartAreaWidth = Math.max(50, chartAreaWidth);
 
         const maxValue = Math.max(...data.map(d => d.value), 0);
-        if (maxValue === 0 && numBars > 0) { // Data exists but all values are zero
+        if (maxValue === 0 && numBars > 0) {
             svgElement.setAttribute('height', '50px');
             const allZeroText = document.createElementNS("http://www.w3.org/2000/svg", "text");
             allZeroText.setAttribute('x', '10');
             allZeroText.setAttribute('y', '25');
-            allZeroText.setAttribute('font-family', "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif");
-            allZeroText.setAttribute('font-size', '14px');
-            allZeroText.setAttribute('fill', '#777');
+            // ... (styling for allZeroText)
             allZeroText.textContent = 'Minden érték nulla.';
             svgElement.appendChild(allZeroText);
             return;
         }
-        
+
         data.forEach((d, i) => {
             const barY = i * (barHeight + barSpacing);
             const barActualWidth = maxValue > 0 ? (d.value / maxValue) * chartAreaWidth : 0;
@@ -398,7 +358,7 @@ logic in my unit tests instead of fixing the actual bug :/ ."
             rect.setAttribute('class', 'bar');
             rect.setAttribute('x', 0);
             rect.setAttribute('y', barY);
-            rect.setAttribute('width', barActualWidth > 0 ? barActualWidth : 0.1); // Min width for visibility if 0
+            rect.setAttribute('width', barActualWidth > 0 ? barActualWidth : 0.1);
             rect.setAttribute('height', barHeight);
             group.appendChild(rect);
 
@@ -414,11 +374,9 @@ logic in my unit tests instead of fixing the actual bug :/ ."
             if (barActualWidth >= valueInsideMinWidth) {
                 valueTextNode.setAttribute('class', 'bar-value');
                 valueTextNode.setAttribute('x', barActualWidth - 5);
-                valueTextNode.setAttribute('text-anchor', 'end');
             } else {
                 valueTextNode.setAttribute('class', 'bar-value-external');
                 valueTextNode.setAttribute('x', (barActualWidth > 0 ? barActualWidth : 0) + 5);
-                valueTextNode.setAttribute('text-anchor', 'start');
             }
             valueTextNode.setAttribute('y', barY + barHeight / 2);
             valueTextNode.setAttribute('dy', '.35em');
@@ -431,10 +389,12 @@ logic in my unit tests instead of fixing the actual bug :/ ."
     const surveyRecords = parseRawData(rawTsvData);
 
     if (surveyRecords.length === 0) {
-        console.warn("Nincsenek feldolgozható rekordok a TSV adatokból. Ellenőrizd a parseRawData logikát és a rawTsvData tartalmát.");
-        // Optionally display a general error message on the page
+        console.warn("Nincsenek feldolgozható rekordok a TSV adatokból. Ellenőrizd a parseRawData logikát és a rawTsvData tartalmát, különösen a sortöréseket a cellákon belül.");
+    } else {
+        console.log(`Successfully parsed ${surveyRecords.length} records.`);
     }
-    
+
+    // Original Charts
     const toolData = aggregateData(surveyRecords, 'tools', true, toolNameMap);
     generateBarChart('toolsChart', toolData, { marginLeft: 220 });
 
@@ -443,18 +403,17 @@ logic in my unit tests instead of fixing the actual bug :/ ."
 
     const useCasesRawData = aggregateData(surveyRecords, 'useCases', true);
     const commonUseCasesNames = ['Code generation', 'Learning new technologies', 'Code completion', 'Debugging', 'Refactoring existing code', 'Documentation writing', 'Test case generation'];
-    const useCasesProcessed = [];
+    let useCasesProcessed = [];
     let otherUseCasesCount = 0;
-    const maxLabelLength = 35;
+    const maxLabelLengthDefault = 35;
 
     useCasesRawData.forEach(item => {
-        if (item.label.length > maxLabelLength || (!commonUseCasesNames.includes(item.label) && item.value <= 1 && item.label !== "Egyéb") ) { // Ensure "Egyéb" isn't re-categorized if already present
+        if (item.label.length > maxLabelLengthDefault || (!commonUseCasesNames.includes(item.label) && item.value <= 1 && item.label !== "Egyéb") ) { // item.value <=1 to group rarer single items
             otherUseCasesCount += item.value;
         } else {
             useCasesProcessed.push(item);
         }
     });
-
     if (otherUseCasesCount > 0) {
         const existingOther = useCasesProcessed.find(item => item.label === "Egyéb");
         if (existingOther) {
@@ -464,58 +423,72 @@ logic in my unit tests instead of fixing the actual bug :/ ."
         }
     }
     useCasesProcessed.sort((a, b) => b.value - a.value || a.label.localeCompare(b.label));
-    
     generateBarChart('useCasesChart', useCasesProcessed, { marginLeft: 200 });
+
+    // New Charts
+    const progLangData = aggregateData(surveyRecords, 'progLanguages', true, { "php :(": "PHP" });
+    generateBarChart('progLangChart', progLangData, { marginLeft: 200 });
+
+    const effectivenessData = aggregateData(surveyRecords, 'effectiveness', false);
+    generateBarChart('effectivenessChart', effectivenessData, { marginLeft: 160 });
+
+    const benefitsData = aggregateData(surveyRecords, 'benefits', true, null);
+    generateBarChart('benefitsChart', benefitsData, { marginLeft: 200 });
+
+    const challengesDataRaw = aggregateData(surveyRecords, 'challenges', true, null);
+    let challengesProcessed = [];
+    let otherChallengesCount = 0;
+    challengesDataRaw.forEach(item => {
+        // For challenges, labels can be long. Group if very long OR very infrequent.
+        if (item.label.length > 45 || (item.value <=1 && item.label !== "Egyéb") ) {
+            otherChallengesCount += item.value;
+        } else {
+            challengesProcessed.push(item);
+        }
+    });
+    if (otherChallengesCount > 0) {
+        const existingOther = challengesProcessed.find(item => item.label === "Egyéb");
+        if (existingOther) { existingOther.value += otherChallengesCount; }
+        else { challengesProcessed.push({ label: "Egyéb", value: otherChallengesCount }); }
+    }
+    challengesProcessed.sort((a,b) => b.value - a.value || a.label.localeCompare(b.label));
+    generateBarChart('challengesChart', challengesProcessed, { marginLeft: 280 });
+
+    const futureRoleData = aggregateData(surveyRecords, 'futureRole', false);
+    generateBarChart('futureRoleChart', futureRoleData, { marginLeft: 280 });
+
+    const improvementsDataRaw = aggregateData(surveyRecords, 'improvements', false);
+    let improvementsProcessed = [];
+    let otherImprovementsCount = 0;
+    const commonImprovementsLabels = [
+        "More contextual awareness of my codebase",
+        "Better accuracy in code generation",
+        "More seamless integration with development environments"
+    ];
+    improvementsDataRaw.forEach(item => {
+        if (item.label.length > 50 || (!commonImprovementsLabels.includes(item.label) && item.value <=1 && item.label !== "Egyéb")) {
+            otherImprovementsCount += item.value;
+        } else {
+            improvementsProcessed.push(item);
+        }
+    });
+     if (otherImprovementsCount > 0) {
+        const existingOther = improvementsProcessed.find(item => item.label === "Egyéb");
+        if (existingOther) { existingOther.value += otherImprovementsCount; }
+        else { improvementsProcessed.push({ label: "Egyéb", value: otherImprovementsCount }); }
+    }
+    improvementsProcessed.sort((a,b) => b.value - a.value || a.label.localeCompare(b.label));
+    generateBarChart('improvementsChart', improvementsProcessed, { marginLeft: 280 });
 
 });
 </script>
 
 <script>
-    // Ez a rész a diagram generáló kód UTÁN vagy egy új script tag-ben legyen,
-    // de a DOMContentLoaded eseményen belül.
+    // Navigation script (remains largely the same)
     document.addEventListener('DOMContentLoaded', function() {
-        // A diagramgeneráló kód itt már lefutott, vagy egy másik DOMContentLoaded blokkban van.
-
         const slideContent = document.querySelector('.slide-content');
         if (!slideContent) {
             console.error('.slide-content elem nem található az oldalon.');
-            // Alap oldalnavigáció, ha a .slide-content valamiért hiányozna
-            document.addEventListener('keydown', function(event) {
-                let preventDefaultBehavior = true;
-                if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
-                    window.location.href = '01-cover.html';
-                } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                    window.location.href = '03-generativ-ai.html'; // Következő oldal
-                } else {
-                    preventDefaultBehavior = false;
-                }
-                if (preventDefaultBehavior) {
-                    event.preventDefault();
-                }
-            });
-            return;
-        }
-
-        // H2 és H3 elemek összegyűjtése (02.html-ben ezek a diagramok címei, H2-k)
-        const headingElements = Array.from(slideContent.querySelectorAll('h2, h3'));
-        const firstContentElement = slideContent.firstElementChild; // Ez lesz az első <div class="column">
-
-        let currentHeadingIndex = -1; // -1: firstContentElement, 0+: headingElements[index]
-        let lastScrollTarget = null;
-
-        function highlightTarget(target) {
-            if (lastScrollTarget && lastScrollTarget !== target) {
-                lastScrollTarget.classList.remove('current-scroll-target');
-            }
-            if (target) {
-                target.classList.add('current-scroll-target');
-            }
-            lastScrollTarget = target;
-        }
-
-        if (!firstContentElement) {
-            // Ha nincs első elem, csak az alap navigáció működjön
-            console.warn('.slide-content első gyermeke nem található, csak az alap navigáció fog működni.');
             document.addEventListener('keydown', function(event) {
                 let preventDefaultBehavior = true;
                 if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
@@ -525,59 +498,69 @@ logic in my unit tests instead of fixing the actual bug :/ ."
                 } else {
                     preventDefaultBehavior = false;
                 }
-                if (preventDefaultBehavior) {
-                    event.preventDefault();
-                }
+                if (preventDefaultBehavior) { event.preventDefault(); }
             });
             return;
         }
 
-        // Kezdeti kiemelés (az első <div class="column"> elemre)
-        highlightTarget(firstContentElement);
+        const headingElements = Array.from(slideContent.querySelectorAll('h2'));
+        let currentFocusableIndex = -1;
+        let lastScrollTargetElement = null;
+
+        function highlightTarget(element) {
+            if (lastScrollTargetElement && lastScrollTargetElement.parentElement.classList.contains('chart-container')) {
+                lastScrollTargetElement.parentElement.classList.remove('current-scroll-target-container');
+            }
+            if (element && element.nodeName === 'H2' && element.parentElement.classList.contains('chart-container')) {
+                element.parentElement.classList.add('current-scroll-target-container');
+                element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                lastScrollTargetElement = element;
+            } else if (element === slideContent) {
+                 // Optional: remove highlight if going back to overall content scroll
+                if(lastScrollTargetElement && lastScrollTargetElement.parentElement.classList.contains('chart-container')) {
+                    lastScrollTargetElement.parentElement.classList.remove('current-scroll-target-container');
+                }
+                lastScrollTargetElement = slideContent;
+            }
+        }
+        
+        highlightTarget(slideContent); // Initial state
 
         document.addEventListener('keydown', function(event) {
             let preventDefaultBehavior = true;
             let scrollTarget = null;
 
             if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
-                window.location.href = '01-cover.html'; // Előző oldal
+                window.location.href = '01-cover.html';
             } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                window.location.href = '03-generative-ai.html'; // Következő oldal (a 03-as)
+                window.location.href = '03-generative-ai.html';
             } else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
-                if (currentHeadingIndex === -1) { // Jelenleg a tartalom tetején (firstContentElement)
-                    if (headingElements.length > 0) {
-                        currentHeadingIndex = 0; // Ugrás az első H2/H3-ra
-                        scrollTarget = headingElements[0];
-                    } else {
-                        scrollTarget = firstContentElement; // Maradás, ha nincsenek H2/H3-k
+                if (headingElements.length > 0) {
+                    currentFocusableIndex++;
+                    if (currentFocusableIndex >= headingElements.length) {
+                        currentFocusableIndex = headingElements.length - 1;
                     }
-                } else if (currentHeadingIndex < headingElements.length - 1) { // Címsornál vagyunk, és nem az utolsónál
-                    currentHeadingIndex++;
-                    scrollTarget = headingElements[currentHeadingIndex];
-                } else { // Az utolsó címsornál vagyunk
-                    if (headingElements.length > 0) {
-                         scrollTarget = headingElements[currentHeadingIndex]; // Maradás
-                    } else {
-                        scrollTarget = firstContentElement; // Elvileg nem érjük el
-                    }
+                    scrollTarget = headingElements[currentFocusableIndex];
                 }
             } else if (event.code === 'ArrowUp' || event.key === 'ArrowUp') {
-                if (currentHeadingIndex > 0) { // Címsor[1]-nél vagy annál később
-                    currentHeadingIndex--;
-                    scrollTarget = headingElements[currentHeadingIndex];
-                } else if (currentHeadingIndex === 0) { // Az első címsornál (headingElements[0])
-                    currentHeadingIndex = -1; // Ugrás a tartalom tetejére (firstContentElement)
-                    scrollTarget = firstContentElement;
-                } else { // currentHeadingIndex === -1 (Már a tartalom tetején)
-                    scrollTarget = firstContentElement; // Maradás
-                }
+                 if (headingElements.length > 0) {
+                    currentFocusableIndex--;
+                    if (currentFocusableIndex < 0) {
+                        currentFocusableIndex = -1;
+                        scrollTarget = slideContent; // Scroll to top of content area
+                    } else {
+                         scrollTarget = headingElements[currentFocusableIndex];
+                    }
+                 }
+                 if (currentFocusableIndex === -1 && scrollTarget === slideContent) {
+                    slideContent.scrollTop = 0; // Explicitly scroll to top
+                 }
             } else {
                 preventDefaultBehavior = false;
             }
 
             if (scrollTarget) {
                 highlightTarget(scrollTarget);
-                scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
 
             if (preventDefaultBehavior) {
@@ -585,5 +568,6 @@ logic in my unit tests instead of fixing the actual bug :/ ."
             }
         });
     });
-</script></body>
+</script>
+</body>
 </html>
