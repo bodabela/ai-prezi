@@ -229,8 +229,7 @@
                     if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
                         window.location.href = '04-context.html';
                     } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                        // Jelenleg ez az utolsó oldal, nincs következő.
-                        // Ha lenne: window.location.href = '06-kovetkezo.html';
+						window.location.href = '06-folyamatos-epites.html';
                     } else {
                         preventDefaultBehavior = false;
                     }
@@ -267,7 +266,7 @@
                     if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
                         window.location.href = '04-context.html';
                     } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                        // Nincs következő oldal
+						window.location.href = '06-folyamatos-epites.html';
                     } else {
                         preventDefaultBehavior = false;
                     }
@@ -286,8 +285,7 @@
                 if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
                     window.location.href = '04-context.html';
                 } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                    // Mivel ez az utolsó oldal, itt nem navigálunk tovább jobbra.
-                    // Ha lenne következő oldal: window.location.href = '06-kovetkezo.html';
+					window.location.href = '06-folyamatos-epites.html';
                     preventDefaultBehavior = false; // Engedjük az alapértelmezett space műveletet, ha nincs hova menni.
                                                 // Vagy tartsuk a preventDefault-ot, hogy ne görgessen feleslegesen.
                 } else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
