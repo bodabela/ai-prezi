@@ -133,12 +133,12 @@
         </div>
 
         <div class="slide-title-main-container">
-            <h1>A "Béla-féle Folyamatos Építés Módszer" a Generatív AI-ban</h1>
+            <h1>A "Béla-féle Folyamatos Építés Módszere"</h1>
         </div>
 
         <div class="slide-content">
             <h2>A Módszer Meghatározása</h2>
-            <p>A <strong>"Béla-féle folyamatos építés módszere"</strong> egy olyan stratégia a generatív AI modellekkel (különösen LLM-ekkel) való együttműködés során, amely a tartalom fokozatos, lépésről lépésre történő felépítésére összpontosít. </p>
+            <p>Ez egy olyan stratégia a generatív AI modellekkel (különösen LLM-ekkel) való együttműködés során, amely a tartalom fokozatos, lépésről lépésre történő felépítésére összpontosít. </p>
             <ul>
                 <li>Lényege, hogy minden újabb interakciós lépésben <strong>újabb tartalmi részt adunk hozzá</strong> a már meglévőhöz, anélkül, hogy a korábban legenerált és "elfogadott" részek alapvető követelményeit vagy struktúráját módosítanánk <em>ugyanabban a folyamatos kontextusban</em>.</li>
                 <li>Amennyiben egy korábbi, már lefektetett rész jelentős módosítására van szükség, azt egy előre meghatározott <strong>"mérföldkő"</strong> (milestone) elérése után, egy <strong>új, fókuszált kontextusban</strong> (gyakorlatilag egy új, célzott beszélgetési szakaszban) végezzük el. Ilyenkor az adott, módosítandó résznek mintegy "újra nekifutunk", míg a mérföldkőig elért többi, nem módosítandó rész stabil alapként szolgálhat.</li>
@@ -147,15 +147,16 @@
             <h2>Miért Hasznos?</h2>
             <p>Ez a megközelítés több, korábban tárgyalt kihívásra is megoldást kínálhat, és jobban illeszkedik az LLM-ek működési sajátosságaihoz:</p>
             <ul>
-                <li><strong>A Kontextus Degradáció Kivédése:</strong> A hosszú és sokszor módosított kontextus könnyen vezethet a modell "felejtéséhez" vagy a koherencia elvesztéséhez. A folyamatos építés módszere ezt úgy kerüli el, hogy:
+                <li><strong>A Kontextus Degradáció Kivédése:</strong> A hosszú és sokszor módosított kontextus könnyen vezethet a modell <strong>felejtéséhez</strong> vagy épp ellenkezőleg, <strong>egymásnak ellentmondó utasításokhoz</strong>, vagy a koherencia elvesztéséhez. A folyamatos építés módszere ezt úgy kerüli el, hogy:
                     <ul>
-                        <li>Minden lépés egy jól definiált, új hozzáadandó elemre koncentrál, csökkentve a kétértelműséget.</li>
-                        <li>A "mérföldkövek" beiktatása és a módosítások új, tiszta kontextusba helyezése gyakorlatilag a "Periodikus Kontextus Frissítés" és a "Kontextus Reset" technikák tudatos alkalmazása a problémás részekre, anélkül, hogy a teljes addigi munkát eldobnánk.</li>
+                        <li>Minden lépés egy jól definiált, <strong>új hozzáadandó elemre</strong> koncentrál, csökkentve a kétértelműséget.</li>
+                        <li>A "mérföldkövek" beiktatása és a módosítások új, tiszta kontextusba helyezése gyakorlatilag a "Periodikus Kontextus Frissítés" és a "Kontextus Reset" technikák tudatos együttes alkalmazása.</li>
+                        <li><strong>Ne várjuk meg, míg megromlik a kontextus!</strong></li>
                     </ul>
                 </li>
                 <li><strong>A Generatív AI Működési Sajátosságainak Jobb Kihasználása:</strong>
                     <ul>
-                        <li>A Generatív AI alapvetően alkotásra vannak kihegyezve. A folyamatos, új kérésekkel, igényekkel történő bővítés összhangban van ezzel az alapvető működéssel.<br>(Még akkor is, ha az új építő elemek az előállított tartalmat azonos "helyen" módosítják.)</li>
+                        <li>A Generatív AI alapvetően <strong>alkotásra</strong> vannak kihegyezve. A folyamatos, új kérésekkel, igényekkel történő bővítés összhangban van ezzel az alapvető működéssel.<br>(Még akkor is, ha az új építő elemek az előállított tartalmat azonos "helyen" módosítják.)</li>
 						<ul>
 							<li>A gond akkor kezdődik, amikor egymásnak ellentmondó koncepciók, fogalmak kerülnek a kontextusba (a változott koncepció ellent mond a régebbinek). Béla sejtés: A bemeneti promptban érkező koncepciók változása szélesebb körben érinti a kontextust, mint a válaszban módosított kód.</li>
 							<li>A felejtés és nem felejtés dilemmája: Mikor felejtsem el a korábbi koncepciót, és cseréljem le az újra és hogy? Erre a kérdésre nem tud most jó választ adni a Generatív AI, mert nem érti magukat a koncepciókat.
