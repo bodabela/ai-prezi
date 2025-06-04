@@ -44,15 +44,13 @@
             font-weight: 600;
         }
         .slide-content {
-            padding: 22px 60px; /* Standard padding */
+            padding: 22px 60px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 10px; /* Reduced gap between section-wrappers initially */
+            gap: 10px;
             overflow-y: auto;
         }
-
-        /* Styles for sections from 03-generative-ai.html for general text content */
         .slide-content p, .slide-content ul {
             font-size: 17px;
             line-height: 1.65;
@@ -67,42 +65,37 @@
         .slide-content ul li {
             margin-bottom: 7px;
         }
-        .slide-content strong { /* From 03-generative-ai.html */
+        .slide-content strong {
             font-weight: 600;
             color: #0A2B4C;
         }
-
-        /* New styles for this page */
         .section-wrapper {
-            padding: 15px; /* Padding for when outline is active */
-            margin: 0 -15px 15px -15px; /* Negative margin to compensate padding, positive bottom margin for spacing */
-            border-radius: 6px; /* Optional: if outline looks better with rounded corners */
-            transition: outline 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for highlight */
+            padding: 15px;
+            margin: 0 -15px 15px -15px;
+            border-radius: 6px;
+            transition: outline 0.2s ease, box-shadow 0.2s ease;
         }
-
-        .section-wrapper.current-scroll-target-container { /* Style from 02-ai-survey-results.html */
+        .section-wrapper.current-scroll-target-container {
             outline: 2px solid #79C7E3;
             box-shadow: 0 0 15px rgba(121, 199, 227, 0.5);
         }
-
-        .section-wrapper h2 { /* Style based on 02-ai-survey-results.html .chart-container h2 */
+        .section-wrapper h2 {
             font-size: 23px;
             color: #34495e;
-            margin-top: 0; /* Assuming h2 is the first element in its direct parent within wrapper */
-            margin-bottom: 15px; /* Space between title and columns */
+            margin-top: 0;
+            margin-bottom: 15px;
             border-bottom: 3px solid #79C7E3;
             padding-bottom: 6px;
             font-weight: 600;
         }
-
         .two-column-container {
             display: flex;
-            gap: 30px; /* Space between the two columns */
-            align-items: flex-start; /* Align items at the top */
+            gap: 30px;
+            align-items: flex-start;
         }
         .column-content {
-            flex: 1; /* Each column takes 50% */
-            min-width: 0; /* Prevents flex items from overflowing */
+            flex: 1;
+            min-width: 0;
         }
         .placeholder-svg {
             width: 100%;
@@ -110,8 +103,86 @@
             border: 1px dashed #b0b0b0;
             border-radius: 6px;
         }
+        .placeholder-svg[data-zoomable="true"] { 
+            cursor: pointer;
+            transition: filter 0.2s ease-in-out;
+        }
+        .placeholder-svg[data-zoomable="true"]:hover {
+            filter: brightness(0.95); 
+        }
         .content-bullets ul {
-            margin-top: 0; /* Remove extra top margin for ul if not needed */
+            margin-top: 0;
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content-wrapper {
+            position: relative;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: calc(80vw + 20px);
+            max-height: calc(80vh + 20px);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.show .modal-content-wrapper {
+            transform: scale(1);
+        }
+        .modal-content-wrapper img,
+        .modal-content-wrapper svg {
+            max-width: 80vw;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+        .modal-close {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            color: #333;
+            background-color: #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 1px solid #ddd;
+        }
+        .modal-close:hover {
+            background-color: #f0f0f0;
         }
 
     </style>
@@ -144,7 +215,7 @@
                 <h2>NVI Portál Komponensek</h2>
                 <div class="two-column-container">
                     <div class="column-content">
-						<svg class="placeholder-svg" viewBox="0 0 900 800" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
+						<svg class="placeholder-svg" viewBox="0 0 900 800" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" data-zoomable="true">
 							<image xlink:href="07/07_01_nvi-komponensek.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"></image>
 						</svg>
                     </div>
@@ -161,7 +232,6 @@
                             <li>Megúnva a ChatGPT Canvas-szal való kínlódást (refactorálni akartam a monolitot) áttértem Geminire: <br/> Első feladat: <strong>refactoráljad</strong> az egészet úgy, hogy a suggest, select és dátum mezők kerzelőhez csinálsz hookot és kipakolod őket komponensekbe. <br/>Válasz: Ok.</li>
                             <li>Pont olyanra lett, amilyennek lennie kellett.</li>
                             <li>Később még <strong>optimalizálni</strong> is tudta: useMemo, useCallback</li>
-							
                         </ul>
                     </div>
                 </div>
@@ -178,7 +248,7 @@
                         </ul>
                     </div>
                     <div class="column-content">
-						<svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
+						<svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" data-zoomable="true">
 							<image xlink:href="07/07_02_nvi_ogy_komponensek.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"></image>
 						</svg>
                     </div>
@@ -276,18 +346,26 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-        </div> </div> <script>
+    <div id="imageModal" class="modal-overlay">
+      <span class="modal-close">&times;</span>
+      <div class="modal-content-wrapper">
+        </div>
+    </div>
+
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const slideContent = document.querySelector('.slide-content');
             if (!slideContent) {
-                // Fallback navigation if main script fails
+                // Fallback navigáció
                 document.addEventListener('keydown', function(event) {
                     let preventDefaultBehavior = true;
                     if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
                         window.location.href = '06-folyamatos-epites.html';
                     } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                        window.location.href = '01-cover.html'; // Loop to first page
+                        window.location.href = '01-cover.html';
                     } else {
                         preventDefaultBehavior = false;
                     }
@@ -299,25 +377,24 @@
             }
 
             const focusableElements = Array.from(slideContent.querySelectorAll('.section-wrapper'));
-            let currentFocusableIndex = -1; // -1 means slide-content itself is "focused" (top)
+            let currentFocusableIndex = -1;
             let lastHighlightedElement = null;
 
             function highlightTarget(element) {
                 if (lastHighlightedElement && lastHighlightedElement !== slideContent) {
                     lastHighlightedElement.classList.remove('current-scroll-target-container');
                 }
-
                 if (element && element !== slideContent && element.classList.contains('section-wrapper')) {
                     element.classList.add('current-scroll-target-container');
                     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 } else if (element === slideContent) {
-                    slideContent.scrollTop = 0; // Scroll to top
+                    slideContent.scrollTop = 0;
                 }
                 lastHighlightedElement = element;
             }
-            
-            highlightTarget(slideContent); // Initial state: top of the content, nothing highlighted
+            highlightTarget(slideContent); // Kezdeti állapot
 
+            // Görgetési és navigációs logika...
             document.addEventListener('keydown', function(event) {
                 let preventDefaultBehavior = true;
                 let scrollTarget = null;
@@ -325,12 +402,12 @@
                 if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
                     window.location.href = '06-folyamatos-epites.html';
                 } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-                    window.location.href = '01-cover.html'; // Loop to first page
+                    window.location.href = '01-cover.html'; // Visszaugrás az első oldalra
                 } else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
                     if (focusableElements.length > 0) {
                         currentFocusableIndex++;
                         if (currentFocusableIndex >= focusableElements.length) {
-                            currentFocusableIndex = focusableElements.length - 1; // Stay on last
+                            currentFocusableIndex = focusableElements.length - 1;
                         }
                         scrollTarget = focusableElements[currentFocusableIndex];
                     }
@@ -338,11 +415,14 @@
                     if (focusableElements.length > 0) {
                         currentFocusableIndex--;
                         if (currentFocusableIndex < 0) {
-                            currentFocusableIndex = -1; // Go to "top of content"
+                            currentFocusableIndex = -1; 
                             scrollTarget = slideContent; 
                         } else {
                             scrollTarget = focusableElements[currentFocusableIndex];
                         }
+                    }
+                     if (currentFocusableIndex === -1 && scrollTarget === slideContent) { // Scroll to top if at the very top
+                        slideContent.scrollTop = 0;
                     }
                 } else {
                     preventDefaultBehavior = false;
@@ -351,9 +431,66 @@
                 if (scrollTarget) {
                     highlightTarget(scrollTarget);
                 }
-
                 if (preventDefaultBehavior) {
                     event.preventDefault();
+                }
+            });
+
+
+            // Modal script (07-esetek.html)
+            const modalEsetek = document.getElementById('imageModal');
+            const modalContentWrapperEsetek = modalEsetek.querySelector('.modal-content-wrapper');
+            const closeModalButtonEsetek = modalEsetek.querySelector('.modal-close');
+            const zoomableSVGsEsetek = document.querySelectorAll('svg.placeholder-svg[data-zoomable="true"]');
+
+            zoomableSVGsEsetek.forEach(svg => {
+                svg.addEventListener('click', () => {
+                    const imageTag = svg.getElementsByTagName('image')[0]; 
+                    let imageUrl = null;
+
+                    if (imageTag) {
+                        if (imageTag.hasAttributeNS('http://www.w3.org/1999/xlink', 'href')) {
+                            imageUrl = imageTag.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+                        } else if (imageTag.hasAttribute('xlink:href')) { 
+                            imageUrl = imageTag.getAttribute('xlink:href');
+                        } else if (imageTag.hasAttribute('href')) { 
+                            imageUrl = imageTag.getAttribute('href');
+                        }
+                    }
+
+                    if (imageUrl) {
+                        modalContentWrapperEsetek.innerHTML = ''; 
+                        const img = document.createElement('img');
+                        img.src = imageUrl;
+                        img.alt = 'Nagyított kép'; 
+                        modalContentWrapperEsetek.appendChild(img);
+                        modalEsetek.classList.add('show');
+                    } else {
+                        console.warn('Nem található kép URL az SVG-ben:', svg);
+                    }
+                });
+            });
+            
+            function hideModalEsetek() {
+                modalEsetek.classList.remove('show');
+                 setTimeout(() => {
+                    if (!modalEsetek.classList.contains('show')) {
+                         modalContentWrapperEsetek.innerHTML = '';
+                    }
+                }, 300);
+            }
+
+            closeModalButtonEsetek.addEventListener('click', hideModalEsetek);
+
+            modalEsetek.addEventListener('click', (event) => {
+                if (event.target === modalEsetek) {
+                    hideModalEsetek();
+                }
+            });
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modalEsetek.classList.contains('show')) {
+                    hideModalEsetek();
                 }
             });
         });

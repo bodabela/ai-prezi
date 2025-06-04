@@ -60,7 +60,7 @@
             padding-bottom: 6px;
             font-weight: 600;
         }
-        .slide-content h3 { /* Meglévő H3 stílus */
+        .slide-content h3 {
             font-size: 21px;
             color: #2c3e50;
             margin-top: 18px;
@@ -105,11 +105,90 @@
             border-radius: 8px;
             margin-top: 15px;
             margin-bottom: 15px;
-            /* overflow-x: auto; */ /* Eltávolítva az előző kérés alapján */
         }
         .diagram-container svg {
             max-width: 100%;
             height: auto;
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px; /* Ez a padding az overlay-en van, a content-wrapper körül */
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content-wrapper {
+            position: relative;
+            background-color: #fff;
+            padding: 10px; /* Padding az SVG/kép és a wrapper széle között */
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            /* A wrapper maximális mérete, figyelembe véve a belső paddingot.
+               A tényleges tartalom (SVG) ezen belül max. 80vw/80vh lesz. */
+            max-width: calc(80vw + 20px); /* 80vw tartalom + 2*10px padding */
+            max-height: calc(80vh + 20px); /* 80vh tartalom + 2*10px padding */
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.show .modal-content-wrapper {
+            transform: scale(1);
+        }
+        .modal-content-wrapper img,
+        .modal-content-wrapper svg {
+            display: block; 
+            width: 100%; /* Töltse ki a .modal-content-wrapper szélességét (a paddingon belül) */
+            height: auto; /* Magasság igazodjon az oldalarányhoz */
+            max-width: 80vw; /* De ne legyen szélesebb, mint a viewport 80%-a */
+            max-height: 80vh; /* És ne legyen magasabb, mint a viewport 80%-a */
+            object-fit: contain; 
+        }
+        .modal-close {
+            position: absolute;
+            top: -10px; 
+            right: -10px;
+            color: #333;
+            background-color: #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 1px solid #ddd;
+        }
+        .modal-close:hover {
+            background-color: #f0f0f0;
+        }
+        .diagram-container > svg {
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .diagram-container > svg:hover {
+            transform: scale(1.02); 
         }
     </style>
 </head>
@@ -290,7 +369,6 @@
                     <rect x="420" y="235" width="70" height="45" fill="#77DD77" stroke="#333" stroke-width="1"/>
                     <text x="455" y="260" text-anchor="middle" font-family="Segoe UI" font-size="14">X</text>
 
-
                     <text x="555" y="60" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#333">2.2 Eredmény: A'</text>
                     <rect x="520" y="185" width="70" height="45" fill="#77DD77" stroke="#333" stroke-width="1"/>
                     <text x="555" y="210" text-anchor="middle" font-family="Segoe UI" font-size="14">A'</text>
@@ -320,9 +398,16 @@
         </div>
     </div>
 
+    <div id="imageModal" class="modal-overlay">
+      <span class="modal-close">&times;</span>
+      <div class="modal-content-wrapper">
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const slideContent = document.querySelector('.slide-content');
+            // Navigációs szkript ... (változatlan az előző verzióból)
             if (!slideContent) {
                 console.error('.slide-content elem nem található.');
                 document.addEventListener('keydown', function(event) {
@@ -341,7 +426,7 @@
                 return;
             }
 
-            const headingElements = Array.from(slideContent.querySelectorAll('h2, h3')); // Most már H3-ak is vannak
+            const headingElements = Array.from(slideContent.querySelectorAll('h2, h3'));
             const firstContentElement = slideContent.firstElementChild;
 
             let currentHeadingIndex = -1;
@@ -351,14 +436,14 @@
                 if (lastScrollTarget && lastScrollTarget !== target) {
                     lastScrollTarget.classList.remove('current-scroll-target');
                 }
-                if (target && (target.nodeName === 'H2' || target.nodeName === 'H3')) { // H3-ra is kiterjesztve
+                if (target && (target.nodeName === 'H2' || target.nodeName === 'H3')) {
                     target.classList.add('current-scroll-target');
                 }
                 lastScrollTarget = target;
             }
 
             if (!firstContentElement) {
-                 document.addEventListener('keydown', function(event) {
+                document.addEventListener('keydown', function(event) {
                     let preventDefaultBehavior = true;
                     if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
                         window.location.href = '05-context-degradation.html';
@@ -373,7 +458,7 @@
                 });
                 return;
             }
-
+            
             document.addEventListener('keydown', function(event) {
                 let preventDefaultBehavior = true;
                 let scrollTarget = null;
@@ -394,11 +479,7 @@
                         currentHeadingIndex++;
                         scrollTarget = headingElements[currentHeadingIndex];
                     } else {
-                        if (headingElements.length > 0) {
-                             scrollTarget = headingElements[currentHeadingIndex];
-                        } else {
-                            scrollTarget = firstContentElement;
-                        }
+                        scrollTarget = headingElements.length > 0 ? headingElements[currentHeadingIndex] : firstContentElement;
                     }
                 } else if (event.code === 'ArrowUp' || event.key === 'ArrowUp') {
                     if (currentHeadingIndex > 0) {
@@ -407,7 +488,7 @@
                     } else if (currentHeadingIndex === 0) {
                         currentHeadingIndex = -1;
                         scrollTarget = firstContentElement;
-                    } else {
+                    } else { 
                         scrollTarget = firstContentElement;
                     }
                 } else {
@@ -421,6 +502,50 @@
 
                 if (preventDefaultBehavior) {
                     event.preventDefault();
+                }
+            });
+
+            // Modal script (06-folyamatos-epites.html)
+            const modalFolyamatosEpites = document.getElementById('imageModal');
+            const modalContentWrapperFolyamatosEpites = modalFolyamatosEpites.querySelector('.modal-content-wrapper');
+            const closeModalButtonFolyamatosEpites = modalFolyamatosEpites.querySelector('.modal-close');
+            const zoomableSVGsFolyamatosEpites = document.querySelectorAll('.diagram-container > svg');
+
+            zoomableSVGsFolyamatosEpites.forEach(svg => {
+                svg.addEventListener('click', () => {
+                    modalContentWrapperFolyamatosEpites.innerHTML = ''; 
+                    const clonedSvg = svg.cloneNode(true);
+                    // Eltávolítjuk az eredeti width/height attribútumokat, hogy a CSS tudja kezelni a méretezést
+                    clonedSvg.setAttribute('width', '1200px');
+                    clonedSvg.removeAttribute('height');
+                    
+                    // A CSS .modal-content-wrapper svg szabályai (width: 100%; height: auto; max-width: 80vw; max-height: 80vh;)
+                    // fogják biztosítani a helyes skálázást.
+                    modalContentWrapperFolyamatosEpites.appendChild(clonedSvg);
+                    modalFolyamatosEpites.classList.add('show');
+                });
+            });
+
+            function hideModalFolyamatosEpites() {
+                modalFolyamatosEpites.classList.remove('show');
+                setTimeout(() => {
+                    if (!modalFolyamatosEpites.classList.contains('show')) {
+                        modalContentWrapperFolyamatosEpites.innerHTML = '';
+                    }
+                }, 300); 
+            }
+
+            closeModalButtonFolyamatosEpites.addEventListener('click', hideModalFolyamatosEpites);
+
+            modalFolyamatosEpites.addEventListener('click', (event) => {
+                if (event.target === modalFolyamatosEpites) {
+                    hideModalFolyamatosEpites();
+                }
+            });
+            
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modalFolyamatosEpites.classList.contains('show')) {
+                    hideModalFolyamatosEpites();
                 }
             });
         });
