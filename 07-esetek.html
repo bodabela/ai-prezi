@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatív AI - Váltakozó Elrendezés</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .slide-container {
+            width: 1500px;
+            height: 920px;
+            background-color: #ffffff;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-svg-container {
+            width: 100%;
+            height: 120px;
+            flex-shrink: 0;
+        }
+        .slide-title-main-container {
+            padding: 22px 60px;
+            background-color: #f8f8f8;
+            border-bottom: 2px solid #ddd;
+        }
+        .slide-title-main-container h1 {
+            font-size: 36px;
+            color: #2c3e50;
+            margin: 0;
+            font-weight: 600;
+        }
+        .slide-content {
+            padding: 22px 60px; /* Standard padding */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Reduced gap between section-wrappers initially */
+            overflow-y: auto;
+        }
+
+        /* Styles for sections from 03-generative-ai.html for general text content */
+        .slide-content p, .slide-content ul {
+            font-size: 17px;
+            line-height: 1.65;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .slide-content ul {
+            list-style-type: disc;
+            padding-left: 35px;
+            margin-left: 5px;
+        }
+        .slide-content ul li {
+            margin-bottom: 7px;
+        }
+        .slide-content strong { /* From 03-generative-ai.html */
+            font-weight: 600;
+            color: #0A2B4C;
+        }
+
+        /* New styles for this page */
+        .section-wrapper {
+            padding: 15px; /* Padding for when outline is active */
+            margin: 0 -15px 15px -15px; /* Negative margin to compensate padding, positive bottom margin for spacing */
+            border-radius: 6px; /* Optional: if outline looks better with rounded corners */
+            transition: outline 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for highlight */
+        }
+
+        .section-wrapper.current-scroll-target-container { /* Style from 02-ai-survey-results.html */
+            outline: 2px solid #79C7E3;
+            box-shadow: 0 0 15px rgba(121, 199, 227, 0.5);
+        }
+
+        .section-wrapper h2 { /* Style based on 02-ai-survey-results.html .chart-container h2 */
+            font-size: 23px;
+            color: #34495e;
+            margin-top: 0; /* Assuming h2 is the first element in its direct parent within wrapper */
+            margin-bottom: 15px; /* Space between title and columns */
+            border-bottom: 3px solid #79C7E3;
+            padding-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .two-column-container {
+            display: flex;
+            gap: 30px; /* Space between the two columns */
+            align-items: flex-start; /* Align items at the top */
+        }
+        .column-content {
+            flex: 1; /* Each column takes 50% */
+            min-width: 0; /* Prevents flex items from overflowing */
+        }
+        .placeholder-svg {
+            width: 100%;
+            background-color: #e0e0e0;
+            border: 1px dashed #b0b0b0;
+            border-radius: 6px;
+        }
+        .content-bullets ul {
+            margin-top: 0; /* Remove extra top margin for ul if not needed */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="1000" height="80" fill="#0A2B4C"/>
+                <image xlink:href="logo.jfif" x="25" y="15" width="50" height="50" />
+                <text x="180" y="40" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="22" font-weight="600">
+                    <tspan fill="#79C7E3">Generatív</tspan>
+                    <tspan fill="#FFFFFF"> AI</tspan>
+                </text>
+                <text x="180" y="60" font-family="'Segoe UI', Tahoma, sans-serif" font-size="10" fill="#FFFFFF" letter-spacing="0.5">
+                    TAPASZTALATOK MEGOSZTÁSA
+                </text>
+                <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+                <path d="M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z" fill="#79C7E3" fill-opacity="0.15"/>
+                <line x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <div class="slide-title-main-container">
+            <h1>Példák, esetek - ChatGPT, Gemini</h1>
+        </div>
+
+        <div class="slide-content">
+            <div class="section-wrapper">
+                <h2>NVI Portál Komponensek</h2>
+                <div class="two-column-container">
+                    <div class="column-content">
+						<svg class="placeholder-svg" viewBox="0 0 900 800" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
+							<image xlink:href="07/07_01_nvi-komponensek.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"></image>
+						</svg>
+                    </div>
+                    <div class="column-content content-bullets">
+                        <ul>
+                            <li>Rövid leírással kezdtük: dátumonként csoportosítva jelenítse meg <strong>GraphQL</strong> lekérdezéssel (140 sor - 1 óra)</li>
+                            <li>Aztán hozzáadtuk kereső mezőket a <strong>React UI</strong>-hoz, és szűrögettünk egyelőre csak az eredményekben (240 sor - 1 óra)</li>
+                            <li>Megírtuk és bekötöttük a suggest GraphQL query-t (+80 sor - fél óra)</li>
+                            <li>Többi szűrő mező (480 sor - 2 óra)</li>
+                            <li>Eddig a pontig egy nagy monolit react komponens kód <br/>Komplex, nagy context tehát még lassú is</li>
+                            <li>A <strong>Canvasba történő módosításokat nem tűrte jól</strong> <br/> Újra és újra meg kellett mondani, hogy mi a jó verzió</li>
+                            <li>Hamar elromlott és <strong>fordítási hibákat</strong> kezdett gyártani</li>
+                            <li>De még így is <strong>sokkal hatékonyabb</strong> volt mintha kézzel írjuk meg azt az 560 sor kódot</li>
+                            <li>Megúnva a ChatGPT Canvas-szal való kínlódást (refactorálni akartam a monolitot) áttértem Geminire: <br/> Első feladat: <strong>refactoráljad</strong> az egészet úgy, hogy a suggest, select és dátum mezők kerzelőhez csinálsz hookot és kipakolod őket komponensekbe. <br/>Válasz: Ok.</li>
+                            <li>Pont olyanra lett, amilyennek lennie kellett.</li>
+                            <li>Később még <strong>optimalizálni</strong> is tudta: useMemo, useCallback</li>
+							
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2>NVI OGY 2018 Komponensek</h2>
+                <div class="two-column-container">
+                    <div class="column-content content-bullets">
+                        <ul>
+                            <li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</li>
+                            <li>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</li>
+                            <li>Deserunt mollit anim id est laborum.</li>
+                        </ul>
+                    </div>
+                    <div class="column-content">
+						<svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
+							<image xlink:href="07/07_02_nvi_ogy_komponensek.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"></image>
+						</svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2>Harmadik Téma Címe (Kép Balra)</h2>
+                <div class="two-column-container">
+                    <div class="column-content">
+                        <svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
+                            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="24px" fill="#777">Kép helye 3</text>
+                        </svg>
+                    </div>
+                    <div class="column-content content-bullets">
+                        <ul>
+                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</li>
+                            <li>Tempor incididunt ut labore et dolore magna aliqua.</li>
+                            <li>Quis nostrud exercitation ullamco laboris nisi ut aliquip.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2>Negyedik Téma Címe (Kép Jobbra)</h2>
+                <div class="two-column-container">
+                    <div class="column-content content-bullets">
+                        <ul>
+                            <li>Consectetur adipiscing elit, sed do eiusmod tempor incididunt.</li>
+                            <li>Ut labore et dolore magna aliqua. Ut enim ad minim veniam.</li>
+                            <li>Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                            <li>Duis aute irure dolor in reprehenderit.</li>
+                        </ul>
+                    </div>
+                    <div class="column-content">
+                        <svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
+                            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="24px" fill="#777">Kép helye 4</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2>Ötödik Téma Címe (Kép Balra)</h2>
+                <div class="two-column-container">
+                    <div class="column-content">
+                        <svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
+                            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="24px" fill="#777">Kép helye 5</text>
+                        </svg>
+                    </div>
+                    <div class="column-content content-bullets">
+                        <ul>
+                            <li>Sed ut perspiciatis unde omnis iste natus error sit voluptatem.</li>
+                            <li>Accusantium doloremque laudantium, totam rem aperiam.</li>
+                            <li>Eaque ipsa quae ab illo inventore veritatis et quasi architecto.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2>Hatodik Téma Címe (Kép Jobbra)</h2>
+                <div class="two-column-container">
+                    <div class="column-content content-bullets">
+                        <ul>
+                            <li>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</li>
+                            <li>Sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</li>
+                            <li>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</li>
+                        </ul>
+                    </div>
+                    <div class="column-content">
+                        <svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
+                            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="24px" fill="#777">Kép helye 6</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2>Hetedik Téma Címe (Kép Balra)</h2>
+                <div class="two-column-container">
+                    <div class="column-content">
+                        <svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
+                            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="24px" fill="#777">Kép helye 7</text>
+                        </svg>
+                    </div>
+                    <div class="column-content content-bullets">
+                        <ul>
+                            <li>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis.</li>
+                            <li>Suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</li>
+                            <li>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse.</li>
+                            <li>Quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div> </div> <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slideContent = document.querySelector('.slide-content');
+            if (!slideContent) {
+                // Fallback navigation if main script fails
+                document.addEventListener('keydown', function(event) {
+                    let preventDefaultBehavior = true;
+                    if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                        window.location.href = '06-folyamatos-epites.html';
+                    } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                        window.location.href = '01-cover.html'; // Loop to first page
+                    } else {
+                        preventDefaultBehavior = false;
+                    }
+                    if (preventDefaultBehavior) {
+                        event.preventDefault();
+                    }
+                });
+                return;
+            }
+
+            const focusableElements = Array.from(slideContent.querySelectorAll('.section-wrapper'));
+            let currentFocusableIndex = -1; // -1 means slide-content itself is "focused" (top)
+            let lastHighlightedElement = null;
+
+            function highlightTarget(element) {
+                if (lastHighlightedElement && lastHighlightedElement !== slideContent) {
+                    lastHighlightedElement.classList.remove('current-scroll-target-container');
+                }
+
+                if (element && element !== slideContent && element.classList.contains('section-wrapper')) {
+                    element.classList.add('current-scroll-target-container');
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else if (element === slideContent) {
+                    slideContent.scrollTop = 0; // Scroll to top
+                }
+                lastHighlightedElement = element;
+            }
+            
+            highlightTarget(slideContent); // Initial state: top of the content, nothing highlighted
+
+            document.addEventListener('keydown', function(event) {
+                let preventDefaultBehavior = true;
+                let scrollTarget = null;
+
+                if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                    window.location.href = '06-folyamatos-epites.html';
+                } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                    window.location.href = '01-cover.html'; // Loop to first page
+                } else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
+                    if (focusableElements.length > 0) {
+                        currentFocusableIndex++;
+                        if (currentFocusableIndex >= focusableElements.length) {
+                            currentFocusableIndex = focusableElements.length - 1; // Stay on last
+                        }
+                        scrollTarget = focusableElements[currentFocusableIndex];
+                    }
+                } else if (event.code === 'ArrowUp' || event.key === 'ArrowUp') {
+                    if (focusableElements.length > 0) {
+                        currentFocusableIndex--;
+                        if (currentFocusableIndex < 0) {
+                            currentFocusableIndex = -1; // Go to "top of content"
+                            scrollTarget = slideContent; 
+                        } else {
+                            scrollTarget = focusableElements[currentFocusableIndex];
+                        }
+                    }
+                } else {
+                    preventDefaultBehavior = false;
+                }
+
+                if (scrollTarget) {
+                    highlightTarget(scrollTarget);
+                }
+
+                if (preventDefaultBehavior) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
