@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generatív AI - Váltakozó Elrendezés</title>
+    <title>Generatív AI - Példák, esetek</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -103,15 +103,46 @@
             border: 1px dashed #b0b0b0;
             border-radius: 6px;
         }
-        .placeholder-svg[data-zoomable="true"] { 
+        .placeholder-svg[data-zoomable="true"] {
             cursor: pointer;
             transition: filter 0.2s ease-in-out;
         }
         .placeholder-svg[data-zoomable="true"]:hover {
-            filter: brightness(0.95); 
+            filter: brightness(0.95);
         }
         .content-bullets ul {
             margin-top: 0;
+        }
+
+        /* Stílusok a lenyitható válaszhoz */
+        .answer-details {
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #f7f9fc;
+        }
+        .answer-details summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: #34495e;
+            padding: 10px 15px;
+            outline: none;
+            user-select: none;
+            transition: background-color 0.2s ease;
+        }
+        .answer-details summary:hover {
+            background-color: #eef2f7;
+        }
+        .answer-details[open] summary {
+            border-bottom: 1px solid #ddd;
+        }
+        .answer-content {
+            padding: 10px 15px 15px 15px;
+        }
+        .answer-content ul {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 0;
         }
 
         /* Modal styles */
@@ -184,7 +215,6 @@
         .modal-close:hover {
             background-color: #f0f0f0;
         }
-
     </style>
 </head>
 <body>
@@ -215,9 +245,9 @@
                 <h2>NVI Portál Komponensek</h2>
                 <div class="two-column-container">
                     <div class="column-content">
-						<svg class="placeholder-svg" viewBox="0 0 900 800" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" data-zoomable="true">
-							<image xlink:href="07/07_01_nvi-komponensek.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"></image>
-						</svg>
+                        <svg class="placeholder-svg" viewBox="0 0 900 800" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" data-zoomable="true">
+                            <image xlink:href="07/07_01_nvi-komponensek.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"></image>
+                        </svg>
                     </div>
                     <div class="column-content content-bullets">
                         <ul>
@@ -229,7 +259,7 @@
                             <li>A <strong>Canvasba történő módosításokat nem tűrte jól</strong> <br/> Újra és újra meg kellett mondani, hogy mi a jó verzió</li>
                             <li>Hamar elromlott és <strong>fordítási hibákat</strong> kezdett gyártani</li>
                             <li>De még így is <strong>sokkal hatékonyabb</strong> volt mintha kézzel írjuk meg azt az 560 sor kódot</li>
-                            <li>Megúnva a ChatGPT Canvas-szal való kínlódást (refactorálni akartam a monolitot) áttértem Geminire: <br/> Első feladat: <strong>refactoráljad</strong> az egészet úgy, hogy a suggest, select és dátum mezők kerzelőhez csinálsz hookot és kipakolod őket komponensekbe. <br/>Válasz: Ok.</li>
+                            <li>Megúnva a ChatGPT Canvas-szal való kínlódást (refaktorálni akartam a monolitot) áttértem Geminire: <br/> Első feladat: <strong>refactoráljad</strong> az egészet úgy, hogy a suggest, select és dátum mezők kerzelőhez csinálsz hookot és kipakolod őket komponensekbe. <br/>Válasz: Ok.</li>
                             <li>Pont olyanra lett, amilyennek lennie kellett.</li>
                             <li>Később még <strong>optimalizálni</strong> is tudta: useMemo, useCallback</li>
                         </ul>
@@ -247,11 +277,21 @@
                             <li>Itt 3 napos kontextusban dolgoztam folyamatosan anélkül, hogy degradálódott volna, vagy hibákat generált volna.</li>
                             <li>Ki tudja megmondani miért?</li>
                         </ul>
+                        <details class="answer-details">
+                            <summary>A válasz</summary>
+                            <div class="answer-content">
+                                <ul>
+                                    <li><strong>Mert folyamatosan új funkciókat készített:</strong> Szinte minden kérés új feature fejlesztését igényelte.</li>
+                                    <li>Új komponensek</li>
+                                    <li>És azok tovább fejlesztése pl.: felület mögé adatok vagy új felületi elem.</li>
+                                </ul>
+                            </div>
+                        </details>
                     </div>
                     <div class="column-content">
-						<svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" data-zoomable="true">
-							<image xlink:href="07/07_02_nvi_ogy_komponensek.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"></image>
-						</svg>
+                        <svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink" data-zoomable="true">
+                            <image xlink:href="07/07_02_nvi_ogy_komponensek.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"></image>
+                        </svg>
                     </div>
                 </div>
             </div>
@@ -286,9 +326,9 @@
                         </ul>
                     </div>
                     <div class="column-content">
-                        <svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
-                            <image xlink:href="07/07_04_iskolai_gyakorlok.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"></image>
-                        </svg>
+						<svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-zoomable="true" xmlns:xlink="http://www.w3.org/1999/xlink">
+							<image xlink:href="07/07_04_iskolai_gyakorlok.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"></image>
+						</svg>
                     </div>
                 </div>
             </div>
@@ -416,8 +456,8 @@
                     if (focusableElements.length > 0) {
                         currentFocusableIndex--;
                         if (currentFocusableIndex < 0) {
-                            currentFocusableIndex = -1; 
-                            scrollTarget = slideContent; 
+                            currentFocusableIndex = -1;
+                            scrollTarget = slideContent;
                         } else {
                             scrollTarget = focusableElements[currentFocusableIndex];
                         }
@@ -446,24 +486,24 @@
 
             zoomableSVGsEsetek.forEach(svg => {
                 svg.addEventListener('click', () => {
-                    const imageTag = svg.getElementsByTagName('image')[0]; 
+                    const imageTag = svg.getElementsByTagName('image')[0];
                     let imageUrl = null;
 
                     if (imageTag) {
                         if (imageTag.hasAttributeNS('http://www.w3.org/1999/xlink', 'href')) {
                             imageUrl = imageTag.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
-                        } else if (imageTag.hasAttribute('xlink:href')) { 
+                        } else if (imageTag.hasAttribute('xlink:href')) {
                             imageUrl = imageTag.getAttribute('xlink:href');
-                        } else if (imageTag.hasAttribute('href')) { 
+                        } else if (imageTag.hasAttribute('href')) {
                             imageUrl = imageTag.getAttribute('href');
                         }
                     }
 
                     if (imageUrl) {
-                        modalContentWrapperEsetek.innerHTML = ''; 
+                        modalContentWrapperEsetek.innerHTML = '';
                         const img = document.createElement('img');
                         img.src = imageUrl;
-                        img.alt = 'Nagyított kép'; 
+                        img.alt = 'Nagyított kép';
                         modalContentWrapperEsetek.appendChild(img);
                         modalEsetek.classList.add('show');
                     } else {
@@ -471,7 +511,7 @@
                     }
                 });
             });
-            
+
             function hideModalEsetek() {
                 modalEsetek.classList.remove('show');
                  setTimeout(() => {
