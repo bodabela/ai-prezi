@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jó kis téma</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
+        .slide-container { width: 1500px; height: 920px; background-color: #ffffff; box-shadow: 0 0 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; position: relative; overflow: hidden; }
+        .header-svg-container { width: 100%; height: 120px; flex-shrink: 0; }
+        .slide-title-main-container { padding: 22px 60px; background-color: #f8f8f8; border-bottom: 2px solid #ddd; }
+        .slide-title-main-container h1 { font-size: 36px; color: #2c3e50; margin: 0; font-weight: 600; }
+        .slide-content { padding: 22px 60px; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
+        .slide-content p, .slide-content ul { font-size: 17px; line-height: 1.65; }
+        .slide-content ul { list-style-type: disc; padding-left: 35px; }
+        .section-wrapper { padding: 15px; margin: 0 -15px 15px -15px; border-radius: 6px; }
+        .section-wrapper h2, .section-wrapper h3 { font-size: 26px; color: #34495e; margin-top: 20px; margin-bottom: 10px; border-bottom: 2px solid #79C7E3; padding-bottom: 6px; font-weight: 600; }
+        .section-wrapper h3 { font-size: 21px; }
+        .two-column-container { display: flex; gap: 30px; align-items: flex-start; }
+        .column-content { flex: 1; min-width: 0; }
+        .placeholder-svg { width: 100%; background-color: #e0e0e0; border: 1px dashed #b0b0b0; border-radius: 6px; }
+        .placeholder-svg[data-zoomable="true"] { cursor: pointer; }
+        .chart-row { width: 100%; }
+        .chart-row.two-column { display: flex; gap: 38px; }
+        .column { flex: 1; display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+        .chart-container { background-color: #fff; }
+        .chart-container h2 { font-size: 23px; color: #34495e; margin-top: 0; margin-bottom: 12px; border-bottom: 3px solid #79C7E3; padding-bottom: 6px; font-weight: 600; }
+        .svg-chart { width: 100%; min-height: 180px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-content-wrapper { position: relative; background-color: #fff; padding: 10px; border-radius: 8px; max-width: 80vw; max-height: 80vh; }
+        .modal-content-wrapper img, .modal-content-wrapper svg { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .modal-close { position: absolute; top: -10px; right: -10px; color: #333; background-color: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; font-size: 24px; cursor: pointer; border: 1px solid #ddd; }
+        </style>
+</head>
+<body>
+    <div id="slide-preview" class="slide-container">
+            <div class="header-svg-container">
+                 <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <rect width="1000" height="80" fill="#0A2B4C"></rect>
+                    <image xlink:href="logo.jfif" x="25" y="15" width="50" height="50"></image>
+                    <text x="180" y="40" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="22" font-weight="600">
+                        <tspan fill="#79C7E3">Generatív</tspan>
+                        <tspan fill="#FFFFFF"> AI</tspan>
+                    </text>
+                    <text x="180" y="60" font-family="'Segoe UI', Tahoma, sans-serif" font-size="10" fill="#FFFFFF" letter-spacing="0.5">
+                        TAPASZTALATOK MEGOSZTÁSA
+                    </text>
+                    <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"></path>
+                    <path d="M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z" fill="#79C7E3" fill-opacity="0.15"></path>
+                    <line x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"></line>
+                </svg>
+            </div>
+    
+            <div class="slide-title-main-container">
+                <h1>Jó kis téma</h1>
+            </div>
+    
+            <div id="slide-content-editor" class="slide-content" onclick="handleColumnClicks(event)">
+                <div class="section-wrapper" id="section-1750112176501"><p>Take me to the river<div>Drop me in the water</div></p></div></div>
+        </div>
+    <div id="imageModal" class="modal-overlay">
+      <span class="modal-close">&times;</span>
+      <div class="modal-content-wrapper"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slideContent = document.querySelector('.slide-content');
+            document.addEventListener('keydown', function(event) {
+                let preventDefault = false;
+                if (event.key === 'ArrowLeft') { window.location.href = '#'; preventDefault = true; }
+                else if (event.key === 'ArrowRight' || event.key === ' ') { window.location.href = 'alma02.html'; preventDefault = true; }
+                
+                if (preventDefault) event.preventDefault();
+            });
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                const modalContentWrapper = modal.querySelector('.modal-content-wrapper');
+                const closeModalButton = modal.querySelector('.modal-close');
+                document.querySelectorAll('svg[data-zoomable="true"]').forEach(svg => {
+                    svg.addEventListener('click', () => {
+                        const imageTag = svg.querySelector('image');
+                        if (imageTag) {
+                            const imageUrl = imageTag.getAttributeNS('http://www.w3.org/1999/xlink', 'href') || imageTag.getAttribute('href');
+                            if(imageUrl) {
+                                modalContentWrapper.innerHTML = `<img src="${imageUrl}" alt="Nagyított kép">`;
+                                modal.classList.add('show');
+                            }
+                        }
+                    });
+                });
+                function hideModal() { modal.classList.remove('show'); }
+                closeModalButton.addEventListener('click', hideModal);
+                modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
+                document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('show')) hideModal(); });
+            }
+        });</script>
+</body>
+</html>

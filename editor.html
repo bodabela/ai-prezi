@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prezentáció Szerkesztő - Letöltéssel</title>
+    <style>
+        /* Alap stílusok a szerkesztő felülethez */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0e0e0;
+            color: #333;
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+            align-items: flex-start;
+        }
+        .editor-controls {
+            flex: 0 0 320px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+        .editor-controls h2 {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #79C7E3;
+            padding-bottom: 8px;
+        }
+        .control-group {
+            margin-bottom: 25px;
+        }
+        .control-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .control-group input[type="text"] {
+            width: calc(100% - 16px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .control-group button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 5px;
+            font-size: 14px;
+            transition: background-color 0.2s;
+            text-align: left;
+        }
+        .control-group button:hover {
+            background-color: #2980b9;
+        }
+        #generate-code-btn {
+            background-color: #e67e22;
+            text-align: center;
+        }
+        #generate-code-btn:hover {
+            background-color: #d35400;
+        }
+        #download-btn {
+            background-color: #2ecc71;
+            text-align: center;
+            margin-top: 10px;
+            display: none; /* Alapból rejtett */
+        }
+        #download-btn:hover {
+            background-color: #27ae60;
+        }
+        #generated-code-container {
+            margin-top: 20px;
+        }
+        #generated-code-container textarea {
+            width: 100%;
+            box-sizing: border-box;
+            height: 200px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Prezentáció stílusok (07-esetek.html alapján) */
+        .slide-container-wrapper {
+            flex-grow: 1;
+        }
+        .slide-container {
+            width: 1500px;
+            min-height: 920px;
+            background-color: #ffffff;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transform-origin: top left;
+            transform: scale(0.75); /* Kicsinyítés, hogy beférjen */
+            margin-bottom: -230px; /* Kompenzáció a skálázás miatt */
+        }
+        .header-svg-container { width: 100%; height: 120px; flex-shrink: 0; }
+        .slide-title-main-container { padding: 22px 60px; background-color: #f8f8f8; border-bottom: 2px solid #ddd; }
+        .slide-title-main-container h1 { font-size: 36px; color: #2c3e50; margin: 0; font-weight: 600; }
+        .slide-content { padding: 22px 60px; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; }
+        .slide-content p, .slide-content ul { font-size: 17px; line-height: 1.65; color: #333; margin-bottom: 12px; }
+        .slide-content ul { list-style-type: disc; padding-left: 35px; margin-left: 5px; }
+        .slide-content ul li { margin-bottom: 7px; }
+        .slide-content strong { font-weight: 600; color: #0A2B4C; }
+        .section-wrapper { padding: 25px 15px 15px 15px; margin: 0 -15px 15px -15px; border-radius: 6px; position: relative; border: 1px dashed #ccc; }
+        .section-wrapper h2, .section-wrapper h3 { font-size: 23px; color: #34495e; margin-top: 0; margin-bottom: 15px; border-bottom: 3px solid #79C7E3; padding-bottom: 6px; font-weight: 600; }
+        .section-wrapper h3 { font-size: 21px; }
+        .two-column-container { display: flex; gap: 30px; align-items: flex-start; }
+        .column-content { flex: 1; min-width: 0; border: 1px dotted #a0a0a0; padding: 10px; border-radius: 4px; }
+        .placeholder-svg { width: 100%; background-color: #e0e0e0; border: 1px dashed #b0b0b0; border-radius: 6px; cursor: pointer; transition: background-color 0.2s; }
+        .placeholder-svg:hover { background-color: #d0d0d0; }
+        .chart-container { background-color: #fff; position: relative; padding: 10px; }
+        .placeholder-for-chart { border: 2px dashed #3498db; min-height: 180px; display:flex; align-items: center; justify-content: center; color: #777; font-size: 16px; background: #fafdff; }
+
+        /* Szerkesztő-specifikus UI elemek */
+        [contenteditable="true"] { outline: 2px dashed #79C7E3; padding: 2px 4px; border-radius: 3px; }
+        [contenteditable="true"]:focus { outline: 2px solid #3498db; }
+        .section-controls { position: absolute; top: 5px; right: 5px; background: rgba(255,255,255,0.8); border-radius: 4px; padding: 3px; display: none; }
+        .section-wrapper:hover .section-controls { display: block; }
+        .section-controls button { background: #e74c3c; color: white; border: none; cursor: pointer; font-weight: bold; padding: 2px 6px; font-size: 12px; border-radius: 3px; text-align: center; }
+        .column-adder-controls { margin-top: 10px; }
+        .column-adder-controls button { font-size: 12px; padding: 5px; background-color: #95a5a6; margin-top: 3px; }
+        .column-adder-controls button:hover { background-color: #7f8c8d; }
+    </style>
+</head>
+<body>
+
+    <div class="editor-controls">
+        <h2>Szerkesztő</h2>
+        <div class="control-group">
+            <label for="page-filename">Oldal fájlneve</label>
+            <input type="text" id="page-filename" placeholder="pl. 08-uj-dia.html">
+        </div>
+        <div class="control-group">
+            <label for="prev-page">Előző oldal</label>
+            <input type="text" id="prev-page" placeholder="pl. 07-esetek.html">
+        </div>
+        <div class="control-group">
+            <label for="next-page">Következő oldal</label>
+            <input type="text" id="next-page" placeholder="pl. 09-osszefoglalas.html">
+        </div>
+
+        <div class="control-group">
+            <h2>Új Szekció Hozzáadása</h2>
+            <button id="add-paragraph-btn">Egyszerű bekezdés</button>
+            <button id="add-h2-section-btn">Címsor (H2) + Lista</button>
+            <button id="add-text-image-btn">Szöveg (bal) - Kép (jobb)</button>
+            <button id="add-image-text-btn">Kép (bal) - Szöveg (jobb)</button>
+            <button id="add-chart-placeholder-btn">Diagram Szekció (Placeholder)</button>
+            <button id="add-two-column-layout-btn">Kétoszlopos elrendezés</button>
+        </div>
+        
+        <div class="control-group">
+            <button id="generate-code-btn">Kód Generálása & Letöltés Előkészítése</button>
+        </div>
+
+        <div id="generated-code-container">
+            <label for="generated-code-output">Generált HTML</label>
+            <textarea id="generated-code-output" readonly placeholder="A generált HTML kód itt fog megjelenni..."></textarea>
+            <button id="download-btn">Fájl Letöltése</button>
+        </div>
+    </div>
+
+    <div class="slide-container-wrapper">
+        <div id="slide-preview" class="slide-container">
+            <div class="header-svg-container">
+                 <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <rect width="1000" height="80" fill="#0A2B4C"/>
+                    <image xlink:href="logo.jfif" x="25" y="15" width="50" height="50" />
+                    <text x="180" y="40" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="22" font-weight="600">
+                        <tspan fill="#79C7E3">Generatív</tspan>
+                        <tspan fill="#FFFFFF"> AI</tspan>
+                    </text>
+                    <text x="180" y="60" font-family="'Segoe UI', Tahoma, sans-serif" font-size="10" fill="#FFFFFF" letter-spacing="0.5">
+                        TAPASZTALATOK MEGOSZTÁSA
+                    </text>
+                    <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+                    <path d="M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z" fill="#79C7E3" fill-opacity="0.15"/>
+                    <line x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"/>
+                </svg>
+            </div>
+    
+            <div class="slide-title-main-container">
+                <h1 contenteditable="true">Dia Főcíme</h1>
+            </div>
+    
+            <div id="slide-content-editor" class="slide-content" onclick="handleColumnClicks(event)">
+                </div>
+        </div>
+    </div>
+
+    <script>
+    // Az előzőleg megadott teljes JavaScript kód változatlanul itt helyezkedik el.
+    // A változás a `generateFinalHtml` függvényben és egy új globális változóban van.
+
+    let downloadableFile = null;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const slideContentEditor = document.getElementById('slide-content-editor');
+
+        function createWrapper(innerHTML) {
+            const sectionId = `section-${Date.now()}`;
+            const section = document.createElement('div');
+            section.className = 'section-wrapper';
+            section.id = sectionId;
+            const controls = `<div class="section-controls"><button onclick="document.getElementById('${sectionId}').remove()">X</button></div>`;
+            section.innerHTML = controls + innerHTML;
+            slideContentEditor.appendChild(section);
+        }
+
+        document.getElementById('add-paragraph-btn').addEventListener('click', () => {
+            createWrapper(`<p contenteditable="true">Ez egy szerkeszthető bekezdés. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>`);
+        });
+
+        document.getElementById('add-h2-section-btn').addEventListener('click', () => {
+            createWrapper(`<h2 contenteditable="true">Görgethető címsor (H2)</h2><ul contenteditable="true"><li>Szerkeszthető lista...</li></ul>`);
+        });
+
+        document.getElementById('add-text-image-btn').addEventListener('click', () => {
+             createWrapper(`<h2 contenteditable="true">Szekció Címe</h2><div class="two-column-container"><div class="column-content content-bullets"><ul contenteditable="true"><li>Szöveges tartalom.</li></ul></div><div class="column-content"><svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-action="set-image"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">Kattints a kép beállításához</text></svg></div></div>`);
+        });
+        
+        document.getElementById('add-image-text-btn').addEventListener('click', () => {
+             createWrapper(`<h2 contenteditable="true">Szekció Címe</h2><div class="two-column-container"><div class="column-content"><svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-action="set-image"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">Kattints a kép beállításához</text></svg></div><div class="column-content content-bullets"><ul contenteditable="true"><li>Szöveges tartalom.</li></ul></div></div>`);
+        });
+
+        document.getElementById('add-chart-placeholder-btn').addEventListener('click', () => {
+            createWrapper(`<div class="chart-container"><h2 contenteditable="true">Diagram Címe</h2><div class="placeholder-for-chart">SVG diagram helye</div></div>`);
+        });
+
+        document.getElementById('add-two-column-layout-btn').addEventListener('click', () => {
+            const columnControls = `
+                <div class="column-adder-controls">
+                    <button data-action="add-text-to-column">Szöveg hozzáadása</button>
+                    <button data-action="add-chart-to-column">Diagram helykitöltő</button>
+                </div>`;
+            createWrapper(`<h2 contenteditable="true">Kétoszlopos Szekció</h2><div class="two-column-container"><div class="column-content">${columnControls}</div><div class="column-content">${columnControls}</div></div>`);
+        });
+        
+        document.getElementById('generate-code-btn').addEventListener('click', generateFinalHtml);
+        document.getElementById('download-btn').addEventListener('click', () => {
+            if (downloadableFile) {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(downloadableFile.blob);
+                link.download = downloadableFile.name;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+            } else {
+                alert("Először generálja a kódot!");
+            }
+        });
+    });
+
+    function handleColumnClicks(event) {
+        const target = event.target;
+        const action = target.dataset.action;
+        if (!action) return;
+
+        const column = target.closest('.column-content');
+        if (!column) {
+             if (action === 'set-image') {
+                setImage(target.closest('svg'));
+            }
+            return;
+        }
+
+        if (action === 'add-text-to-column') {
+            const list = document.createElement('ul');
+            list.setAttribute('contenteditable', 'true');
+            list.innerHTML = `<li>Új szerkeszthető lista</li>`;
+            column.insertBefore(list, target.parentElement); // Insert before the controls
+        } else if (action === 'add-chart-to-column') {
+            const chart = document.createElement('div');
+            chart.className = 'chart-container';
+            chart.innerHTML = `<h2 contenteditable="true">Diagram Címe</h2><div class="placeholder-for-chart">SVG diagram helye</div>`;
+            column.insertBefore(chart, target.parentElement);
+        }
+    }
+
+    function setImage(svgElement) {
+        if(!svgElement) return;
+        const imageUrl = prompt("Add meg a kép URL-jét:", "");
+        if (!imageUrl) return;
+        const isZoomable = confirm("Legyen a kép kattintásra kinagyítható (zoomable)?");
+        svgElement.innerHTML = ''; // Töröljük a placeholder szöveget
+        const image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+        image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', imageUrl);
+        image.setAttribute('x', '0'); image.setAttribute('y', '0');
+        image.setAttribute('width', '100%'); image.setAttribute('height', '100%');
+        image.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        svgElement.appendChild(image);
+        if (isZoomable) svgElement.setAttribute('data-zoomable', 'true');
+        else svgElement.removeAttribute('data-zoomable');
+    }
+    
+    function generateFinalHtml() {
+        // --- Klónozás és tisztítás (változatlan) ---
+        const previewNode = document.getElementById('slide-preview').cloneNode(true);
+        const pageFileName = document.getElementById('page-filename').value.trim() || 'untitled.html';
+        const pageTitle = previewNode.querySelector('.slide-title-main-container h1').textContent || 'Cím nélküli dia';
+        const prevPage = document.getElementById('prev-page').value.trim() || '#';
+        const nextPage = document.getElementById('next-page').value.trim() || '#';
+
+        previewNode.querySelectorAll('[contenteditable="true"]').forEach(el => el.removeAttribute('contenteditable'));
+        previewNode.querySelectorAll('.section-controls, .column-adder-controls').forEach(el => el.remove());
+        previewNode.querySelectorAll('[data-action]').forEach(el => el.removeAttribute('data-action'));
+        previewNode.querySelectorAll('.column-content').forEach(el => { el.style.border = 'none'; el.style.padding = '0'; });
+        previewNode.querySelectorAll('svg.placeholder-svg').forEach(svg => { if (!svg.querySelector('image')) { svg.innerHTML = `<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="24px" fill="#777">Kép helye</text>`; } });
+        previewNode.querySelectorAll('.placeholder-for-chart').forEach(p => { p.outerHTML = `<svg class="svg-chart" id="chart-${Date.now()}"></svg>`; });
+
+        // --- CSS és JS generálása (változatlan) ---
+        const hasScrollableHeadings = !!previewNode.querySelector('h2, h3');
+        const { finalCss, finalJs } = getFinalAssets(hasScrollableHeadings, prevPage, nextPage);
+
+        const finalHtml = `<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${pageTitle}</title>
+    <style>${finalCss}</style>
+</head>
+<body>
+    ${previewNode.outerHTML}
+    <div id="imageModal" class="modal-overlay">
+      <span class="modal-close">&times;</span>
+      <div class="modal-content-wrapper"></div>
+    </div>
+    <script>${finalJs}<\/script>
+</body>
+</html>`;
+
+        // --- ÚJ RÉSZ: Letöltés előkészítése ---
+        const codeOutput = document.getElementById('generated-code-output');
+        codeOutput.value = finalHtml; // Kód megjelenítése a textarea-ban
+
+        const blob = new Blob([finalHtml], { type: 'text/html' });
+        downloadableFile = {
+            blob: blob,
+            name: pageFileName
+        };
+
+        const downloadBtn = document.getElementById('download-btn');
+        downloadBtn.style.display = 'block'; // Gomb megjelenítése
+
+        alert('A HTML kód legenerálva és a letöltés előkészítve!');
+    }
+
+    function getFinalAssets(hasScrollableHeadings, prevPage, nextPage) {
+        // Ez a függvény változatlan az előző verzióhoz képest.
+        // Tartalmazza a CSS és JS stringek generálásának logikáját.
+        let finalCss = `
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
+        .slide-container { width: 1500px; height: 920px; background-color: #ffffff; box-shadow: 0 0 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; position: relative; overflow: hidden; }
+        .header-svg-container { width: 100%; height: 120px; flex-shrink: 0; }
+        .slide-title-main-container { padding: 22px 60px; background-color: #f8f8f8; border-bottom: 2px solid #ddd; }
+        .slide-title-main-container h1 { font-size: 36px; color: #2c3e50; margin: 0; font-weight: 600; }
+        .slide-content { padding: 22px 60px; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
+        .slide-content p, .slide-content ul { font-size: 17px; line-height: 1.65; }
+        .slide-content ul { list-style-type: disc; padding-left: 35px; }
+        .section-wrapper { padding: 15px; margin: 0 -15px 15px -15px; border-radius: 6px; }
+        .section-wrapper h2, .section-wrapper h3 { font-size: 26px; color: #34495e; margin-top: 20px; margin-bottom: 10px; border-bottom: 2px solid #79C7E3; padding-bottom: 6px; font-weight: 600; }
+        .section-wrapper h3 { font-size: 21px; }
+        .two-column-container { display: flex; gap: 30px; align-items: flex-start; }
+        .column-content { flex: 1; min-width: 0; }
+        .placeholder-svg { width: 100%; background-color: #e0e0e0; border: 1px dashed #b0b0b0; border-radius: 6px; }
+        .placeholder-svg[data-zoomable="true"] { cursor: pointer; }
+        .chart-row { width: 100%; }
+        .chart-row.two-column { display: flex; gap: 38px; }
+        .column { flex: 1; display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+        .chart-container { background-color: #fff; }
+        .chart-container h2 { font-size: 23px; color: #34495e; margin-top: 0; margin-bottom: 12px; border-bottom: 3px solid #79C7E3; padding-bottom: 6px; font-weight: 600; }
+        .svg-chart { width: 100%; min-height: 180px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-content-wrapper { position: relative; background-color: #fff; padding: 10px; border-radius: 8px; max-width: 80vw; max-height: 80vh; }
+        .modal-content-wrapper img, .modal-content-wrapper svg { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .modal-close { position: absolute; top: -10px; right: -10px; color: #333; background-color: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; font-size: 24px; cursor: pointer; border: 1px solid #ddd; }
+        `;
+        let scrollNavJs = '';
+        if (hasScrollableHeadings) {
+            finalCss += `.current-scroll-target { text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4); }`;
+            scrollNavJs = `
+            const headingElements = Array.from(slideContent.querySelectorAll('h2, h3'));
+            let currentHeadingIndex = -1;
+            let lastScrollTarget = null;
+            function highlightTarget(target) {
+                if (lastScrollTarget) lastScrollTarget.classList.remove('current-scroll-target');
+                if (target && (target.nodeName === 'H2' || target.nodeName === 'H3')) {
+                    target.classList.add('current-scroll-target');
+                }
+                lastScrollTarget = target;
+            }
+            if (event.key === 'ArrowDown') {
+                if (currentHeadingIndex < headingElements.length - 1) {
+                    currentHeadingIndex++;
+                    const target = headingElements[currentHeadingIndex];
+                    highlightTarget(target);
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                preventDefault = true;
+            } else if (event.key === 'ArrowUp') {
+                if (currentHeadingIndex > -1) {
+                    currentHeadingIndex--;
+                    const target = currentHeadingIndex === -1 ? slideContent.firstElementChild : headingElements[currentHeadingIndex];
+                    highlightTarget(target);
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                preventDefault = true;
+            }`;
+        }
+        let finalJs = `
+        document.addEventListener('DOMContentLoaded', function() {
+            const slideContent = document.querySelector('.slide-content');
+            document.addEventListener('keydown', function(event) {
+                let preventDefault = false;
+                if (event.key === 'ArrowLeft') { window.location.href = '${prevPage}'; preventDefault = true; }
+                else if (event.key === 'ArrowRight' || event.key === ' ') { window.location.href = '${nextPage}'; preventDefault = true; }
+                ${scrollNavJs}
+                if (preventDefault) event.preventDefault();
+            });
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                const modalContentWrapper = modal.querySelector('.modal-content-wrapper');
+                const closeModalButton = modal.querySelector('.modal-close');
+                document.querySelectorAll('svg[data-zoomable="true"]').forEach(svg => {
+                    svg.addEventListener('click', () => {
+                        const imageTag = svg.querySelector('image');
+                        if (imageTag) {
+                            const imageUrl = imageTag.getAttributeNS('http://www.w3.org/1999/xlink', 'href') || imageTag.getAttribute('href');
+                            if(imageUrl) {
+                                modalContentWrapper.innerHTML = \`<img src="\${imageUrl}" alt="Nagyított kép">\`;
+                                modal.classList.add('show');
+                            }
+                        }
+                    });
+                });
+                function hideModal() { modal.classList.remove('show'); }
+                closeModalButton.addEventListener('click', hideModal);
+                modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
+                document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('show')) hideModal(); });
+            }
+        });`;
+        return { finalCss, finalJs };
+    }
+    </script>
+</body>
+</html>
