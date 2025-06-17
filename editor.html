@@ -129,8 +129,8 @@
         .section-wrapper h3 { font-size: 21px; }
         .two-column-container { display: flex; gap: 30px; align-items: flex-start; }
         .column-content { flex: 1; min-width: 0; border: 1px dotted #a0a0a0; padding: 10px; border-radius: 4px; }
-        .placeholder-svg { width: 100%; background-color: #e0e0e0; border: 1px dashed #b0b0b0; border-radius: 6px; cursor: pointer; transition: background-color 0.2s; }
-        .placeholder-svg:hover { background-color: #d0d0d0; }
+        .placeholder-svg { width: 100%; background-color: #f0f0f0; border: 1px dashed #b0b0b0; border-radius: 6px; cursor: pointer; transition: background-color 0.2s; }
+        .placeholder-svg:hover { background-color: #e0e0e0; }
         .chart-container { background-color: #fff; position: relative; padding: 10px; }
         .placeholder-for-chart { border: 2px dashed #3498db; min-height: 180px; display:flex; align-items: center; justify-content: center; color: #777; font-size: 16px; background: #fafdff; }
 
@@ -223,11 +223,10 @@
     document.addEventListener('DOMContentLoaded', function() {
         const slideContentEditor = document.getElementById('slide-content-editor');
 
-        // --- Gomb eseménykezelők ---
         document.getElementById('add-paragraph-btn').addEventListener('click', () => createWrapper(`<p contenteditable="true">Ez egy szerkeszthető bekezdés.</p>`));
         document.getElementById('add-h2-section-btn').addEventListener('click', () => createWrapper(`<h2 contenteditable="true">Címsor (H2)</h2><ul contenteditable="true"><li>Lista...</li></ul>`));
-        document.getElementById('add-text-image-btn').addEventListener('click', () => createWrapper(`<h2 contenteditable="true">Szekció címe</h2><div class="two-column-container"><div class="column-content"><ul contenteditable="true"><li>Szöveges rész...</li></ul></div><div class="column-content"><svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-action="set-image"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="font-size:16px; fill:#777;">Kattints a kép beállításához</text></svg></div></div>`));
-        document.getElementById('add-image-text-btn').addEventListener('click', () => createWrapper(`<h2 contenteditable="true">Szekció címe</h2><div class="two-column-container"><div class="column-content"><svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-action="set-image"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="font-size:16px; fill:#777;">Kattints a kép beállításához</text></svg></div><div class="column-content"><ul contenteditable="true"><li>Szöveges rész...</li></ul></div></div>`));
+        document.getElementById('add-text-image-btn').addEventListener('click', () => createWrapper(`<h2 contenteditable="true">Szekció címe</h2><div class="two-column-container"><div class="column-content"><ul contenteditable="true"><li>Szöveges rész...</li></ul></div><div class="column-content"><svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-action="set-image"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="font-size:16px; fill:#777; pointer-events:none;">Kattints a kép beállításához</text></svg></div></div>`));
+        document.getElementById('add-image-text-btn').addEventListener('click', () => createWrapper(`<h2 contenteditable="true">Szekció címe</h2><div class="two-column-container"><div class="column-content"><svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-action="set-image"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="font-size:16px; fill:#777; pointer-events:none;">Kattints a kép beállításához</text></svg></div><div class="column-content"><ul contenteditable="true"><li>Szöveges rész...</li></ul></div></div>`));
         document.getElementById('add-chart-placeholder-btn').addEventListener('click', () => createWrapper(`<div class="chart-container"><h2 contenteditable="true">Diagram címe</h2><div class="placeholder-for-chart">SVG diagram helye</div></div>`));
         document.getElementById('add-two-column-layout-btn').addEventListener('click', () => {
             const columnControls = `<div class="column-adder-controls"><button data-action="add-text-to-column">Szöveg</button><button data-action="add-chart-to-column">Diagram</button></div>`;
@@ -237,8 +236,6 @@
         document.getElementById('generate-code-btn').addEventListener('click', generateFinalHtml);
         document.getElementById('download-btn').addEventListener('click', downloadFile);
         document.getElementById('upload-input').addEventListener('change', handleFileUpload);
-        
-        // JAVÍTÁS: Eseménykezelő a tartalomra delegálva, nem inline onclick
         slideContentEditor.addEventListener('click', handleActionClicks);
     });
 
@@ -284,12 +281,15 @@
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlString, 'text/html');
         document.getElementById('page-filename').value = fileName;
-        document.querySelector('#slide-preview .slide-title-main-container h1').innerHTML = doc.querySelector('.slide-title-main-container h1').innerHTML;
+        document.querySelector('#slide-preview .slide-title-main-container h1').innerHTML = doc.querySelector('.slide-title-main-container h1')?.innerHTML || 'Hiba a cím betöltésekor';
         const scriptContent = doc.querySelector('script:not([src])')?.textContent || '';
-        const prevMatch = scriptContent.match(/event.key === 'ArrowLeft'\) ? window.location.href = '([^']*)'/);
-        const nextMatch = scriptContent.match(/(event.key === 'ArrowRight' || event.key === ' ') ? window.location.href = '([^']*)'/);
+        
+        // Javított Regex a nav linkekhez
+        const prevMatch = scriptContent.match(/event.key === 'ArrowLeft'.*?window.location.href = '([^']*)'/);
+        const nextMatch = scriptContent.match(/event.key === 'ArrowRight'.*?window.location.href = '([^']*)'/);
         document.getElementById('prev-page').value = prevMatch ? prevMatch[1] : '';
         document.getElementById('next-page').value = nextMatch ? nextMatch[1] : '';
+
         const slideContent = doc.querySelector('.slide-content');
         if (slideContent) {
             slideContent.querySelectorAll('.section-wrapper').forEach((section, index) => {
@@ -304,29 +304,30 @@
             });
             slideContent.querySelectorAll('h1, h2, h3, p, ul, li').forEach(el => el.setAttribute('contenteditable', 'true'));
             slideContent.querySelectorAll('.placeholder-svg').forEach(svg => svg.setAttribute('data-action', 'set-image'));
-            document.getElementById('slide-content-editor').innerHTML = slideContent.innerHTML;
+            const editorContentDiv = document.getElementById('slide-content-editor');
+            editorContentDiv.innerHTML = '';
+            Array.from(slideContent.children).forEach(child => {
+                editorContentDiv.appendChild(child);
+            });
         }
         alert(`'${fileName}' sikeresen betöltve a szerkesztőbe.`);
     }
 
-    // JAVÍTOTT, ROBUSTUS ESEMÉNYKEZELŐ
     function handleActionClicks(event) {
         const actionElement = event.target.closest('[data-action]');
         if (!actionElement) return;
-
         const action = actionElement.dataset.action;
         const column = actionElement.closest('.column-content');
-        
         switch(action) {
             case 'set-image':
-                setImage(actionElement); // actionElement is the SVG
+                setImage(actionElement);
                 break;
             case 'add-text-to-column':
                 if(column){
                     const list = document.createElement('ul');
                     list.setAttribute('contenteditable', 'true');
                     list.innerHTML = `<li>Új szerkeszthető lista</li>`;
-                    column.insertBefore(list, actionElement.parentElement); // Insert before the controls div
+                    column.insertBefore(list, actionElement.parentElement);
                 }
                 break;
             case 'add-chart-to-column':
@@ -341,19 +342,24 @@
     }
 
     function setImage(svgElement) {
-        if(!svgElement) return;
+        if (!svgElement) return;
         const imageUrl = prompt("Add meg a kép URL-jét:", "");
         if (!imageUrl) return;
         const isZoomable = confirm("Legyen a kép kattintásra kinagyítható (zoomable)?");
         svgElement.innerHTML = '';
         const image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-        image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', imageUrl);
-        image.setAttribute('x', '0'); image.setAttribute('y', '0');
-        image.setAttribute('width', '100%'); image.setAttribute('height', '100%');
+        image.setAttribute('href', imageUrl);
+        image.setAttribute('x', '0');
+        image.setAttribute('y', '0');
+        image.setAttribute('width', '100%');
+        image.setAttribute('height', '100%');
         image.setAttribute('preserveAspectRatio', 'xMidYMid meet');
         svgElement.appendChild(image);
-        if (isZoomable) svgElement.setAttribute('data-zoomable', 'true');
-        else svgElement.removeAttribute('data-zoomable');
+        if (isZoomable) {
+            svgElement.setAttribute('data-zoomable', 'true');
+        } else {
+            svgElement.removeAttribute('data-zoomable');
+        }
     }
     
     function generateFinalHtml() {
@@ -362,31 +368,42 @@
         const pageTitle = previewNode.querySelector('.slide-title-main-container h1').textContent || 'Cím nélküli dia';
         const prevPage = document.getElementById('prev-page').value.trim() || '#';
         const nextPage = document.getElementById('next-page').value.trim() || '#';
+        
         previewNode.querySelectorAll('[contenteditable="true"]').forEach(el => el.removeAttribute('contenteditable'));
         previewNode.querySelectorAll('.section-controls, .column-adder-controls').forEach(el => el.remove());
         previewNode.querySelectorAll('[data-action]').forEach(el => el.removeAttribute('data-action'));
         previewNode.querySelectorAll('.column-content').forEach(el => { el.style.border = 'none'; el.style.padding = '0'; });
-        previewNode.querySelectorAll('svg.placeholder-svg').forEach(svg => { if (!svg.querySelector('image')) { svg.innerHTML = `<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="24px" fill="#777">Kép helye</text>`; } });
+        
+        previewNode.querySelectorAll('svg.placeholder-svg').forEach(svg => {
+            if (svg.getElementsByTagName('image').length === 0) {
+                svg.innerHTML = `<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="24px" fill="#777">Kép helye</text>`;
+            }
+        });
+
         previewNode.querySelectorAll('.placeholder-for-chart').forEach(p => { p.outerHTML = `<svg class="svg-chart" id="chart-${Date.now()}"></svg>`; });
+        
         const hasScrollableHeadings = !!previewNode.querySelector('h2, h3');
         const { finalCss, finalJs } = getFinalAssets(hasScrollableHeadings, prevPage, nextPage);
-        const finalHtml = `<!DOCTYPE html>
-<html lang="hu">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${pageTitle}</title>
-    <style>${finalCss}</style>
-</head>
-<body>
-    ${previewNode.outerHTML}
-    <div id="imageModal" class="modal-overlay">
-      <span class="modal-close">&times;</span>
-      <div class="modal-content-wrapper"></div>
-    </div>
-    <script>${finalJs}<\/script>
-</body>
-</html>`;
+        
+        // JAVÍTÁS: Biztonságos string összefűzés használata
+        const finalHtml = '<!DOCTYPE html>\n' +
+            '<html lang="hu">\n' +
+            '<head>\n' +
+            '    <meta charset="UTF-8">\n' +
+            '    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+            '    <title>' + pageTitle + '</title>\n' +
+            '    <style>' + finalCss + '</style>\n' +
+            '</head>\n' +
+            '<body>\n' +
+            '    ' + previewNode.outerHTML + '\n' +
+            '    <div id="imageModal" class="modal-overlay">\n' +
+            '      <span class="modal-close">&times;</span>\n' +
+            '      <div class="modal-content-wrapper"></div>\n' +
+            '    </div>\n' +
+            '    <script>' + finalJs + '<\/script>\n'+
+            '</body>\n' +
+            '</html>';
+        
         const codeOutput = document.getElementById('generated-code-output');
         codeOutput.value = finalHtml;
         const blob = new Blob([finalHtml], { type: 'text/html' });
@@ -396,8 +413,6 @@
     }
 
     function getFinalAssets(hasScrollableHeadings, prevPage, nextPage) {
-        // A `getFinalAssets` függvény változatlanul tartalmazza a CSS és JS generálási logikát.
-        // ... (kód rövidítve, megegyezik az előző verzióval)
         let finalCss = `
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
         .slide-container { width: 1500px; height: 920px; background-color: #ffffff; box-shadow: 0 0 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; position: relative; overflow: hidden; }
@@ -412,7 +427,7 @@
         .section-wrapper h3 { font-size: 21px; }
         .two-column-container { display: flex; gap: 30px; align-items: flex-start; }
         .column-content { flex: 1; min-width: 0; }
-        .placeholder-svg { width: 100%; background-color: #e0e0e0; border: 1px dashed #b0b0b0; border-radius: 6px; }
+        .placeholder-svg { width: 100%; height: auto; min-height: 150px; background-color: #f0f0f0; border: 1px dashed #b0b0b0; border-radius: 6px; }
         .placeholder-svg[data-zoomable="true"] { cursor: pointer; }
         .chart-container { background-color: #fff; }
         .chart-container h2 { font-size: 23px; color: #34495e; margin-top: 0; margin-bottom: 12px; border-bottom: 3px solid #79C7E3; padding-bottom: 6px; font-weight: 600; }
@@ -447,8 +462,8 @@
                     svg.addEventListener('click', () => {
                         const imageTag = svg.querySelector('image');
                         if (imageTag) {
-                            const imageUrl = imageTag.getAttributeNS('http://www.w3.org/1999/xlink', 'href') || imageTag.getAttribute('href');
-                            if(imageUrl) { modalContentWrapper.innerHTML = \`<img src="\${imageUrl}" alt="Nagyított kép">\`; modal.classList.add('show'); }
+                            const imageUrl = imageTag.getAttribute('href');
+                            if(imageUrl) { modalContentWrapper.innerHTML = '<img src="' + imageUrl + '" alt="Nagyított kép">'; modal.classList.add('show'); }
                         }
                     });
                 });
