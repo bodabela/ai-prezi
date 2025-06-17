@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prezentáció Szerkesztő - Feltöltéssel</title>
+    <title>Prezentáció Szerkesztő - Javított</title>
     <style>
-        /* A CSS stílusok változatlanok az előző verzióhoz képest */
+        /* A CSS stílusok változatlanok */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -212,7 +212,7 @@
                 <h1 contenteditable="true">Dia Főcíme</h1>
             </div>
     
-            <div id="slide-content-editor" class="slide-content" onclick="handleColumnClicks(event)">
+            <div id="slide-content-editor" class="slide-content">
                 </div>
         </div>
     </div>
@@ -221,16 +221,25 @@
     let downloadableFile = null;
 
     document.addEventListener('DOMContentLoaded', function() {
-        // --- Event Listenerek a gombokhoz (változatlan) ---
-        // (Itt van az összes add-...-btn, generate, download gomb eseménykezelője)
-        // ... (teljesség igénye nélkül a kód rövidítése érdekében)
+        const slideContentEditor = document.getElementById('slide-content-editor');
+
+        // --- Gomb eseménykezelők ---
         document.getElementById('add-paragraph-btn').addEventListener('click', () => createWrapper(`<p contenteditable="true">Ez egy szerkeszthető bekezdés.</p>`));
         document.getElementById('add-h2-section-btn').addEventListener('click', () => createWrapper(`<h2 contenteditable="true">Címsor (H2)</h2><ul contenteditable="true"><li>Lista...</li></ul>`));
+        document.getElementById('add-text-image-btn').addEventListener('click', () => createWrapper(`<h2 contenteditable="true">Szekció címe</h2><div class="two-column-container"><div class="column-content"><ul contenteditable="true"><li>Szöveges rész...</li></ul></div><div class="column-content"><svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-action="set-image"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="font-size:16px; fill:#777;">Kattints a kép beállításához</text></svg></div></div>`));
+        document.getElementById('add-image-text-btn').addEventListener('click', () => createWrapper(`<h2 contenteditable="true">Szekció címe</h2><div class="two-column-container"><div class="column-content"><svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-action="set-image"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="font-size:16px; fill:#777;">Kattints a kép beállításához</text></svg></div><div class="column-content"><ul contenteditable="true"><li>Szöveges rész...</li></ul></div></div>`));
+        document.getElementById('add-chart-placeholder-btn').addEventListener('click', () => createWrapper(`<div class="chart-container"><h2 contenteditable="true">Diagram címe</h2><div class="placeholder-for-chart">SVG diagram helye</div></div>`));
+        document.getElementById('add-two-column-layout-btn').addEventListener('click', () => {
+            const columnControls = `<div class="column-adder-controls"><button data-action="add-text-to-column">Szöveg</button><button data-action="add-chart-to-column">Diagram</button></div>`;
+            createWrapper(`<h2 contenteditable="true">Kétoszlopos szekció</h2><div class="two-column-container"><div class="column-content">${columnControls}</div><div class="column-content">${columnControls}</div></div>`);
+        });
+
         document.getElementById('generate-code-btn').addEventListener('click', generateFinalHtml);
         document.getElementById('download-btn').addEventListener('click', downloadFile);
-        
-        // --- ÚJ: Upload logika ---
         document.getElementById('upload-input').addEventListener('change', handleFileUpload);
+        
+        // JAVÍTÁS: Eseménykezelő a tartalomra delegálva, nem inline onclick
+        slideContentEditor.addEventListener('click', handleActionClicks);
     });
 
     function createWrapper(innerHTML) {
@@ -264,11 +273,9 @@
             alert("Kérlek, egy HTML fájlt válassz ki.");
             return;
         }
-
         const reader = new FileReader();
         reader.onload = function(e) {
-            const htmlContent = e.target.result;
-            loadSlideForEditing(htmlContent, file.name);
+            loadSlideForEditing(e.target.result, file.name);
         };
         reader.readAsText(file);
     }
@@ -276,66 +283,60 @@
     function loadSlideForEditing(htmlString, fileName) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlString, 'text/html');
-
-        // 1. Vezérlők feltöltése
         document.getElementById('page-filename').value = fileName;
-        document.getElementById('slide-preview').querySelector('.slide-title-main-container h1').innerHTML = doc.querySelector('.slide-title-main-container h1').innerHTML;
-        
+        document.querySelector('#slide-preview .slide-title-main-container h1').innerHTML = doc.querySelector('.slide-title-main-container h1').innerHTML;
         const scriptContent = doc.querySelector('script:not([src])')?.textContent || '';
-        const prevMatch = scriptContent.match(/event.key === 'ArrowLeft'\) window.location.href = '([^']*)'/);
-        const nextMatch = scriptContent.match(/(event.key === 'ArrowRight' || event.key === ' ') window.location.href = '([^']*)'/);
+        const prevMatch = scriptContent.match(/event.key === 'ArrowLeft'\) ? window.location.href = '([^']*)'/);
+        const nextMatch = scriptContent.match(/(event.key === 'ArrowRight' || event.key === ' ') ? window.location.href = '([^']*)'/);
         document.getElementById('prev-page').value = prevMatch ? prevMatch[1] : '';
         document.getElementById('next-page').value = nextMatch ? nextMatch[1] : '';
-
-        // 2. Tartalom újraépítése a szerkesztőben
         const slideContent = doc.querySelector('.slide-content');
         if (slideContent) {
-            // "Rehidratálás": szerkesztő-specifikus elemek visszaállítása
             slideContent.querySelectorAll('.section-wrapper').forEach((section, index) => {
                 const sectionId = `section-loaded-${index}`;
                 section.id = sectionId;
-                const controls = `<div class="section-controls"><button onclick="document.getElementById('${sectionId}').remove()">X</button></div>`;
-                section.insertAdjacentHTML('afterbegin', controls);
+                section.insertAdjacentHTML('afterbegin', `<div class="section-controls"><button onclick="document.getElementById('${sectionId}').remove()">X</button></div>`);
             });
             slideContent.querySelectorAll('.column-content').forEach(col => {
-                const columnControls = `<div class="column-adder-controls"><button data-action="add-text-to-column">Szöveg</button><button data-action="add-chart-to-column">Diagram</button></div>`;
-                if(col.closest('.two-column-container')) col.insertAdjacentHTML('beforeend', columnControls);
+                if (col.closest('.two-column-container')) {
+                     col.insertAdjacentHTML('beforeend', `<div class="column-adder-controls"><button data-action="add-text-to-column">Szöveg</button><button data-action="add-chart-to-column">Diagram</button></div>`);
+                }
             });
-            slideContent.querySelectorAll('h1, h2, h3, p, ul').forEach(el => el.setAttribute('contenteditable', 'true'));
-            slideContent.querySelectorAll('svg.placeholder-svg').forEach(svg => svg.setAttribute('data-action', 'set-image'));
-            
-            // Tartalom cseréje
+            slideContent.querySelectorAll('h1, h2, h3, p, ul, li').forEach(el => el.setAttribute('contenteditable', 'true'));
+            slideContent.querySelectorAll('.placeholder-svg').forEach(svg => svg.setAttribute('data-action', 'set-image'));
             document.getElementById('slide-content-editor').innerHTML = slideContent.innerHTML;
         }
         alert(`'${fileName}' sikeresen betöltve a szerkesztőbe.`);
     }
 
-    // --- A KORÁBBI FÜGGVÉNYEK VÁLTOZATLANOK ---
-    // (handleColumnClicks, setImage, generateFinalHtml, getFinalAssets)
-    // ... (rövidítés miatt nem másolom be újra a teljes kódot)
-    function handleColumnClicks(event) {
-        const target = event.target;
-        const action = target.dataset.action;
-        if (!action) return;
+    // JAVÍTOTT, ROBUSTUS ESEMÉNYKEZELŐ
+    function handleActionClicks(event) {
+        const actionElement = event.target.closest('[data-action]');
+        if (!actionElement) return;
 
-        const column = target.closest('.column-content');
-        if (!column) {
-             if (action === 'set-image') {
-                setImage(target.closest('svg'));
-            }
-            return;
-        }
-
-        if (action === 'add-text-to-column') {
-            const list = document.createElement('ul');
-            list.setAttribute('contenteditable', 'true');
-            list.innerHTML = `<li>Új szerkeszthető lista</li>`;
-            column.insertBefore(list, target.parentElement);
-        } else if (action === 'add-chart-to-column') {
-            const chart = document.createElement('div');
-            chart.className = 'chart-container';
-            chart.innerHTML = `<h2 contenteditable="true">Diagram Címe</h2><div class="placeholder-for-chart">SVG diagram helye</div>`;
-            column.insertBefore(chart, target.parentElement);
+        const action = actionElement.dataset.action;
+        const column = actionElement.closest('.column-content');
+        
+        switch(action) {
+            case 'set-image':
+                setImage(actionElement); // actionElement is the SVG
+                break;
+            case 'add-text-to-column':
+                if(column){
+                    const list = document.createElement('ul');
+                    list.setAttribute('contenteditable', 'true');
+                    list.innerHTML = `<li>Új szerkeszthető lista</li>`;
+                    column.insertBefore(list, actionElement.parentElement); // Insert before the controls div
+                }
+                break;
+            case 'add-chart-to-column':
+                if(column){
+                    const chart = document.createElement('div');
+                    chart.className = 'chart-container';
+                    chart.innerHTML = `<h2 contenteditable="true">Diagram Címe</h2><div class="placeholder-for-chart">SVG diagram helye</div>`;
+                    column.insertBefore(chart, actionElement.parentElement);
+                }
+                break;
         }
     }
 
@@ -395,6 +396,8 @@
     }
 
     function getFinalAssets(hasScrollableHeadings, prevPage, nextPage) {
+        // A `getFinalAssets` függvény változatlanul tartalmazza a CSS és JS generálási logikát.
+        // ... (kód rövidítve, megegyezik az előző verzióval)
         let finalCss = `
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
         .slide-container { width: 1500px; height: 920px; background-color: #ffffff; box-shadow: 0 0 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; position: relative; overflow: hidden; }
