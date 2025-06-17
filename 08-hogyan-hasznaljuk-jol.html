@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatív AI - Hogyan használjuk jól?</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .slide-container {
+            width: 1500px;
+            height: 920px;
+            background-color: #ffffff;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-svg-container {
+            width: 100%;
+            height: 120px;
+            flex-shrink: 0;
+        }
+        .slide-title-main-container {
+            padding: 22px 60px;
+            background-color: #f8f8f8;
+            border-bottom: 2px solid #ddd;
+        }
+        .slide-title-main-container h1 {
+            font-size: 36px;
+            color: #2c3e50;
+            margin: 0;
+            font-weight: 600;
+        }
+        .slide-content {
+            padding: 22px 60px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: row; /* Vízszintes elrendezés a két hasábnak */
+            gap: 40px; /* Térköz a két hasáb között */
+            overflow: hidden; /* A belső görgetést a hasábok kezelik */
+        }
+        .column-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; /* Görgetés a hasábon belül, ha szükséges */
+            padding-right: 15px; /* A görgetősáv miatti elcsúszás elkerülésére */
+        }
+        .column-container h2 {
+            font-size: 23px;
+            color: #34495e;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #79C7E3;
+            padding-bottom: 6px;
+            font-weight: 600;
+        }
+        .column-container ul {
+            list-style-type: disc;
+            padding-left: 25px;
+            margin: 0;
+            font-size: 17px;
+            line-height: 1.65;
+        }
+        .column-container ul li {
+            margin-bottom: 10px;
+        }
+        .column-container ul ul {
+            list-style-type: circle;
+            margin-top: 8px;
+            margin-left: 20px;
+        }
+        .column-container strong {
+            font-weight: 600;
+            color: #0A2B4C;
+        }
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .placeholder-svg {
+            width: 100%;
+            height: 100%;
+            max-height: 650px;
+            background-color: #fdfdfd;
+            border-radius: 6px;
+        }
+        .placeholder-svg[data-zoomable="true"] { 
+            cursor: pointer;
+            transition: filter 0.2s ease-in-out;
+        }
+        .placeholder-svg[data-zoomable="true"]:hover {
+            filter: brightness(0.97); 
+        }
+
+        /* Modal styles (ugyanaz, mint a 07-es oldalon) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content-wrapper {
+            position: relative;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: calc(80vw + 20px);
+            max-height: calc(80vh + 20px);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.show .modal-content-wrapper {
+            transform: scale(1);
+        }
+        .modal-content-wrapper img,
+        .modal-content-wrapper svg {
+            max-width: 80vw;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+        .modal-close {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            color: #333;
+            background-color: #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 1px solid #ddd;
+        }
+        .modal-close:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="1000" height="80" fill="#0A2B4C"/>
+                <image xlink:href="logo.jfif" x="25" y="15" width="50" height="50" />
+                <text x="180" y="40" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="22" font-weight="600">
+                    <tspan fill="#79C7E3">Generatív</tspan>
+                    <tspan fill="#FFFFFF"> AI</tspan>
+                </text>
+                <text x="180" y="60" font-family="'Segoe UI', Tahoma, sans-serif" font-size="10" fill="#FFFFFF" letter-spacing="0.5">
+                    TAPASZTALATOK MEGOSZTÁSA
+                </text>
+                <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+                <path d="M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z" fill="#79C7E3" fill-opacity="0.15"/>
+                <line x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <div class="slide-title-main-container">
+            <h1>Hogyan használjuk jól - Összefoglalás</h1>
+        </div>
+
+        <div class="slide-content">
+            <div class="column-container">
+                <h2>Rövid életű kontextusok</h2>
+                <ul>
+                    <li>Új, tiszta kontextust (chat ablakot) kezdünk, ha a modell:</li>
+                    <ul>
+                        <li>Nem az elvárt eredményt adja.</li>
+                        <li>Loopba kerül, korábbi, már elavult válaszrészeket hoz vissza.</li>
+                        <li>Túl lassúvá válik a válaszadás.</li>
+                    </ul>
+                    <li>A modell "Tevékenységek" listájából minden korábbi beszélgetés visszakereshető, ha mégis szükség lenne rá.</li>
+                </ul>
+
+                <h2>Gem & Projekt kontextus</h2>
+                <ul>
+                    <li>Minden projekthez/nagyobb feladathoz dedikált "Root Context"-et biztosítanak.</li>
+                    <li>Ebben <strong>minden fontos információ</strong> benne van a feladatról (alapkövetelmények, technológiák, célok).</li>
+                    <li>Ha Gemini Research kutatást végzünk a témában, annak eredményét is ide másoljuk be.</li>
+                    <li>A feladat során elért <strong>mérföldköveket</strong> is itt gyűjtjük.</li>
+                    <li>A rövid életű kontextusokban felmerült fontos, általános érvényű dolgait is mentsük át ide.</li>
+                    <li>Írjuk le, hogy mit miért kérünk, <strong>mert</strong> ekkor a hasznos részletek és összefüggések is pontosítják az eredményt.</li>
+                </ul>
+                
+                <h2>Promptok</h2>
+                <ul>
+                    <li>Ha a modell nem biztos egy kódrészlet helyességében, kérjük meg, hogy jelölje <strong>`TODO`</strong> kommenttel.</li>
+                    <li>Kérjük meg, hogy az <strong>üzletileg kritikus</strong> vagy komplex kódrészleteket mindig lássa el magyarázó kommenttel.</li>
+                    <li>Adjunk neki képeket a feladat jobb megértéséhez:</li>
+                    <ul>
+                        <li><strong>Kiinduló specifikációról</strong> (pl. UI terv, architektúra ábra).</li>
+                        <li><strong>Előtte/utána állapotról</strong> (pl. egy korábbi jó állapot és az elrontott változata, vagy egy hibás és elvárt állapot).</li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal-overlay">
+      <span class="modal-close">&times;</span>
+      <div class="modal-content-wrapper">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigáció
+            document.addEventListener('keydown', function(event) {
+                let preventDefaultBehavior = true;
+                if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+                    // Ugrás az előző oldalra
+                    window.location.href = '07-esetek.html';
+                } else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                    // Visszaugrás a kezdőoldalra, mivel ez az utolsó slide
+                    window.location.href = '01-cover.html';
+                } else {
+                    preventDefaultBehavior = false;
+                }
+                if (preventDefaultBehavior) {
+                    event.preventDefault();
+                }
+            });
+
+            // Modal script (ugyanaz, mint a 07-es oldalon)
+            const modal = document.getElementById('imageModal');
+            const modalContentWrapper = modal.querySelector('.modal-content-wrapper');
+            const closeModalButton = modal.querySelector('.modal-close');
+            const zoomableSVGs = document.querySelectorAll('svg.placeholder-svg[data-zoomable="true"]');
+
+            zoomableSVGs.forEach(svg => {
+                svg.addEventListener('click', () => {
+                    const imageTag = svg.getElementsByTagName('image')[0];
+                    let imageUrl = null;
+
+                    if (imageTag) {
+                        // Névtér-kompatibilis attribútum lekérdezés
+                        if (imageTag.hasAttributeNS('http://www.w3.org/1999/xlink', 'href')) {
+                            imageUrl = imageTag.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+                        } else if (imageTag.hasAttribute('href')) { // Standard href fallback
+                            imageUrl = imageTag.getAttribute('href');
+                        }
+                    }
+
+                    if (imageUrl) {
+                        modalContentWrapper.innerHTML = ''; 
+                        const img = document.createElement('img');
+                        img.src = imageUrl;
+                        img.alt = 'Nagyított elmetérkép'; 
+                        modalContentWrapper.appendChild(img);
+                        modal.classList.add('show');
+                    }
+                });
+            });
+            
+            function hideModal() {
+                modal.classList.remove('show');
+                 setTimeout(() => {
+                    if (!modal.classList.contains('show')) {
+                         modalContentWrapper.innerHTML = '';
+                    }
+                }, 300); // Megvárja az animáció végét
+            }
+
+            closeModalButton.addEventListener('click', hideModal);
+
+            modal.addEventListener('click', (event) => {
+                // Csak akkor zár be, ha a háttérre kattintunk, nem a képre vagy a gombra
+                if (event.target === modal) {
+                    hideModal();
+                }
+            });
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modal.classList.contains('show')) {
+                    hideModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
