@@ -176,13 +176,13 @@
                     <div class="column-content">
                         <h2>Rövid életű kontextusok</h2>
                         <ul>
-                            <li>Új, tiszta kontextust (chat ablakot) kezdünk, ha a modell:</li>
+                            <li>Hogyan ismerhető fel az elromlott kontextus:</li>
                             <ul>
                                 <li>Nem az elvárt eredményt adja.</li>
                                 <li>Loopba kerül, korábbi, már elavult válaszrészeket hoz vissza.</li>
                                 <li>Túl lassúvá válik a válaszadás. (Ez egyébként bonyolultságra is utalhat)</li>
                             </ul>
-                            <li>A modell "Tevékenységek" listájából minden korábbi beszélgetés visszakereshető, ha mégis szükség lenne rá.</li>
+                            <li>Nem kell aggódni, hogy elvész, a modell "Tevékenységek" listájából minden korábbi beszélgetés visszakereshető, ha mégis szükség lenne rá.</li>
                         </ul>
                     </div>
                 </div>
@@ -193,11 +193,12 @@
                      <div class="column-content">
                         <h2>Gem & Projekt kontextus</h2>
                         <ul>
+                            <li>A rövid életű kontextusok felett áll.</li>
                             <li>Minden projekthez/nagyobb feladathoz dedikált "Root Context"-et biztosítanak.</li>
-                            <li>Ebben <strong>minden fontos információ</strong> benne van a feladatról (alapkövetelmények, technológiák, célok).</li>
+                            <li>Ebben <strong>minden fontos információt</strong> összegyűjtönk a feladatról (alapkövetelmények, technológiák, célok).</li>
                             <li>Ha Gemini Research kutatást végzünk a témában, annak eredményét is ide másoljuk.</li>
-                            <li>A feladat során elért <strong>mérföldköveket</strong> is itt gyűjtjük.</li>
-                            <li>A rövid életű kontextusokban felmerült fontos, általános érvényű dolgait is mentsük át ide.</li>
+                            <li>A feladat során elért <strong>mérföldköveket</strong> is itt összegezzük.</li>
+                            <li>A rövid életű kontextusokban felmerült fontos, általános érvényű dolgait is mentsük át ide. (Pl.: kinézetre, UX-re vonatkozó általános szabályok)</li>
                             <li>A folyamatos építés kiinduló pontja.</li>
                         </ul>
                     </div>
@@ -302,7 +303,7 @@
                 if (event.key === 'ArrowLeft') {
                     window.location.href = '07-esetek.html';
                 } else if (event.key === 'ArrowRight' || event.key === ' ') {
-                    window.location.href = '01-cover.html';
+                    window.location.href = '09-kinek-mikor-segit-laikus.html';
                 } else if (event.key === 'ArrowDown') {
                     if (focusableElements.length > 0) {
                         currentFocusableIndex = Math.min(currentFocusableIndex + 1, focusableElements.length - 1);
