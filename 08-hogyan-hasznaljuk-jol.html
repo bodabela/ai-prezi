@@ -55,11 +55,6 @@
             padding: 15px;
             margin: 0 -15px 15px -15px;
             border-radius: 6px;
-            transition: outline 0.2s ease, box-shadow 0.2s ease;
-        }
-        .section-wrapper.current-scroll-target-container {
-            outline: 2px solid #79C7E3;
-            box-shadow: 0 0 15px rgba(121, 199, 227, 0.5);
         }
         .two-column-container {
             display: flex;
@@ -107,11 +102,15 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
+        .current-scroll-target {
+            text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+        }
+
         /* Modal styles */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 20px; box-sizing: border-box; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
         .modal-overlay.show { opacity: 1; visibility: visible; }
         .modal-content-wrapper { position: relative; background-color: #fff; padding: 10px; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; max-width: 80vw; max-height: 80vh; transform: scale(0.9); transition: transform 0.3s ease; }
-        .modal-overlay.show .modal-content-wrapper { transform: scale(3); }
+        .modal-overlay.show .modal-content-wrapper { transform: scale(1); }
         .modal-content-wrapper img, .modal-content-wrapper svg { max-width: 100%; max-height: 100%; object-fit: contain; }
         .modal-close { position: absolute; top: -12px; right: -12px; color: #333; background-color: #fff; border-radius: 50%; width: 32px; height: 32px; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold; cursor: pointer; z-index: 1001; box-shadow: 0 2px 5px rgba(0,0,0,0.2); border: 1px solid #ddd; }
     </style>
@@ -277,25 +276,33 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // ... (A szkript változatlan, kezeli a navigációt és a modális ablakot)
             const slideContent = document.querySelector('.slide-content');
-            const focusableElements = Array.from(slideContent.querySelectorAll('.section-wrapper'));
-            let currentFocusableIndex = -1;
-            let lastHighlightedElement = null;
+            // Changed focusableElements to target h2 elements directly
+            const headingElements = Array.from(slideContent.querySelectorAll('h2, h3'));
+            const firstContentElement = slideContent.firstElementChild; // Assuming the first element to scroll to is the first child of slide-content
 
-            function highlightTarget(element) {
-                if (lastHighlightedElement && lastHighlightedElement !== slideContent) {
-                    lastHighlightedElement.classList.remove('current-scroll-target-container');
+            let currentHeadingIndex = -1;
+            let lastScrollTarget = null;
+
+            function highlightTarget(target) {
+                if (lastScrollTarget && lastScrollTarget !== target) {
+                    lastScrollTarget.classList.remove('current-scroll-target');
                 }
-                if (element && element !== slideContent && element.classList.contains('section-wrapper')) {
-                    element.classList.add('current-scroll-target-container');
-                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else if (element === slideContent) {
-                    slideContent.scrollTop = 0;
+                if (target && (target.nodeName === 'H2' || target.nodeName === 'H3')) {
+                    target.classList.add('current-scroll-target');
                 }
-                lastHighlightedElement = element;
+                lastScrollTarget = target;
             }
-            highlightTarget(slideContent);
+            // Initial state: no highlighting, or highlight first content element if it's a heading
+            if (firstContentElement && (firstContentElement.nodeName === 'H2' || firstContentElement.nodeName === 'H3')) {
+                 highlightTarget(firstContentElement);
+                 currentHeadingIndex = 0;
+            } else {
+                // If the first element is not a heading, it won't have the visual highlight,
+                // but setting it as the initial target for navigation purposes is fine.
+                highlightTarget(firstContentElement);
+            }
+
 
             document.addEventListener('keydown', function(event) {
                 let preventDefaultBehavior = true;
@@ -305,24 +312,38 @@
                 } else if (event.key === 'ArrowRight' || event.key === ' ') {
                     window.location.href = '09-kinek-mikor-segit-laikus.html';
                 } else if (event.key === 'ArrowDown') {
-                    if (focusableElements.length > 0) {
-                        currentFocusableIndex = Math.min(currentFocusableIndex + 1, focusableElements.length - 1);
-                        scrollTarget = focusableElements[currentFocusableIndex];
+                    if (currentHeadingIndex === -1) {
+                        if (headingElements.length > 0) {
+                            currentHeadingIndex = 0;
+                            scrollTarget = headingElements[0];
+                        } else {
+                            scrollTarget = firstContentElement;
+                        }
+                    } else if (currentHeadingIndex < headingElements.length - 1) {
+                        currentHeadingIndex++;
+                        scrollTarget = headingElements[currentHeadingIndex];
+                    } else {
+                        // Stay on the last heading if already there
+                        scrollTarget = headingElements.length > 0 ? headingElements[currentHeadingIndex] : firstContentElement;
                     }
                 } else if (event.key === 'ArrowUp') {
-                     if (focusableElements.length > 0) {
-                        currentFocusableIndex--;
-                        if (currentFocusableIndex < 0) {
-                           currentFocusableIndex = -1;
-                           scrollTarget = slideContent;
-                        } else {
-                           scrollTarget = focusableElements[currentFocusableIndex];
-                        }
+                     if (currentHeadingIndex > 0) {
+                        currentHeadingIndex--;
+                        scrollTarget = headingElements[currentHeadingIndex];
+                    } else if (currentHeadingIndex === 0) {
+                        currentHeadingIndex = -1; // Move to the "before first heading" state
+                        scrollTarget = firstContentElement;
+                    } else { // currentHeadingIndex === -1 (already at the top)
+                        scrollTarget = firstContentElement;
                     }
                 } else {
                     preventDefaultBehavior = false;
                 }
-                if (scrollTarget) { highlightTarget(scrollTarget); }
+                if (scrollTarget) {
+                    highlightTarget(scrollTarget);
+                    // Add scrollIntoView for proper scrolling
+                    scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
                 if (preventDefaultBehavior) { event.preventDefault(); }
             });
 
