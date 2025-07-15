@@ -261,11 +261,66 @@
                             <li>Adjunk neki részletes api leírásokat, struktúra definíciókat, ha megvannak.</li>
                             <li>Lássuk el példákkal vagy hasonló megoldásokkal.</li>
                             <li>Írjuk le, hogy mit miért kérünk, <strong>mert</strong> ekkor a hasznos részletek és összefüggések is pontosítják az eredményt.</li>
+							<li>Pontosság jelentősége
+								<ul>
+								<li>Általában nem gond, hogy hibásan írod be a promtot, elütés, kihagyott betűk stb.</li>
+								<li><strong>Kivéve, ha az értelmezésbeli különsgéggel jár!</strong></li>
+								<li>Echo Promting - Kérdezz vissza, hogy hogy értette</li>
+								<li><a href="https://www.forbes.com/sites/lanceeliot/2024/05/09/the-best-prompt-engineering-techniques-for-getting-the-most-out-of-generative-ai/">50 Prompt Engineering Technic</a>
+								</li>
+								</ul>
+							</li>
 							<li>Folyamatos építés lépései</li>
+							<li>Legvégső esetben explicit mondjuk meg neki, hogy logoljon, és utána adjuk oda logot, és hagyjuk, hogy ő jöjjön rá a hiba okára.</li>
                         </ul>
                     </div>
                 </div>
             </div>
+			
+            <div class="section-wrapper">
+                <div class="two-column-container">
+                     <div class="column-content">
+                        <h2>Munka módszerek</h2>
+                        <ul>
+                            <li>High Level (Research, Design)</li>
+                            <li>Drill Down
+								<ul>
+								<li>Ha megvan a High Level elképzelés, akkor lehet megvalósítani az egyes feature-öket részletesen</li>
+								</ul>
+							</li>
+                            <li>Likewise
+								<ul>
+								<li>Ha megvan már meglévő hasonló funkcionalitás, akkor azt meg lehet neki mutatni, hogy ehhez hasonlót szeretnék, alalmazd ezt-azt így és így.</li>
+								</ul>
+							</li>
+                            <li>A komplex dolgokat hagyd a végére!</li>
+                        </ul>
+                    </div>
+                    <div class="column-content">
+                        <svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-zoomable="true">
+                            <title>Projekt Kontextus Forrásai</title>
+                            <defs>
+                                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur in="SourceAlpha" stdDeviation="3"/><feOffset dx="2" dy="2" result="offsetblur"/><feComponentTransfer><feFuncA type="linear" slope="0.5"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                                <marker id="arrowhead-gem" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#34495e" /></marker>
+                            </defs>
+                            <style>
+                                .gem-core { fill: #3498db; stroke: #2980b9; stroke-width: 2; filter: url(#shadow); }
+                                .gem-text { font-family: 'Segoe UI', sans-serif; font-size: 16px; font-weight: 600; fill: #fff; text-anchor: middle; }
+                                .icon-box { fill: #f5f5f5; stroke: #bdc3c7; stroke-width: 1; }
+                                .icon-path { fill: #34495e; stroke: none; }
+                                .icon-label { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #34495e; text-anchor: middle; }
+                                .flow-line { fill: none; stroke: #7f8c8d; stroke-width: 1.5; marker-end: url(#arrowhead-gem); }
+                            </style>
+                            <path class="gem-core" d="M 200,105 L 240,150 L 200,195 L 160,150 Z" /><text x="200" y="155" class="gem-text">Gem</text>
+                            <g transform="translate(40, 60)"><circle cx="30" cy="30" r="30" class="icon-box"/><path class="icon-path" d="M30,15 L18,15 v22 h24 V15 H30 M22,29h16 M22,23h16 M22,17h16" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke="#34495e" stroke-width="2"/><text x="30" y="75" class="icon-label">Követelmények</text></g>
+                            <g transform="translate(300, 60)"><circle cx="30" cy="30" r="30" class="icon-box"/><path class="icon-path" d="M22,22 L16,30 L22,38 M38,22 L44,30 L38,38" stroke="#34495e" stroke-width="2.5" stroke-linecap="round" fill="none"/><text x="30" y="75" class="icon-label">Technológiák</text><path class="flow-line" d="M295,95 C265,110 230,125 210,135" transform="translate(5,0)"/></g>
+                            <g transform="translate(40, 200)"><circle cx="30" cy="30" r="30" class="icon-box"/><circle class="icon-path" cx="30" cy="30" r="18" fill="none" stroke="#34495e" stroke-width="2"/><circle class="icon-path" cx="30" cy="30" r="10" fill="none" stroke="#34495e" stroke-width="2"/><circle class="icon-path" cx="30" cy="30" r="3" /><text x="30" y="75" class="icon-label">Célok</text><path class="flow-line" d="M60,225 C90,200 150,180 175,165" transform="translate(0,-5)"/></g>
+                            <g transform="translate(300, 200)"><circle cx="30" cy="30" r="30" class="icon-box"/><path class="icon-path" d="M30,12 L33.5,22.2 L44,23.8 L35.5,31.8 L38,42 L30,36 L22,42 L24.5,31.8 L16,23.8 L26.5,22.2 Z" /><text x="30" y="75" class="icon-label">Mérföldkövek</text><path class="flow-line" d="M295,235 C265,210 225,185 205,170" transform="translate(5,0)"/></g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+			
         </div>
     </div>
 
