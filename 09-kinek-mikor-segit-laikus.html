@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="hu">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <head>
+  <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kinek mikor segít sokat - Laikusok</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
@@ -28,90 +28,157 @@
         .modal-content-wrapper { position: relative; background-color: #fff; padding: 10px; border-radius: 8px; max-width: 80vw; max-height: 80vh; }
         .modal-content-wrapper img, .modal-content-wrapper svg { max-width: 100%; max-height: 100%; object-fit: contain; }
         .modal-close { position: absolute; top: -10px; right: -10px; color: #333; background-color: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; font-size: 24px; cursor: pointer; border: 1px solid #ddd; }.current-scroll-target { text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4); }</style>
-</head>
-<body>
+   </head>
+   <body>
     <div id="slide-preview" class="slide-container">
-            <div class="header-svg-container">
-                   <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                       <rect width="1000" height="80" fill="#0A2B4C"></rect>
-                       <image xlink:href="logo.jfif" x="25" y="15" width="50" height="50"></image>
-                       <text x="180" y="40" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="22" font-weight="600">
-                           <tspan fill="#79C7E3">Generatív</tspan>
-                           <tspan fill="#FFFFFF"> AI</tspan>
-                       </text>
-                       <text x="180" y="60" font-family="'Segoe UI', Tahoma, sans-serif" font-size="10" fill="#FFFFFF" letter-spacing="0.5">
+     <div class="header-svg-container">
+      <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+       <rect width="1000" height="80" fill="#0A2B4C"/>
+       <image xlink:href="logo.jfif" x="25" y="15" width="50" height="50"/>
+       <text x="180" y="40" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="22" font-weight="600">
+        <tspan fill="#79C7E3">Generatív</tspan>
+        <tspan fill="#FFFFFF"> AI</tspan>
+       </text>
+       <text x="180" y="60" font-family="'Segoe UI', Tahoma, sans-serif" font-size="10" fill="#FFFFFF" letter-spacing="0.5">
                            TAPASZTALATOK MEGOSZTÁSA
                        </text>
-                       <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"></path>
-                       <path d="M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z" fill="#79C7E3" fill-opacity="0.15"></path>
-                       <line x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"></line>
-                   </svg>
-            </div>
-    
-            <div class="slide-title-main-container">
-                <h1>Kinek mikor segít sokat</h1>
-            </div>
-    
-            <div id="slide-content-editor" class="slide-content"><div class="section-wrapper" id="section-loaded-2">
-                <h2>Laikusok</h2>
-                <div class="two-column-container">
-                    <div class="column-content" style="border: none; padding: 0px;">
-                        <ul><li><b>Anna esete a scriptekkel</b></li><li>8000-10000 soros excel fájlok - termékek</li><li>ugyan ennyi pdf - azok specifikációi</li><li>100-as nagyságrendű beszálló</li><li>igény egyfajta nagyon specifikus automatizálásra:<br>Web Screapelés<br>Excel mókolás, keresés (FKERES)<br></li><li>ChatGPT és Gemini VB és Python szkriptek generálás pontos excel és weboldal leírásokkal, képekkel</li></ul>
+       <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+       <path d="M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z" fill="#79C7E3" fill-opacity="0.15"/>
+       <line x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"/>
+      </svg>
+     </div>
+     <div class="slide-title-main-container">
+      <h1>Kinek mikor segít sokat</h1>
+     </div>
+     <div id="slide-content-editor" class="slide-content">
+      <div class="section-wrapper" id="section-loaded-2">
+       <h2>Laikusok</h2>
+       <div class="two-column-container">
+        <div class="column-content" style="border: none; padding: 0px;">
+         <ul>
+          <li>
+           <b>Anna esete a scriptekkel</b>
+          </li>
+          <li>8000-10000 soros excel fájlok - termékek</li>
+          <li>ugyan ennyi pdf - azok specifikációi</li>
+          <li>100-as nagyságrendű beszálló</li>
+          <li>igény egyfajta nagyon specifikus automatizálásra:<br>Web Screapelés<br>Excel mókolás, keresés (FKERES)<br/>
+             <li>ChatGPT és Gemini VB és Python szkriptek generálás pontos excel és weboldal leírásokkal, képekkel</li>
+            </ul>
+           </div>
+           <div class="column-content" style="border: none; padding: 0px;">
+            <ul>
+             <li>
+              <b>Biológus kutató esete az SAP-vel és a Pythonnal</b>
+             </li>
+             <li>Statisztikai elemzések nagy adat halmazokon</li>
+             <li>Amit az SAP-ban órákig tart beállítani és még tovább futtatni...</li>
+             <li>azt a geminivel pár perc legeneráltatni...</li>
+             <li>és utána a Python kód szintén perceke alatt megoldja ugyanazt a feladatot.</li>
+             <li>Az ok az, hogy míg az SAP egy általános monstrum, ami mindent is tud, de valójában semmit sem...</li>
+             <li>addig a gemini által generált kód pontosan azt a specifikus feladatot implementálja, amit a laikus leírásban megadott.</li>
+            </ul>
+           </div>
+          </div>
+         </div>
+         <div class="section-wrapper" id="section-1750690402551">
+          <h2>Kódolás</h2>
+          <div class="two-column-container">
+           <div class="column-content" style="border: none; padding: 0px;">
+            <ul>
+             <li>
+              <div xmind-vk-rich-text-fragment-id="1750684736031-568">
+               <b>Kis fájlok</b>, jól megfogható feladatok<br>- Nagy fájlok esetén sokáig tarthat az újra generálás<br>- és elkezd csak a módosított részletekkel kommunikálni, ami szintén nehézkes</div>
+               </li>
+               <li>
+                <div xmind-vk-rich-text-fragment-id="1750684736031-568">Jól&nbsp;<b>készre csinálható&nbsp;</b>feladatok<br>- Nem baj, ha elvész a kontextus,&nbsp;forrás fájlok alapján jól újra építhető<br>- CleanCode és kommentek segítségével előáll a teljes domain</div>
+                 </li>
+                 <li>
+                  <div xmind-vk-rich-text-fragment-id="1750684736031-568">
+                   <b>Automatikus</b>&nbsp;hiba kezelés<br>- Azonnali&nbsp;<b>unhappy path</b>ok<br>- Hibaüzenetek szépek és karbantartottak</div>
+                   </li>
+                   <li>
+                    <div xmind-vk-rich-text-fragment-id="1750684736031-568">
+                     <b>Átírás</b>&nbsp;egyik nyelvről a másikra</div>
+                   </li>
+                   <li>
+                    <div xmind-vk-rich-text-fragment-id="1750684736031-568">
+                     <b>Refactor</b>&nbsp;(Chat GPT nem túl jó benne, Gemini zseniális)<br>- Nagyobb monolitikus részek szétszedése<br>- Absztraciós átalakítások</div>
+                     </li>
+                     <li>
+                      <div xmind-vk-rich-text-fragment-id="1750684736031-568">Meglévő kód felruházása&nbsp;<b>meta</b>&nbsp;működéssel<br>- Releváns logolás<br>- Futásközbeni és -végi riportok (pl.: hány sikeres és sikertlen, milyen hibákkal)</div>
+                       </li>
+                      </ul>
+                     </div>
+                     <div class="column-content" style="border: none; padding: 0px;">
+                      <svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
+                       <rect x="50" y="50" width="300" height="200" fill="#ADD8E6" rx="10" ry="10" stroke="#3498DB" stroke-width="2"/>
+                       <rect x="60" y="60" width="280" height="20" fill="#34495E" rx="5" ry="5"/>
+                       <circle cx="75" cy="70" r="5" fill="#E74C3C"/>
+                       <circle cx="90" cy="70" r="5" fill="#F1C40F"/>
+                       <circle cx="105" cy="70" r="5" fill="#2ECC71"/>
+                       <line x1="70" y1="90" x2="150" y2="90" stroke="#34495E" stroke-width="4" stroke-linecap="round"/>
+                       <line x1="70" y1="105" x2="200" y2="105" stroke="#34495E" stroke-width="4" stroke-linecap="round"/>
+                       <line x1="70" y1="120" x2="180" y2="120" stroke="#34495E" stroke-width="4" stroke-linecap="round"/>
+                       <line x1="70" y1="135" x2="220" y2="135" stroke="#34495E" stroke-width="4" stroke-linecap="round"/>
+                       <text x="200" y="170" font-family="Segoe UI, sans-serif" font-size="20" fill="#2C3E50" text-anchor="middle">Code Snippet</text>
+                       <polyline points="150,190 170,210 150,230" fill="none" stroke="#2C3E50" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                       <polyline points="250,190 230,210 250,230" fill="none" stroke="#2C3E50" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                       <path d="M190 200 C180 180, 220 180, 210 200" fill="none" stroke="#2C3E50" stroke-width="5" stroke-linecap="round"/>
+                      </svg>
+                     </div>
                     </div>
-                    <div class="column-content" style="border: none; padding: 0px;">
-                        <ul><li><b>Biológus kutató esete az SAP-vel és a Pythonnal</b></li><li>Statisztikai elemzések nagy adat halmazokon</li><li>Amit az SAP-ban órákig tart beállítani és még tovább futtatni...</li><li>azt a geminivel pár perc legeneráltatni...</li><li>és utána a Python kód szintén perceke alatt megoldja ugyanazt a feladatot.</li><li>Az ok az, hogy míg az SAP egy általános monstrum, ami mindent is tud, de valójában semmit sem...</li><li>addig a gemini által generált kód pontosan azt a specifikus feladatot implementálja, amit a laikus leírásban megadott.</li></ul>
-                    </div>
-                </div>
-            </div><div class="section-wrapper" id="section-1750690402551"><h2>Kódolás</h2><div class="two-column-container"><div class="column-content" style="border: none; padding: 0px;"><ul><li><div xmind-vk-rich-text-fragment-id="1750684736031-568"><b>Kis fájlok</b>, jól megfogható feladatok<br>- Nagy fájlok esetén sokáig tarthat az újra generálás<br>- és elkezd csak a módosított részletekkel kommunikálni, ami szintén nehézkes</div></li><li><div xmind-vk-rich-text-fragment-id="1750684736031-568">Jól&nbsp;<b>készre csinálható&nbsp;</b>feladatok<br>- Nem baj, ha elvész a kontextus,&nbsp;forrás fájlok alapján jól újra építhető<br>- CleanCode és kommentek segítségével előáll a teljes domain</div></li><li><div xmind-vk-rich-text-fragment-id="1750684736031-568"><b>Automatikus</b>&nbsp;hiba kezelés<br>- Azonnali&nbsp;<b>unhappy path</b>ok<br>- Hibaüzenetek szépek és karbantartottak</div></li><li><div xmind-vk-rich-text-fragment-id="1750684736031-568"><b>Átírás</b>&nbsp;egyik nyelvről a másikra</div></li><li><div xmind-vk-rich-text-fragment-id="1750684736031-568"><b>Refactor</b>&nbsp;(Chat GPT nem túl jó benne, Gemini zseniális)<br>- Nagyobb monolitikus részek szétszedése<br>- Absztraciós átalakítások</div></li><li><div xmind-vk-rich-text-fragment-id="1750684736031-568">Meglévő kód felruházása&nbsp;<b>meta</b>&nbsp;működéssel<br>- Releváns logolás<br>- Futásközbeni és -végi riportok (pl.: hány sikeres és sikertlen, milyen hibákkal)</div></li></ul></div><div class="column-content" style="border: none; padding: 0px;"><svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
-                        <rect x="50" y="50" width="300" height="200" fill="#ADD8E6" rx="10" ry="10" stroke="#3498DB" stroke-width="2"/>
-                        <rect x="60" y="60" width="280" height="20" fill="#34495E" rx="5" ry="5"/>
-                        <circle cx="75" cy="70" r="5" fill="#E74C3C"/>
-                        <circle cx="90" cy="70" r="5" fill="#F1C40F"/>
-                        <circle cx="105" cy="70" r="5" fill="#2ECC71"/>
-                        <line x1="70" y1="90" x2="150" y2="90" stroke="#34495E" stroke-width="4" stroke-linecap="round"/>
-                        <line x1="70" y1="105" x2="200" y2="105" stroke="#34495E" stroke-width="4" stroke-linecap="round"/>
-                        <line x1="70" y1="120" x2="180" y2="120" stroke="#34495E" stroke-width="4" stroke-linecap="round"/>
-                        <line x1="70" y1="135" x2="220" y2="135" stroke="#34495E" stroke-width="4" stroke-linecap="round"/>
-                        <text x="200" y="170" font-family="Segoe UI, sans-serif" font-size="20" fill="#2C3E50" text-anchor="middle">Code Snippet</text>
-                        <polyline points="150,190 170,210 150,230" fill="none" stroke="#2C3E50" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <polyline points="250,190 230,210 250,230" fill="none" stroke="#2C3E50" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M190 200 C180 180, 220 180, 210 200" fill="none" stroke="#2C3E50" stroke-width="5" stroke-linecap="round"/>
-                    </svg></div></div></div><div class="section-wrapper" id="section-1750690456695"><h2>Hatékonyság</h2><div class="two-column-container"><div class="column-content" style="border: none; padding: 0px;"><ul><li>Nagy/hiányos&nbsp;<b>API dokumentációk</b>&nbsp;leküzdése</li><li>A&nbsp;<b>felfelé építkezés</b>&nbsp;mindig jó</li><li>Ramp Up vagy a kinézet nagyvonalú kialakítása<br/>Apróbb változásokat érdemesebb kézzel, mert nem éri meg újra generáltatni<br>Érdemes a munkát is így szervezni:<br><b>- Nagy, mass módosításokat generálni<br>- Kisebbeket kézzel<br>- Mérföldkövet zárni -&gt; Commit -&gt; Gem Update</b></li><li><b>PoC</b>&nbsp;esetén több irány gyors kipróbálása<br>- "Javasolj megoldásokat"<br>- "Majd egyenként implementáld"</li></ul></div><div class="column-content" style="border: none; padding: 0px;">
-					            <svg width="700" height="400" xmlns="http://www.w3.org/2000/svg" class="clickable-svg" data-svg-id="svg-laikus-flow">
-                <rect width="0%" height="100%" fill="#f9f9f9"/>
-
-                <g>
-                    <rect x="10" y="80" width="180" height="100" rx="10" ry="10" fill="#4CAF50" stroke="#333" stroke-width="1"/>
-                    <text x="100" y="120" font-family="Roboto, Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Ötletelés, inspiráció</text>
-                    <text x="100" y="145" font-family="Roboto, Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">(pl. blog témák)</text>
-                </g>
-                <g>
-                    <rect x="250" y="80" width="180" height="100" rx="10" ry="10" fill="#2196F3" stroke="#333" stroke-width="1"/>
-                    <text x="340" y="120" font-family="Roboto, Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Szövegírás, fordítás</text>
-                    <text x="340" y="145" font-family="Roboto, Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">(pl. email, vázlat)</text>
-                </g>
-                <g>
-                    <rect x="500" y="80" width="180" height="100" rx="10" ry="10" fill="#FFC107" stroke="#333" stroke-width="1"/>
-                    <text x="590" y="120" font-family="Roboto, Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Információ keresés</text>
-                    <text x="590" y="145" font-family="Roboto, Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">(pl. összefoglalás)</text>
-                </g>
-
-                <polygon points="10,190 670,190 350,230" fill="#333" />
-
-                <g>
-                    <rect x="140" y="240" width="400" height="130" rx="10" ry="10" fill="#FF5722" stroke="#333" stroke-width="1"/>
-                    <text x="340" y="280" font-family="Roboto, Arial, sans-serif" font-size="20" fill="white" text-anchor="middle" font-weight="bold">Gyorsabb, hatékonyabb munkavégzés</text>
-                    <text x="340" y="315" font-family="Roboto, Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">Azonnali segítség, kevesebb elakadás</text>
-                    <text x="340" y="340" font-family="Roboto, Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">Új képességek gyorsabb elsajátítása</text>
-                </g>
-            </svg>
-			</div></div></div></div>
-            </div>
-        <div id="imageModal" class="modal-overlay">
-          <span class="modal-close">&times;</span>
-          <div class="modal-content-wrapper"></div>
-        </div>
-        <script>document.addEventListener('DOMContentLoaded', function() {
+                   </div>
+                   <div class="section-wrapper" id="section-1750690456695">
+                    <h2>Hatékonyság</h2>
+                    <div class="two-column-container">
+                     <div class="column-content" style="border: none; padding: 0px;">
+                      <ul>
+                       <li>Nagy/hiányos&nbsp;<b>API dokumentációk</b>&nbsp;leküzdése</li>
+                       <li>A&nbsp;<b>felfelé építkezés</b>&nbsp;mindig jó</li>
+                       <li>Ramp Up vagy a kinézet nagyvonalú kialakítása<br/>Apróbb változásokat érdemesebb kézzel, mert nem éri meg újra generáltatni<br>Érdemes a munkát is így szervezni:<br>
+                          <b>- Nagy, mass módosításokat generálni<br>- Kisebbeket kézzel<br>- Mérföldkövet zárni -&gt; Commit -&gt; Gem Update</b>
+                           </li>
+                           <li>
+                            <b>PoC</b>&nbsp;esetén több irány gyors kipróbálása<br>- "Javasolj megoldásokat"<br>- "Majd egyenként implementáld"</li>
+                            </ul>
+                           </div>
+                           <div class="column-content" style="border: none; padding: 0px;">
+                            <svg width="700" height="400" xmlns="http://www.w3.org/2000/svg" class="clickable-svg" data-svg-id="svg-laikus-flow">
+                             <rect width="0%" height="100%" fill="#f9f9f9"/>
+                             <g>
+                              <rect x="10" y="80" width="180" height="100" rx="10" ry="10" fill="#4CAF50" stroke="#333" stroke-width="1"/>
+                              <text x="100" y="120" font-family="Roboto, Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Ötletelés, inspiráció</text>
+                              <text x="100" y="145" font-family="Roboto, Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">(pl. blog témák)</text>
+                             </g>
+                             <g>
+                              <rect x="250" y="80" width="180" height="100" rx="10" ry="10" fill="#2196F3" stroke="#333" stroke-width="1"/>
+                              <text x="340" y="120" font-family="Roboto, Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Szövegírás, fordítás</text>
+                              <text x="340" y="145" font-family="Roboto, Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">(pl. email, vázlat)</text>
+                             </g>
+                             <g>
+                              <rect x="500" y="80" width="180" height="100" rx="10" ry="10" fill="#FFC107" stroke="#333" stroke-width="1"/>
+                              <text x="590" y="120" font-family="Roboto, Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" font-weight="bold">Információ keresés</text>
+                              <text x="590" y="145" font-family="Roboto, Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">(pl. összefoglalás)</text>
+                             </g>
+                             <polygon points="10,190 670,190 350,230" fill="#333"/>
+                             <g>
+                              <rect x="140" y="240" width="400" height="130" rx="10" ry="10" fill="#FF5722" stroke="#333" stroke-width="1"/>
+                              <text x="340" y="280" font-family="Roboto, Arial, sans-serif" font-size="20" fill="white" text-anchor="middle" font-weight="bold">Gyorsabb, hatékonyabb munkavégzés</text>
+                              <text x="340" y="315" font-family="Roboto, Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">Azonnali segítség, kevesebb elakadás</text>
+                              <text x="340" y="340" font-family="Roboto, Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">Új képességek gyorsabb elsajátítása</text>
+                             </g>
+                            </svg>
+                           </div>
+                          </div>
+                         </div>
+                        </div>
+                       </div>
+                       <div id="imageModal" class="modal-overlay">
+                        <span class="modal-close">&times;</span>
+                        <div class="modal-content-wrapper"/>
+                       </div>
+                       <script>document.addEventListener('DOMContentLoaded', function() {
                     const slideContent = document.querySelector('.slide-content');
                     
                     
@@ -135,31 +202,7 @@
                         
                         
                     if (event.key === 'ArrowDown') {
-                        if (currentHeadingIndex < headingElements.length - 1) {
-                            currentHeadingIndex++;
-                            const target = headingElements[currentHeadingIndex];
-                            highlightTarget(target);
-                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                        preventDefault = true;
-                    } else if (event.key === 'ArrowUp') {
-                        if (currentHeadingIndex > -1) {
-                            currentHeadingIndex--;
-                            const target = currentHeadingIndex === -1 ? slideContent.firstElementChild : headingElements[currentHeadingIndex];
-                            highlightTarget(target);
-                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                        preventDefault = true;
-                    }
-
-                        if (preventDefault) event.preventDefault();
-                    });
-
-                    const modal = document.getElementById('imageModal');
-                    if (modal) {
-                        const modalContentWrapper = modal.querySelector('.modal-content-wrapper');
-                        const closeModalButton = modal.querySelector('.modal-close');
-                        document.querySelectorAll('svg[data-zoomable="true"]').forEach(svg => {
+                        if (currentHeadingIndex < headingElements.length - 1) { currentHeadingIndex++; const target=headingElements[currentHeadingIndex]; highlightTarget(target); target.scrollIntoView({ behavior:'smooth' , block:'start' }); } preventDefault=true; } else if (event.key==='ArrowUp' ) { if (currentHeadingIndex> -1) { currentHeadingIndex--; const target=currentHeadingIndex=== -1? slideContent.firstElementChild : headingElements[currentHeadingIndex]; highlightTarget(target); target.scrollIntoView({ behavior:'smooth' , block:'start' }); } preventDefault=true; } if (preventDefault) event.preventDefault(); }); const modal=document.getElementById('imageModal' ); if (modal) { const modalContentWrapper=modal.querySelector('.modal-content-wrapper' ); const closeModalButton=modal.querySelector('.modal-close' ); document.querySelectorAll('svg[data-zoomable="true" ]').forEach(svg=> {
                             svg.addEventListener('click', () => {
                                 const imageTag = svg.querySelector('image');
                                 if (imageTag) {
@@ -174,5 +217,5 @@
                         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('show')) hideModal(); });
                     }
                 });</script>
-</body>
-</html>
+                        </body>
+                       </html>
