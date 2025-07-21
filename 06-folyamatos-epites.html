@@ -237,7 +237,7 @@
                     <ul>
                         <li>A Generatív AI alapvetően <strong>alkotásra</strong> vannak kihegyezve. A folyamatos, új kérésekkel, igényekkel történő bővítés összhangban van ezzel az alapvető működéssel.<br>(Még akkor is, ha az új építő elemek az előállított tartalmat azonos "helyen" módosítják.)</li>
 						<ul>
-							<li>A gond akkor kezdődik, amikor egymásnak ellentmondó koncepciók, fogalmak kerülnek a kontextusba (a változott koncepció ellent mond a régebbinek). Béla sejtés: A bemeneti promptban érkező koncepciók változása szélesebb körben érinti a kontextust, mint a válaszban módosított kód.</li>
+							<li>A gond akkor kezdődik, amikor egymásnak ellentmondó koncepciók, fogalmak kerülnek a kontextusba (a változott koncepció ellent mond a régebbinek).<br/>Béla sejtés: A bemeneti promptban érkező koncepciók változása szélesebb körben érinti a kontextust, mint a válaszban módosított kód.</li>
 							<li>A felejtés és nem felejtés dilemmája: Mikor felejtsem el a korábbi koncepciót, és cseréljem le az újra és hogy? Erre a kérdésre nem tud most jó választ adni a Generatív AI, mert nem érti magukat a koncepciókat.
 							<br>Pl.:
 							<br>egy elrontott kontextus:
@@ -257,8 +257,10 @@
                 <li><strong>Hatékonyabb Prompt Engineering Támogatása:</strong>
                     <ul>
                         <li>Ahogy a Prompt Engineering technikáknál láttuk, az "egyértelmű és specifikus" promptok kulcsfontosságúak. Sokkal könnyebb ilyen promptokat írni, ha azok egy új elem hozzáadására, egy ismert alap továbbfejlesztésére irányulnak, nem pedig egy bonyolult, meglévő struktúra komplex átalakítására egyetlen, mindentudó promptban.</li>
-                        <li>Az "iteratív finomhangolás" továbbra is fontos, de a módszer azt sugallja, hogy a nagyobb, struktúrát vagy alapvető logikát érintő iterációkat inkább szakaszosan (mérföldkövenként), elkülönített, célzott kontextusokban végezzük a problémásnak ítélt részeken.</li>
+                        <li>Az "iteratív finomhangolás" továbbra is fontos, de a módszer azt sugallja, hogy a nagyobb, struktúrát vagy alapvető logikát érintő iterációkat inkább szakaszosan (mérföldkövenként), elkülönített, célzott kontextusokban végezzük a problémásnak ítélt részeken.
+						</li>
                     </ul>
+					<strong>Az új kontextussal szélességében, egy-egy kontextuson belül pedig mélységében valósítjuk meg az igényt.</strong>					
                 </li>
             </ul>
 
@@ -384,16 +386,15 @@
                 <li><strong>Mérföldkövek Definiálása:</strong> Mielőtt hozzákezdünk egy nagyobb feladathoz, határozzuk meg a logikai egységeket vagy szakaszokat a generálandó tartalomban (pl. egy dokumentum fejezetei, egy prezentáció diái, egy szoftvermodul fő funkciói). Ezek lesznek a mérföldköveink.</li>
                 <li><strong>Fokozatos Hozzáadás:</strong> Minden interakciós lépésben a prompt arra irányuljon, hogy a következő információt, kódrészletet, szövegrészt adja hozzá a modell az előzőleg már elfogadott és stabilizált tartalomhoz.</li>
                 <li><strong>Stabilizálás és Ellenőrzés:</strong> Egy mérföldkő elérésekor az addig generált tartalom "stabilnak" tekinthető az adott kontextuson belül. Érdemes itt átnézni, tesztelni, és ha szükséges, kisebb korrekciókat végezni még ebben a fázisban.</li>
-                <li><strong>Célzott Módosítás Új Kontextusban (ha elkerülhetetlen):</strong>
+                <li><strong>Koncepcionális módosítás CSAK Új Kontextusban:</strong>
                     <ol>
-                        <li>Ha egy korábbi, már stabilizált rész mégis jelentős módosítást igényel (amit a mérföldkőnél nem vettünk észre vagy új igényként merült fel):</li>
+                        <li>Ha egy korábbi, már stabilizált rész mégis jelentős módosítást igényel (amit a mérföldkőnél nem vettünk észre vagy új igényként merült fel)</li>
                         <li>Indítsunk egy teljesen <strong>új beszélgetési szakaszt</strong> (új kontextust) kifejezetten csak ennek a résznek a módosítására.</li>
                         <li>Vigyük át a módosítandó részt (pl. az előző mérföldkő releváns kimenetét, a kódrészletet, a szöveget) ebbe az új kontextusba alapként.</li>
                         <li>Fogalmazzunk meg egyértelmű promptot, amely <em>kizárólag az adott rész kívánt módosítására</em> koncentrál.</li>
-                        <li>Az itt kapott, javított eredményt illesszük vissza a teljes tartalom megfelelő helyére, felülírva az eredeti, hibás/elavult részt.</li>
+                        <li>Az itt kapott, javított eredményt használjuk, felülírva az eredeti, hibás/elavult részt.</li>
                     </ol>
                 </li>
-                <li>Ezzel a módszerrel elkerülhető, hogy egyetlen, rosszul irányzott vagy túl komplex módosítási kísérlet az egész, addig gondosan felépített kontextust és tartalmat "megfertőzze" vagy visszafordíthatatlanul degradálja.</li>
             </ul>
         </div>
     </div>

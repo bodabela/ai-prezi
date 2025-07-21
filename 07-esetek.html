@@ -70,7 +70,7 @@
             color: #0A2B4C;
         }
         .section-wrapper {
-            padding: 15px;
+            padding: 15px 15px 150px 15px;
             margin: 0 -15px 15px -15px;
             border-radius: 6px;
             /* Removed transition, outline and box-shadow */
@@ -252,7 +252,7 @@
                     </div>
                     <div class="column-content content-bullets">
                         <ul>
-                            <li>Rövid leírással kezdtem: dátumonként csoportosítva jelenítse meg <strong>GraphQL</strong> lekérdezéssel (140 sor - 1 óra)</li>
+                            <li>Rövid leírással kezdtem ChatGPT-vel: <br/>dátumonként csoportosítva jelenítse meg <strong>GraphQL</strong> lekérdezéssel (140 sor - 1 óra)</li>
                             <li>Aztán hozzáadtam kereső mezőket a <strong>React UI</strong>-hoz, és szűrögettem egyelőre csak az eredményekben (240 sor - 1 óra)</li>
                             <li>Megírtuk és bekötöttük a suggest GraphQL query-t (+80 sor - fél óra)</li>
                             <li>Többi szűrő mező (480 sor - 2 óra)</li>
@@ -263,6 +263,7 @@
                             <li>Megúnva a ChatGPT Canvas-szal való kínlódást (refaktorálni akartam a monolitot) áttértem Geminire: <br/> Első feladat: <strong>refactoráljad</strong> az egészet úgy, hogy a suggest, select és dátum mezők kerzelőhöz csinálsz hookot és kipakolod őket komponensekbe. <br/>Válasz: Ok.</li>
                             <li>Pont olyanra lett, amilyennek lennie kellett.</li>
                             <li>Később még <strong>optimalizálni</strong> is tudta: useMemo, useCallback</li>
+                            <li>Beleraktam a lapozást úgy, hogy már volt egy oldalkereső lapozásunk,<br/>és az volt a prompt, hogy úgy csináld, mint ahogy ott van. Kész.</li>
                         </ul>
                     </div>
                 </div>
@@ -311,11 +312,121 @@
                             <li>Integration Lambda: megkapta a webiny interfészeket és a fájlok struktúráját és a kód 95%-át legyártotta.</li>
                             <li>Upsert, hiba ágak, üznetek</li>
                             <li>Az összetett kulcsokat kellett csak pontosítani, hogy a null értéket kezelje valid értékként, és ne féljen attól, hogyha az a bizonyos érték null, akkor nem lesz egyedi a rekord.</li>
+                            <li>Majd kiderült, hogy túl sokáig fut: 15 percnél nem futhat tovább egy lambda.
+							<br/>Szétvágattuk fájlonként, és 100-as batchekre bontattuk.
+							</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
+            <div class="section-wrapper">
+                <h2>NVI Határozatok és Ülések Migrációja - White Coding #2</h2>
+                <div class="two-column-container">
+                    <div class="column-content content-bullets">
+                        <ul>
+                            <li>Minden meglévő információ összegyűjtése egyetlen Gem-be.</li>
+                            <li>Első lépésként töltsük le az adatokat a webről.</li>
+                            <li>Ha már letöltöttük, ne töltsük le újra (oda figyelünk az újra futtatásra).</li>
+                            <li>Készítsen riportot a sikeres és sikertelen letöltésekről. Sikertelen esetben írja bele a részleteket is.</li>
+                            <li>Töltsük be az adatokat az interfészeken.</li>
+                            <li>Ha már egyszer betöltöttük, akkor upgradeljük (meg mondjuk mi az elsődleges kulcs, a többi megy magától az api leírók alapján)</li>
+                            <li>Készítsen riportot a sikeres és sikertelen feltöltésekről. Hasonlóan sikertelen esetben írja bele a részleteket is.</li>
+                            <li>← Ezt a diagramot is ő rajzolta</li>							
+                            <li>És ha már diagram rajzolás, akkor NVI MFA Architectúra...</li>							
+                        </ul>
+                    </div>
+                    <div class="column-content">
+						<svg class="placeholder-svg" viewBox="0 0 700 500" preserveAspectRatio="xMidYMid meet" data-zoomable="true">
+							<defs>
+								<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+									<path d="M 0 0 L 10 5 L 0 10 z" fill="#34495e" />
+								</marker>
+								<filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+									<feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+									<feOffset dx="2" dy="2" result="offsetblur"/>
+									<feComponentTransfer><feFuncA type="linear" slope="0.5"/></feComponentTransfer>
+									<feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+								</filter>
+							</defs>
+							<style>
+								.box { fill: #f0f8ff; stroke: #3498db; stroke-width: 2; rx: 8; ry: 8; filter: url(#shadow); }
+								.text-label { font-family: 'Segoe UI', sans-serif; font-size: 16px; font-weight: 600; fill: #2c3e50; text-anchor: middle; }
+								.sub-text-label { font-family: 'Segoe UI', sans-serif; font-size: 12px; fill: #555; text-anchor: middle; }
+								.arrow-path { stroke: #34495e; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+								.storage { fill: #d3d3d3; stroke: #7f8c8d; stroke-width: 2; rx: 8; ry: 8; }
+								.data-label { font-family: 'Segoe UI', sans-serif; font-size: 14px; fill: #666; text-anchor: middle; }
+							</style>
+
+							<rect x="50" y="50" width="150" height="80" class="box" />
+							<text x="125" y="80" class="text-label">Crawler</text>
+							<text x="125" y="105" class="sub-text-label">HTML Letöltés</text>
+
+							<g transform="translate(150, 20) scale(0.6)">
+								<rect x="0" y="0" width="30" height="40" fill="#fcfcfc" stroke="#666" stroke-width="1.5" rx="3" ry="3"/>
+								<rect x="5" y="-5" width="30" height="40" fill="#fcfcfc" stroke="#666" stroke-width="1.5" rx="3" ry="3"/>
+								<path d="M5 5 L25 5 M5 10 L25 10 M5 15 L15 15" stroke="#666" stroke-width="1" />
+							</g>
+
+							<rect x="300" y="50" width="150" height="80" class="storage" />
+							<text x="375" y="80" class="text-label">Cache</text>
+							<text x="375" y="105" class="sub-text-label">Helyi Tároló</text>
+
+							<rect x="50" y="250" width="150" height="80" class="box" />
+							<text x="125" y="280" class="text-label">Lexical Converter</text>
+							<text x="125" y="305" class="sub-text-label">Adatfeldolgozás</text>
+
+							<rect x="300" y="250" width="200" height="80" class="box" fill="#4CAF50" stroke="#2E8B57"/>
+							<text x="400" y="280" class="text-label" fill="white">Webiny Manage API</text>
+							<text x="400" y="305" class="sub-text-label" fill="white">Adatfeltöltés</text>
+
+							<rect x="300" y="380" width="200" height="80" class="box" fill="#FFD700" stroke="#DAA520"/>
+							<text x="400" y="410" class="text-label">Részletes Riport</text>
+							<text x="400" y="435" class="sub-text-label">Statisztikák és Naplók</text>
+
+							<path d="M 200 90 L 290 90" class="arrow-path" />
+							<text x="245" y="75" class="data-label">HTML oldalak</text>
+
+							<path d="M 375 130 V 200 H 125 V 250" class="arrow-path" />
+							<text x="250" y="190" class="data-label">Formázatlan Adat</text>
+
+							<path d="M 200 290 L 290 290" class="arrow-path" />
+							<text x="245" y="275" class="data-label">Strukturált Adat</text>
+
+							<path d="M 400 330 V 370" class="arrow-path" />
+							<text x="400" y="360" class="data-label">Feldolgozási Adatok</text>
+
+						</svg>                    
+					</div>
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2>NVI MFA Megvalósítás</h2>
+                <div class="two-column-container">
+                    <div class="column-content">
+                        <svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-zoomable="true">
+                            <image xlink:href="07/07_08_mfa.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"></image>
+                        </svg>
+                    </div>
+                    <div class="column-content content-bullets">
+                        <ul>
+                            <li>Szükség volt a következőkre:</li>
+							<ul>
+								<li>Webiny Extension - Typescript</li>
+								<li>Vanilla Javascript</li>
+								<li>Patch Package</li>
+								<li>GrtaphQL Plugin</li>
+							</ul>
+                            <li>Odaadtam neki az összes forrás fájlt, amik közösen kikutattuk, hogy nagy valószínűséggel módosatni kell,
+								<br/>és az volt a mondás, hogy csináljunk MFA-t (Email-es és Authentikátor Apposat).</li>
+                            <li>A rajzot ő készítette a kód alapján...</li>
+                            <li>+</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+			
             <div class="section-wrapper">
                 <h2>Matek Gyakorló - White Coding #1</h2>
                 <div class="two-column-container">
@@ -334,7 +445,7 @@
 							</ul>
 							</li>
                             <li>A gyerekekkel esténként 1-1 óra, 1-1 feladat típus</li>
-                            <li>3-4 mondatos promptokból, magától kitalálta, hogy mire is gondolok, és 90%-ig kész feladat oldalak</li>
+                            <li>3-4 mondatos promptokból, magától kitalálta, hogy mire is gondolok, és 90%-ig kész feladat oldalak készültek</li>
                             <li>Vanilla HTML,CSS,JS</li>
                             <li>Firebase-en fut, és már adatokat is küld hátra a szülőknek</li>
                             <li>Kialakult egy közös "nyelv" az AI-jal a Gemben, amit mindketten "értünk"
@@ -356,28 +467,6 @@
             </div>
 
             <div class="section-wrapper">
-                <h2>NVI Határozatok és Ülések Migrációja - White Coding #2</h2>
-                <div class="two-column-container">
-                    <div class="column-content">
-                        <svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-zoomable="true">
-                        </svg>
-                    </div>
-                    <div class="column-content content-bullets">
-                        <ul>
-                            <li>Minden meglévő információ összegyűjtése egyetlen Gem-be.</li>
-                            <li>Első lépésként töltsük le az adatokat a webről.</li>
-                            <li>Ha már letöltöttük, ne töltsük le újra (oda figyelünk az újra futtatásra).</li>
-                            <li>Készítsen riportot a sikeres és sikertelen letöltésekről. Sikertelen esetben írja bele a részleteket is.</li>
-                            <li>Töltsük be az adatokat az interfészeken.</li>
-                            <li>Ha már egyszer betöltöttük, akkor upgradeljük (meg mondjuk mi az elsődleges kulcs, a többi megy magától az api leírók alapján)</li>
-                            <li>Készítsen riportot a sikeres és sikertelen feltöltésekről. Hasonlóan sikertelen esetben írja bele a részleteket is.</li>
-							
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-wrapper">
                 <h2>Ez a prezentáció...</h2>
                 <div class="two-column-container">
                     <div class="column-content">
@@ -387,10 +476,8 @@
                     </div>
                     <div class="column-content content-bullets">
                         <ul>
-                            <li>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis.</li>
-                            <li>Suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</li>
-                            <li>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse.</li>
-                            <li>Quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat.</li>
+                            <li>No Comment</li>
+                            <li>És ha már editor...</li>
                         </ul>
                     </div>
                 </div>
