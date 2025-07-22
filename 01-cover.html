@@ -95,38 +95,47 @@
     </div>
 
     <script>
-        // Oldal navigációs és visszaszámláló scriptek
         document.addEventListener('DOMContentLoaded', function() {
-            // Visszaszámláló logika
-            let timeInSeconds = 120; // 2 perc
             const countdownElement = document.getElementById('countdown');
+            let countdownStarted = false; // Zászló, hogy a visszaszámláló ne induljon el többször
+            let timerInterval = null;
 
-            const timerInterval = setInterval(() => {
-                if (timeInSeconds <= 0) {
-                    clearInterval(timerInterval);
-                    countdownElement.textContent = "Kezdünk!";
-                    // Opcionálisan automatikus átirányítás a visszaszámlálás után
-                    // setTimeout(() => { window.location.href = '02-ai-survey-results.html'; }, 1500);
-                    return;
+            function startCountdown() {
+                // Csak akkor indul, ha még nem fut
+                if (countdownStarted) return;
+                countdownStarted = true;
+
+                let timeInSeconds = 120; // 2 perc
+
+                timerInterval = setInterval(() => {
+                    if (timeInSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        countdownElement.textContent = "Kezdünk!";
+                        return;
+                    }
+
+                    timeInSeconds--;
+
+                    const minutes = Math.floor(timeInSeconds / 60);
+                    let seconds = timeInSeconds % 60;
+                    
+                    seconds = seconds < 10 ? '0' + seconds : seconds;
+                    countdownElement.textContent = `${minutes}:${seconds}`;
+
+                }, 1000);
+            }
+
+            // Billentyűlenyomás figyelése a navigációhoz és a visszaszámláló indításához
+            document.addEventListener('keydown', function(event) {
+                // Visszaszámláló indítása a 'p' billentyűvel
+                if (event.key === 'p' || event.key === 'P') {
+                    startCountdown();
                 }
 
-                timeInSeconds--;
-
-                const minutes = Math.floor(timeInSeconds / 60);
-                let seconds = timeInSeconds % 60;
-
-                // Formázás: '0' hozzáadása, ha a másodperc < 10
-                seconds = seconds < 10 ? '0' + seconds : seconds;
-
-                countdownElement.textContent = `${minutes}:${seconds}`;
-
-            }, 1000);
-
-            // Navigációs logika billentyűkkel
-            document.addEventListener('keydown', function(event) {
+                // Navigáció a következő oldalra
                 if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
                     event.preventDefault();
-                    window.location.href = '01a-agenda.html';
+                    window.location.href = '02-ai-survey-results.html';
                 }
             });
         });
