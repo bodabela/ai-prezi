@@ -12,7 +12,7 @@
             height: 100%;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: white;
-            overflow: hidden; /* Prevents scrollbars if content overflows slightly */
+            overflow: hidden;
         }
 
         .slide {
@@ -23,65 +23,60 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            background-color: #1a1a2e; /* Sötétkék-lila háttér, hasonló a képhez */
-            /* Ha a kép pontos hátterét szeretnénk használni:
-            background-image: url('eleresi_ut_a_hatterkephez.jpg');
-            background-size: cover;
-            background-position: center;
-            */
+            background-color: #1a1a2e;
             padding: 20px;
             box-sizing: border-box;
         }
 
         .logo {
-            font-size: 10vw; /* Reszponzív méret a nézetablak szélességéhez képest */
+            font-size: 10vw;
             font-weight: bold;
             margin-bottom: 20px;
-            /* A "C" betű speciális megjelenítéséhez SVG vagy kép lenne ideális */
-        }
-
-        .logo .c-letter {
-            /* Itt lehetne egyedi stílust adni a C betűnek, ha szövegként marad.
-               Például más szín, vagy egy körvonallal próbálkozni.
-               De a legjobb egy SVG lenne. */
         }
 
         .subtitle {
-            font-size: 3vw; /* Reszponzív méret */
+            font-size: 3vw;
             font-weight: normal;
             margin-bottom: 40px;
             letter-spacing: 1px;
         }
 
+        .countdown-container {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .countdown-title {
+            font-size: 2.5vw;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .countdown-timer {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 4vw;
+            font-weight: bold;
+        }
+
         .year {
-            font-size: 2.5vw; /* Reszponzív méret */
+            font-size: 2.5vw;
             position: absolute;
             bottom: 5%;
         }
 
-        /* Kisebb képernyőkre (pl. mobil) igazítás */
         @media (max-width: 768px) {
-            .logo {
-                font-size: 18vw;
-            }
-            .subtitle {
-                font-size: 5vw;
-            }
-            .year {
-                font-size: 4vw;
-                bottom: 3%;
-            }
+            .logo { font-size: 18vw; }
+            .subtitle { font-size: 5vw; }
+            .countdown-title { font-size: 5vw; }
+            .countdown-timer { font-size: 8vw; }
+            .year { font-size: 4vw; bottom: 3%; }
         }
          @media (min-width: 1200px) {
-            .logo {
-                font-size: 120px; /* Fix méret nagyobb képernyőkön */
-            }
-            .subtitle {
-                font-size: 36px; /* Fix méret */
-            }
-            .year {
-                font-size: 30px; /* Fix méret */
-            }
+            .logo { font-size: 120px; }
+            .subtitle { font-size: 36px; }
+            .countdown-title { font-size: 30px; }
+            .countdown-timer { font-size: 48px; }
+            .year { font-size: 30px; }
         }
 
     </style>
@@ -90,34 +85,51 @@
     <div class="slide">
         <div class="logo">we<span class="c-letter">C</span>an</div>
         <div class="subtitle">Generatív AI „Lessons Learned”</div>
+        
+        <div class="countdown-container">
+            <div class="countdown-title">Hamarosan kezdünk</div>
+            <div id="countdown" class="countdown-timer">2:00</div>
+        </div>
+
         <div class="year">2025</div>
     </div>
 
     <script>
-        document.addEventListener('keydown', function(event) {
-            if (event.code === 'Space' || event.key === ' ') {
-                // Megakadályozzuk az alapértelmezett műveletet (pl. görgetés)
-                event.preventDefault();
-                // Átirányítás a következő oldalra
-                window.location.href = '02-ai-survey-results.html';
-            }
+        // Oldal navigációs és visszaszámláló scriptek
+        document.addEventListener('DOMContentLoaded', function() {
+            // Visszaszámláló logika
+            let timeInSeconds = 120; // 2 perc
+            const countdownElement = document.getElementById('countdown');
+
+            const timerInterval = setInterval(() => {
+                if (timeInSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    countdownElement.textContent = "Kezdünk!";
+                    // Opcionálisan automatikus átirányítás a visszaszámlálás után
+                    // setTimeout(() => { window.location.href = '02-ai-survey-results.html'; }, 1500);
+                    return;
+                }
+
+                timeInSeconds--;
+
+                const minutes = Math.floor(timeInSeconds / 60);
+                let seconds = timeInSeconds % 60;
+
+                // Formázás: '0' hozzáadása, ha a másodperc < 10
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+
+                countdownElement.textContent = `${minutes}:${seconds}`;
+
+            }, 1000);
+
+            // Navigációs logika billentyűkkel
+            document.addEventListener('keydown', function(event) {
+                if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                    event.preventDefault();
+                    window.location.href = '01a-agenda.html';
+                }
+            });
         });
     </script>
-	
-	<script>
-		document.addEventListener('keydown', function(event) {
-			// Navigáció a következő oldalra (jobbra nyíl vagy space)
-			if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
-				event.preventDefault(); // Megakadályozza az alapértelmezett böngészőműveletet
-				window.location.href = '02-ai-survey-results.html';
-			}
-			// A balra nyílnak itt nincs funkciója, mivel ez az első oldal.
-			// Ha lenne előző oldal, itt lehetne kezelni:
-			// else if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
-			//     event.preventDefault();
-			//     window.location.href = 'URL_AZ_ELOZO_OLDALHOZ';
-			// }
-		});
-	</script>
 </body>
 </html>
