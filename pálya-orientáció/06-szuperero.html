@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milyen szupererő kell hozzá?</title>
+     <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .slide-container {
+			width: 1500px; height: 920px; background-color: #ffffff; box-shadow: 0 0 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; overflow: hidden;
+			transform: scale(0.8);
+			}
+        .header-svg-container { width: 100%; height: 100px; flex-shrink: 0; }
+        .slide-content { padding: 40px 60px; flex-grow: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-content: center; }
+        .skill-item {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 5px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .skill-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        .skill-icon { font-size: 50px; }
+        .skill-text h3 { font-size: 28px; color: #34495e; margin: 0 0 5px 0; }
+        .skill-text p { font-size: 18px; margin: 0; }
+        .skill-image {
+			align-self: center;
+			justify-content: center;
+            width: 300px;
+            height: 250px;
+            object-fit: cover; /* Keeps aspect ratio, fills container, and crops */
+            object-position: center; /* Ensures the center of the image is shown */
+            transition: transform 0.3s ease;
+        }
+        .skill-image:hover {
+            transform: scale(1.05);
+        }
+
+        #popup-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: none; justify-content: center; align-items: center;
+            z-index: 1000; cursor: pointer;
+        }
+        #popup-overlay.show { display: flex; }
+        #popup-image { max-width: 80vw; max-height: 80vh; object-fit: contain; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="1000" height="80" fill="#0A2B4C"/>
+                <text x="95" y="48" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="24" font-weight="600" fill="#FFFFFF">Milyen szupererő kell hozzá? 💪</text>
+                 <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+            </svg>
+        </div>
+        <div class="slide-content">
+            <div class="skill-item">
+                <div class="skill-header">
+                    <div class="skill-icon">🧩</div>
+                    <div class="skill-text"><h3>Logika</h3><p>Szeretsz legózni vagy rejtvényeket fejteni?</p></div>
+                </div>
+                <img src="power-logika.png" alt="Színes legókockák, amikből egy bonyolult alakzat épül." class="skill-image">
+            </div>
+            <div class="skill-item">
+                <div class="skill-header">
+                    <div class="skill-icon">🎨</div>
+                    <div class="skill-text"><h3>Kreativitás</h3><p>Szeretsz rajzolni, építeni, történeteket kitalálni?</p></div>
+                </div>
+                <img src="power-kreativitas.png" alt="Egy gyerek színes krétákkal rajzol egy fantáziavilágot." class="skill-image">
+            </div>
+            <div class="skill-item">
+                <div class="skill-header">
+                    <div class="skill-icon">끈기</div>
+                    <div class="skill-text"><h3>Kitartás</h3><p>Ha valami nem sikerül elsőre, nem adod fel?</p></div>
+                </div>
+                <img src="power-kitartas.png" alt="Egy rajzfilmfigura, aki egy nehéznek tűnő falon mászik fel eltökélten." class="skill-image">
+            </div>
+            <div class="skill-item">
+                <div class="skill-header">
+                    <div class="skill-icon">🤝</div>
+                    <div class="skill-text"><h3>Csapatmunka</h3><p>Szeretsz másokkal együtt dolgozni egy közös célért?</p></div>
+                </div>
+                <img src="power-csapatmunka.png" alt="Gyerekek egy csoportja vidáman dolgozik együtt egy projekten." class="skill-image">
+            </div>
+        </div>
+    </div>
+    <div id="popup-overlay">
+      <img id="popup-image" src="" alt="Nagyított kép">
+    </div>
+    <script>
+        const popupOverlay = document.getElementById('popup-overlay');
+        const popupImage = document.getElementById('popup-image');
+        document.querySelectorAll('.skill-image').forEach(image => {
+            image.addEventListener('click', () => {
+                popupImage.src = image.src;
+                popupOverlay.classList.add('show');
+            });
+        });
+        popupOverlay.addEventListener('click', () => {
+            popupOverlay.classList.remove('show');
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') { window.location.href = '05-mi-a-programozas.html'; }
+            if (event.key === 'ArrowRight' || event.key === ' ') { window.location.href = '07-elso-lepesek.html'; }
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>
+

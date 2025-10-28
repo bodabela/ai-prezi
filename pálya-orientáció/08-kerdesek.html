@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kérdések?</title>
+     <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .slide-container {
+			width: 1500px; height: 920px; background-color: #ffffff; box-shadow: 0 0 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; overflow: hidden;
+			transform: scale(0.8);
+			}
+        .header-svg-container { width: 100%; height: 120px; flex-shrink: 0; }
+        .slide-title-main-container { padding: 22px 60px; background-color: #f8f8f8; border-bottom: 2px solid #ddd; }
+        .slide-title-main-container h1 { font-size: 36px; color: #2c3e50; margin: 0; font-weight: 600; }
+        .slide-content { padding: 10px 20px; flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .question-mark-image {
+            width: 600px;
+            height: 600px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="1000" height="80" fill="#0A2B4C"/>
+                <text x="95" y="48" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="24" font-weight="600" fill="#FFFFFF">Kérdezzetek! 🙋‍♀️🙋‍♂️</text>
+                 <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+            </svg>
+        </div>
+        <div class="slide-title-main-container">
+            <h1>Most ti jöttök!</h1>
+        </div>
+        <div class="slide-content">
+            <img src="kerdojel.png" alt="Nagy, színes kérdőjel" class="question-mark-image">
+            <h2>Mi az, ami a legjobban érdekel titeket?</h2>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') { window.location.href = '07-elso-lepesek.html'; }
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>
+

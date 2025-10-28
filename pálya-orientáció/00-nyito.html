@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pályaorientáció - Bemutató</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .slide-container {
+            width: 100%;
+            width: 1500px;
+            height: 920px;
+            color: #1c1c1c;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative; /* Needed for the pseudo-element */
+            overflow: hidden; /* To contain the rotating gradient */
+			transform: scale(0.8);
+        }
+
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, #00bfff, #2ecc71, #3498db, #ffeb3b, #ff5722);
+            background-size: 300% 300%;
+            animation: rotateAndShift 10s ease infinite;
+            z-index: 1;
+        }
+
+        .title, .subtitle {
+            position: relative; /* Ensure text is above the gradient */
+            z-index: 2;
+        }
+
+        .title {
+            font-size: clamp(2.5rem, 7vw, 6rem);
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            color: #004d7a; /* Sötétkék */
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7); /* Stronger, darker shadow to match subtitle */
+        }
+        .subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 2rem);
+            font-weight: bold; /* Changed to bold */
+            letter-spacing: 1px;
+            color: #f0f0f0; /* Changed to a light, contrasting color */
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7); /* Stronger, darker shadow */
+        }
+        
+        @keyframes rotateAndShift {
+            0% {
+                transform: rotate(0deg);
+                background-position: 0% 50%;
+            }
+            50% {
+                transform: rotate(180deg);
+                background-position: 100% 50%;
+            }
+            100% {
+                transform: rotate(360deg);
+                background-position: 0% 50%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="title">Képzelet és Varázslat</div>
+        <div class="subtitle">...avagy hogyan kelnek életre a gondolatok a digitális világban</div>
+        <div class="subtitle">...avagy mit is csinál egy programozó két kávé között</div>
+    </div>
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = '01-tevhit-valosag.html';
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
+

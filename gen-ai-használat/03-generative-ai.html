@@ -205,7 +205,7 @@
 
             <h3>Statisztikán Való Alapulás</h3>
             <ul>
-                <li><strong>Valószínűségi Előrejelzések:</strong> A generatív MI lényegében azt tanulja meg, hogy egy adott kontextus (pl. egy bemeneti szöveg, prompt) alapján mi a következő legvalószínűbb elem (szó, képpont, hangjegy). Nem "gondolkodik" vagy "ért" emberi értelemben, hanem statisztikai mintázatok alapján generál.</li>
+                <li><strong>Valószínűségi Előrejelzések:</strong> A generatív MI lényegében azt tanulja meg, hogy egy adott kontextus (pl. egy bemeneti szöveg, prompt) alapján mi a következő legvalószínűbb elem (szó, képpont, hangjegy). Nem "gondolkodik" vagy "ért" emberi értelemben, hanem <strong>statisztikai mintázatok alapján hoz létre újat</strong>.</li>
                 <li><strong>Következő Szó Jóslása:</strong> Egy szöveggeneráló modell például egy mondat befejezésekor mindig azt a szót próbálja megjósolni, amelyik a tanító adathalmaz alapján a legnagyobb valószínűséggel következik az addig generált szavak után.</li>
                 <li><strong>Kreativitás vs. Ismétlés:</strong> Bár statisztikán alapulnak, a modellek képesek újszerű kombinációkat létrehozni, mert a lehetőségek tere hatalmas. Azonban fennáll a veszélye annak is, hogy a tanítóadatokban gyakran előforduló mintákat ismétlik, vagy "hallucinálnak" (valótlan információkat állítanak magabiztosan).</li>
                 <li>A generatív képesség tehát a megtanult statisztikai összefüggések komplex alkalmazásából fakad, lehetővé téve új, de a tanult mintákhoz illeszkedő tartalmak létrehozását.</li>
@@ -216,9 +216,9 @@
 
             <h3>Tanítási Módok</h3>
             <ul>
-                <li><strong>Óriási Adathalmazok:</strong> A generatív modelleket hatalmas mennyiségű adat felhasználásával tanítják. Szöveggeneráló modellek esetében ez lehet könyvek, cikkek, weboldalak milliárdjai.</li>
+                <li><strong>Óriási Adathalmazok:</strong> A generatív modelleket hatalmas mennyiségű adat felhasználásával tanítják. Szöveggeneráló modellek esetében ez lehet könyvek, cikkek, weboldalak, forráskódok milliárdjai.</li>
                 <li><strong>Felügyelet Nélküli Tanulás (Unsupervised Learning):</strong> A tanítás során a modellek önállóan keresnek mintázatokat, struktúrákat és összefüggéseket a bevitt adatokban. Megtanulják például, hogy bizonyos szavak milyen gyakran követik egymást, milyen egy tipikus mondatszerkezet, vagy hogyan épül fel egy koherens történet.</li>
-                <li><strong>Transzformer Architektúra:</strong> Sok modern generatív MI (pl. GPT modellek - Generative Pre-trained Transformer) az úgynevezett transzformer architektúrára épül, amely különösen hatékony a szekvenciális adatok (mint a szöveg) közötti hosszú távú függőségek megértésében az "attention" (figyelem) mechanizmusok révén.</li>
+                <li><strong>Transzformer Architektúra:</strong> Sok modern generatív MI (pl. GPT modellek - Generative Pre-trained Transformer) az úgynevezett transzformer architektúrára (neurális hálók egyik "fajtája") épül, amely különösen hatékony a szekvenciális adatok (mint a szöveg) közötti hosszú távú függőségek megértésében az "attention" (figyelem) mechanizmusok révén.</li>
                 <li><strong>Finomhangolás (Fine-tuning) és Megerősítéses Tanulás Emberi Visszajelzéssel (RLHF):</strong> Az alapmodellek további képzésen eshetnek át specifikusabb feladatokra (finomhangolás), vagy emberi értékelők visszajelzései alapján (RLHF) csiszolják a válaszaikat, hogy azok hasznosabbak, őszintébbek és ártalmatlanabbak legyenek.</li>
             </ul>
 
@@ -242,7 +242,7 @@
                 </li>
                 <li><strong>VAE (Variational Autoencoder - Variációs Autoenkóder):</strong>
                     <ul>
-                        <li>Olyan generatív modellek, amelyek az adatokat egy alacsonyabb dimenziós rejtett (látens) térbe kódolják, majd ebből a térből dekódolják vissza az eredetihez hasonló adatokat.</li>
+                        <li>Olyan generatív modellek (egy másik architektúrán), amelyek az adatokat egy alacsonyabb dimenziós rejtett (látens) térbe kódolják, majd ebből a térből dekódolják vissza az eredetihez hasonló adatokat.</li>
                         <li>A "variációs" rész arra utal, hogy a látens teret <strong>valószínűségi eloszlásokkal</strong> modellezik, ami lehetővé teszi új, a tanult adatokhoz hasonló minták generálását a látens térből történő mintavételezéssel.</li>
                         <li>Jól használhatók <strong>képgenerálásra, anomáliadetektálásra és az adatok mögöttes struktúrájának</strong> megértésére.</li>
                     </ul>

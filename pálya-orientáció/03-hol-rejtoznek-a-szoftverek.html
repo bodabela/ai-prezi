@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hol rejtőznek a szoftverek?</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .slide-container {
+			width: 1500px; height: 920px; background-color: #ffffff; box-shadow: 0 0 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; overflow: hidden; 
+			transform: scale(0.8);
+			}
+        .header-svg-container { width: 100%; height: 100px; flex-shrink: 0; }
+        .slide-content { padding: 10px 60px; flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .slide-content .prompt { font-size: 26px; line-height: 1.5; color: #333; max-width: 80%; margin-bottom: 15px; }
+        .doors-container { display: flex; justify-content: space-around; width: 100%; gap: 20px; }
+        .doors-container:first-of-type { margin-bottom: 20px; }
+        .secret-door { width: 240px; height: 320px; perspective: 1200px; cursor: pointer; }
+        .door-flipper { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.8s; }
+        .secret-door.is-open .door-flipper { transform: rotateY(180deg); }
+        .door-front, .door-content { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 15px; box-shadow: inset 0 0 15px rgba(0,0,0,0.3); }
+        .door-front { border: none; background-size: cover; background-position: center; }
+        .door-content { background: #fdf5e6; transform: rotateY(180deg); padding: 10px; box-sizing: border-box; border: 5px solid #663300; }
+        .door-content img { max-width: 100%; max-height: 80%; border-radius: 8px; border: 2px solid #ccc; }
+        .door-content .caption { margin-top: 10px; font-size: 20px; font-weight: bold; color: #333; }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-svg-container">
+             <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="1000" height="80" fill="#0A2B4C"/>
+                <text x="95" y="48" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="24" font-weight="600" fill="#FFFFFF">Hol rejtőznek meghökkentő szoftverek? 🔎</text>
+                 <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+            </svg>
+        </div>
+        <div class="slide-content">
+            <p class="prompt">Nem is gondolnátok, hogy ezekben is szoftverek segítik a működést...</p>
+            <div class="doors-container">
+                <div class="secret-door"><div class="door-flipper"><div class="door-front" style="background-image: url('ajtó.png')"></div><div class="door-content"><img src="szofver-auto.png" alt="Autó műszerfala"><p class="caption">Autó</p></div></div></div>
+                <div class="secret-door"><div class="door-flipper"><div class="door-front" style="background-image: url('ajtó.png')"></div><div class="door-content"><img src="szoftver-huto.png" alt="Okoshűtő érintőképernyővel"><p class="caption">Hűtő</p></div></div></div>
+                <div class="secret-door"><div class="door-flipper"><div class="door-front" style="background-image: url('ajtó.png')"></div><div class="door-content"><img src="szoftver-mosogep.png" alt="Digitális kijelzős mosógép"><p class="caption">Mosógép</p></div></div></div>
+                <div class="secret-door"><div class="door-flipper"><div class="door-front" style="background-image: url('ajtó.png')"></div><div class="door-content"><img src="szoftver-égo.png" alt="Okos izzó telefonos applikációval"><p class="caption">Villanykörte</p></div></div></div>
+            </div>
+            <div class="doors-container">
+                <div class="secret-door"><div class="door-flipper"><div class="door-front" style="background-image: url('ajtó.png')"></div><div class="door-content"><img src="szoftver-porszivo.png" alt="Robotporszívó a padlón"><p class="caption">Robotporszívó</p></div></div></div>
+                <div class="secret-door"><div class="door-flipper"><div class="door-front" style="background-image: url('ajtó.png')"></div><div class="door-content"><img src="szoftver-ora.png" alt="Okosóra kijelzője"><p class="caption">Okosóra</p></div></div></div>
+                <div class="secret-door"><div class="door-flipper"><div class="door-front" style="background-image: url('ajtó.png')"></div><div class="door-content"><img src="szoftver-kavefozo.png" alt="Modern digitális kávéfőző"><p class="caption">Kávéfőző</p></div></div></div>
+                <div class="secret-door"><div class="door-flipper"><div class="door-front" style="background-image: url('ajtó.png')"></div><div class="door-content"><img src="szoftver-kozlekedesi-lampa.png" alt="Közlekedési lámpa"><p class="caption">Közlekedési lámpa</p></div></div></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('.secret-door').forEach(door => {
+            door.addEventListener('click', () => { door.classList.toggle('is-open'); });
+        });
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') { window.location.href = '02-a-szoftver.html'; }
+            if (event.key === 'ArrowRight' || event.key === ' ') { window.location.href = '04-szuperkepessegek.html'; }
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>
+

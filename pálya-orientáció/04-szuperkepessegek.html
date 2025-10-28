@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mit építhetsz kódból?</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .slide-container { 
+			width: 1500px; height: 920px; background-color: #ffffff; box-shadow: 0 0 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; overflow: hidden; 
+			transform: scale(0.8);
+			}
+        .header-svg-container { width: 100%; height: 100px; flex-shrink: 0; }
+        .slide-content-wrapper { padding: 20px 120px; flex-grow: 1; }
+        .slide-content { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .treasure-chest { cursor: pointer; border-radius: 15px; overflow: hidden; background-color: #f7f9fc; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: all 0.3s ease; }
+        .treasure-chest:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+        .lid { background-color: #34495e; color: white; padding: 20px; text-align: center; border-radius: 15px 15px 0 0; transition: transform 0.5s ease-in-out, background-color 0.5s ease; transform-origin: top; }
+        .lid h2 { font-size: 26px; margin: 0; }
+        .chest-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; text-align: center; padding: 0 20px; }
+        .chest-content img { width: 90%; height:400px; object-fit: cover; border-radius: 10px; margin-top: 15px; border: 3px solid #ddd; }
+        .chest-content p { font-size: 16px; color: #555; padding-bottom: 15px; }
+        .treasure-chest.is-open .lid { transform: translateY(-10px) rotateX(-20deg) scale(1.05); background-color: #e67e22; }
+        .treasure-chest.is-open .chest-content { max-height: 400px; }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                 <rect width="1000" height="80" fill="#0A2B4C"/>
+                <text x="95" y="48" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="24" font-weight="600" fill="#FFFFFF">Mit építhetsz kódból? A Szuperképességek! 🚀</text>
+                 <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+            </svg>
+        </div>
+        <div class="slide-content-wrapper">
+            <div class="slide-content">
+                <div class="treasure-chest">
+                    <div class="lid"><h2>Játékok 🎮</h2></div>
+                    <div class="chest-content">
+                        <img src="product-game.png" alt="Színes, blokkokból álló videojáték világ">
+                        <p>Készítsd el a saját világodat, mint a Minecraftban vagy a Robloxban!</p>
+                    </div>
+                </div>
+                <div class="treasure-chest">
+                    <div class="lid"><h2>Mesék és Filmek 🎬</h2></div>
+                    <div class="chest-content">
+                        <img src="product-cartoon.png" alt="Digitális animációs karakterek">
+                        <p>A kedvenc animációs filmjeidet, mint a Toy Story-t, programok keltik életre!</p>
+                    </div>
+                </div>
+                <div class="treasure-chest">
+                    <div class="lid"><h2>Robotok és Űrkutatás 🤖</h2></div>
+                    <div class="chest-content">
+                        <img src="product-robots.png" alt="Mars-járó robot a vörös bolygó felszínén">
+                        <p>Irányíts robotokat, vagy küldj üzenetet a Marsra a NASA-val!</p>
+                    </div>
+                </div>
+                 <div class="treasure-chest">
+                    <div class="lid"><h2>Hasznos Appok 📱</h2></div>
+                    <div class="chest-content">
+                        <img src="product-apps.png" alt="Népszerű mobilalkalmazások ikonjai">
+                        <p>Alkoss olyan alkalmazásokat, mint a TikTok vagy a YouTube, amiket milliók használnak!</p>
+                    </div>
+                </div>
+                <div class="treasure-chest">
+                    <div class="lid"><h2>Orvoslás 🩺</h2></div>
+                    <div class="chest-content">
+                        <img src="product-health.png" alt="Orvos egy tableten néz egy 3D agyi modellt">
+                        <p>Segíts az orvosoknak gyógyítani olyan programokkal, amik felismerik a betegségeket!</p>
+                    </div>
+                </div>
+                <div class="treasure-chest">
+                    <div class="lid"><h2>Energetika 💡</h2></div>
+                    <div class="chest-content">
+                        <img src="product-energy.png" alt="Okos hálózat ami összeköti a szélerőműveket és a várost">
+                        <p>Tervezz okos hálózatokat, amik a nap- és szélenergiát a leghatékonyabban használják fel!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+    <script>
+        const chests = Array.from(document.querySelectorAll('.treasure-chest'));
+        const columns = 2; // The number of columns in the grid
+
+        chests.forEach((clickedChest, clickedIndex) => {
+            clickedChest.addEventListener('click', () => {
+                // Determine the row of the clicked chest.
+                const clickedRow = Math.floor(clickedIndex / columns);
+                
+                // Get the current state of the clicked chest *before* making any changes.
+                const wasOpen = clickedChest.classList.contains('is-open');
+
+                // First, close all chests that are NOT in the clicked row.
+                chests.forEach((chest, index) => {
+                    const currentRow = Math.floor(index / columns);
+                    if (currentRow !== clickedRow) {
+                        chest.classList.remove('is-open');
+                    }
+                });
+
+                // Now, handle the clicked chest. If it was already open, this click should close it.
+                // If it was closed, it should open.
+                if (wasOpen) {
+                    clickedChest.classList.remove('is-open');
+                } else {
+                    clickedChest.classList.add('is-open');
+                }
+            });
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') { window.location.href = '03-hol-rejtoznek-a-szoftverek.html'; }
+            if (event.key === 'ArrowRight' || event.key === ' ') { window.location.href = '05-mi-a-programozas.html'; }
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>

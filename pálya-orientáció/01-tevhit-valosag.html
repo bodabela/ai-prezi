@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tévhit vs. Valóság</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .slide-container { 
+			width: 1500px; height: 920px; background-color: #ffffff; box-shadow: 0 0 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; overflow: hidden; 
+			transform: scale(0.8);
+			}
+        .header-svg-container { width: 100%; height: 100px; flex-shrink: 0; }
+        
+        .slide-content { 
+            padding: 40px 60px; 
+            flex-grow: 1; 
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .column { 
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            width: 60%;
+            height: calc(100% - 80px);
+            padding: 20px; 
+            border-radius: 12px; 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-start;
+            transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+            box-sizing: border-box;
+        }
+
+        .column.myth { 
+            background-color: #fff0f0; 
+            border: 2px solid #e74c3c; 
+        }
+        .column.reality { 
+            background-color: #e8f5e9; 
+            border: 2px solid #2ecc71; 
+        }
+        .column.history {
+            background-color: #eaf2f8;
+            border: 2px solid #3498db;
+        }
+
+        /* State management for 3 cards */
+        .slide-content .column {
+             transform: translateX(-50%) scale(0.9);
+             opacity: 0;
+             z-index: 1;
+        }
+        .slide-content.state-myth .myth,
+        .slide-content.state-reality .reality,
+        .slide-content.state-history .history {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+            z-index: 3;
+        }
+        .slide-content.state-myth .reality,
+        .slide-content.state-reality .history,
+        .slide-content.state-history .myth {
+             transform: translateX(-40%) scale(0.95);
+             opacity: 0.7;
+             z-index: 2;
+        }
+
+
+        .column h2 { font-size: 32px; margin-top: 0; }
+        .column.myth h2 { color: #c0392b; }
+        .column.reality h2 { color: #27ae60; }
+        .column.history h2 { color: #2980b9; }
+        .column p { font-size: 22px; line-height: 1.6; }
+
+        .column img { /* General image styling in columns */
+             cursor: pointer;
+        }
+
+        .column > img { /* Direct child img */
+            width: 100%; 
+            max-width: 550px; 
+            margin-top: 10px;
+            align-self: center; 
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* History Slider Styles */
+        .history-slider-wrapper {
+            padding-top: 20px;
+            width: 100%;
+        }
+        .history-slider-wrapper h3 {
+            font-size: 32px;
+            color: #2980b9;
+            margin-bottom: 20px;
+        }
+        .history-slider {
+            position: relative;
+            height: 520px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .history-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .history-slide.active {
+            display: flex;
+        }
+        .history-slide img {
+            width: 280px;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 4px solid #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            margin: 15px 0;
+        }
+        .history-slide-text {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .history-slide-text h4 { font-size: 26px; margin: 0 0 15px 0; }
+        .history-slide-text p { font-size: 20px; line-height: 1.5; margin: 0; max-width: 85%; margin-top: 15px; }
+
+        .slider-nav {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+        .slider-nav button {
+            background: #3498db;
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .slider-nav button:hover {
+            background: #2980b9;
+        }
+        
+        /* Popup Styles */
+        #popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+        #popup-overlay.show {
+            display: flex;
+        }
+        #popup-image {
+            max-width: 80vw;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+    </style>
+</head>
+<body>
+     <div class="slide-container">
+        <div class="header-svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="1000" height="80" fill="#0A2B4C"/>
+                <text x="95" y="48" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="24" font-weight="600" fill="#FFFFFF">Na de kik is azok a programozók?</text>
+                 <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+            </svg>
+        </div>
+        <div class="slide-content state-myth">
+            <div class="column myth">
+                <h2>Tévhit 🥸</h2>
+                <p>Sokan azt hiszik, a programozó egy mogorva zseni, aki egy sötét pincében él pizzán, és a macskáján kívül senkihez sem szól.</p>
+                <img src="tévhit.png" alt="Rajzfilm stílusú kép egy magányos programozóról egy sötét, rendetlen szobában."/>
+            </div>
+            <div class="column reality">
+                <h2>Valóság 😎</h2>
+                <p>Valójában csapatban ötletelnek, alkotnak<br/> fiúk és lányok vegyesen!</p>
+                <img src="valóság.png" alt="Rajzfilm stílusú kép egy vidám, sokszínű programozó csapatról, akik egy világos, modern irodában dolgoznak együtt."/>
+            </div>
+            <div class="column history">
+                 <div class="history-slider-wrapper">
+                    <h3>A Programozás Hősnői</h3>
+                    <div class="history-slider">
+                        <div class="history-slide active">
+                            <div class="history-slide-text">
+                                <h4>Ada Lovelace (1843)</h4>
+                                <img src="woman-ada.jpg" alt="Ada Lovelace portréja">
+                                <p>Őt tartják a világ első programozójának! Több mint 100 évvel az első számítógép előtt írt egy programot egy gépre, ami csak papíron létezett.</p>
+                            </div>
+                        </div>
+                        <div class="history-slide">
+                           <div class="history-slide-text">
+                                <h4>Az ENIAC lányok (1946)</h4>
+                                <img src="woman-eniac-small.jpg" alt="Az ENIAC programozónői">
+                                <p>Ők hatan programozták be az első hatalmas, szoba méretű elektronikus számítógépet, amivel bonyolult számításokat végeztek el.</p>
+                            </div>
+                        </div>
+                        <div class="history-slide">
+                            <div class="history-slide-text">
+                                <h4>Grace Hopper (1952)</h4>
+                                <img src="woman-grace.jpg" alt="Grace Hopper portréja">
+                                <p>Ő alkotta meg az első olyan programot, ami képes volt emberi szavakat gépnyelvre fordítani, ezzel megalkotva az első modern programnyelveket.</p>
+                            </div>
+                        </div>
+                        <div class="slider-nav">
+                            <button id="prevBtn">‹</button>
+                            <button id="nextBtn">›</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="popup-overlay">
+      <img id="popup-image" src="" alt="Nagyított kép">
+    </div>
+
+    <script>
+        const slideContent = document.querySelector('.slide-content');
+        let currentCard = 0;
+        const cardStates = ['state-myth', 'state-reality', 'state-history'];
+        
+        function setCardState(stateIndex) {
+            slideContent.classList.remove(...cardStates);
+            slideContent.classList.add(cardStates[stateIndex]);
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Space') {
+                event.preventDefault();
+                currentCard = (currentCard + 1) % cardStates.length;
+                setCardState(currentCard);
+            }
+            if (event.key === 'ArrowLeft') { 
+                window.location.href = '00-nyito.html'; 
+            }
+            if (event.key === 'ArrowRight') { 
+                window.location.href = '02-a-szoftver.html'; 
+            }
+        });
+
+        // History slider logic
+        const slides = document.querySelectorAll('.history-slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+        }
+
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent card from switching
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        });
+
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent card from switching
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        });
+        
+        showSlide(currentSlide);
+        
+        // Popup logic for all images on this slide
+        const popupOverlay = document.getElementById('popup-overlay');
+        const popupImage = document.getElementById('popup-image');
+        const clickableImages = document.querySelectorAll('.column img'); // Select all images within columns
+
+        clickableImages.forEach(image => {
+            image.addEventListener('click', (e) => {
+                e.stopPropagation(); // Stop the event from bubbling up
+                popupImage.src = image.src;
+                popupOverlay.classList.add('show');
+            });
+        });
+
+        popupOverlay.addEventListener('click', () => {
+            popupOverlay.classList.remove('show');
+        });
+    </script>
+</body>
+</html>
+

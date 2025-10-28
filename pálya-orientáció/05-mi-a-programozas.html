@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De mi az a programozás?</title>
+     <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .slide-container {
+			width: 1500px; height: 920px; background-color: #ffffff; box-shadow: 0 0 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; overflow: hidden;
+			transform: scale(0.8);
+			}
+        .header-svg-container { width: 100%; height: 100px; flex-shrink: 0; }
+        .slide-content-wrapper { padding: 20px 60px; flex-grow: 1; overflow-y: auto; }
+        
+        .accordion-item { border-bottom: 1px solid #ddd; margin-bottom: 15px; }
+        .accordion-header { padding: 20px; font-size: 28px; font-weight: 600; color: #2c3e50; background-color: #f8f8f8; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-radius: 8px; }
+        .accordion-header::after { content: '▼'; font-size: 20px; transition: transform 0.3s ease; }
+        .accordion-item.is-open .accordion-header::after { transform: rotate(180deg); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+        .accordion-item.is-open .accordion-content { max-height: 600px; }
+        
+        .content-inner { padding: 20px 40px; display: flex; align-items: center; gap: 50px; }
+        .text-content { flex: 2; }
+        .text-content p { font-size: 20px; line-height: 1.5; margin-bottom: 20px; }
+        .text-content strong { color: #e67e22; }
+        .image-content { flex: 2; text-align: center; }
+        .image-content svg, .image-content img { max-width: 100%; width: 700px; border-radius: 10px; }
+        .image-content img { cursor: pointer; }
+
+        .recipe-columns { display: flex; gap: 20px; margin-top: 15px; }
+        .recipe-column { flex: 1; border: 2px solid #ddd; border-radius: 8px; padding: 15px; }
+        .recipe-column h4 { margin-top: 0; font-size: 20px; text-align: center; }
+        .recipe-column.correct { border-color: #2ecc71; background-color: #e8f5e9; }
+        .recipe-column.incorrect { border-color: #e74c3c; background-color: #fff0f0; cursor: pointer; }
+        .recipe-column ul { padding-left: 20px; margin: 0; font-size: 18px; }
+        .recipe-column li { margin-bottom: 8px; }
+
+        /* New styles for blur and popup */
+        .image-content img.blurred {
+            filter: blur(8px);
+            transition: filter 0.3s ease;
+        }
+
+        #popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        #popup-overlay.show {
+            display: flex;
+        }
+
+        #popup-image {
+            max-width: 80vw;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                <rect width="1000" height="80" fill="#0A2B4C"/>
+                <text x="95" y="48" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="24" font-weight="600" fill="#FFFFFF">De mi az a programozás? 📜➡️🤖</text>
+                 <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+            </svg>
+        </div>
+        <div class="slide-content-wrapper">
+            <div class="accordion-item is-open">
+                <div class="accordion-header">A "recept" a lényeg!</div>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <div class="text-content">
+                            <p>A számítógép olyan, mint egy nagyon szófogadó, de gondolkodni nem tudó robot. Nem csinál semmit magától!</p>
+                            <p>A programozó írja neki a <strong>"receptet"</strong> (ezt hívjuk <strong>kódnak</strong>), amiben lépésről lépésre le van írva, hogy mit tegyen. Ha egy lépés kimarad, vagy rossz, a robot összezavarodik!</p>
+                        </div>
+                        <div class="image-content">
+                            <img src="recept01.png" alt="Recept és robot illusztráció">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header">Mi történik, ha kimarad egy lépés?</div>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <div class="text-content">
+                            <p>A robot a vajjal és a sajttal a kezében állna tanácstalanul, és az asztalra kenné az egészet! A program hibaüzenetet adna.</p>
+                            <div class="recipe-columns">
+                                <div class="recipe-column correct">
+                                    <h4>Helyes recept ✅</h4>
+                                    <ul>
+                                        <li>Lépj a pulthoz.</li>
+                                        <li>Végy egy szelet kenyeret.</li>
+                                        <li>Kenj vajat rá.</li>
+                                        <li>Tedd rá a sajtot.</li>
+                                    </ul>
+                                </div>
+                                <div class="recipe-column incorrect">
+                                    <h4>Hibás recept ❌</h4>
+                                    <ul>
+                                        <li>Lépj a pulthoz.</li>
+                                        <li>Kenj vajat rá.</li>
+                                        <li>Tedd rá a sajtot.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-content">
+                            <img src="recept02.png" alt="Egy robot, aki értetlenül próbál vajat kenni az asztalra, mert hiányzik a kenyér.">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header">És ha rossz a hozzávaló?</div>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <div class="text-content">
+                             <p>Most süteményt sütünk. A robot nem tudja a különbséget a cukor és a só között!
+								Tökéletesen követi a receptet, de ha a recept pontatlan, az eredmény ehetetlen lesz.</p>
+                             <div class="recipe-columns">
+                                <div class="recipe-column correct">
+                                    <h4>Helyes recept ✅</h4>
+                                    <ul>
+                                        <li>...</li>
+                                        <li>Tegyél bele 20dkg <strong>cukrot</strong>.</li>
+                                        <li>...</li>
+                                    </ul>
+                                </div>
+                                <div class="recipe-column incorrect">
+                                    <h4>Hibás recept ❌</h4>
+                                    <ul>
+                                        <li>...</li>
+                                        <li>Tegyél bele 20dkg-ot a fehér zacskóból.</li>
+                                        <li><em>(A robot sót használ.)</em></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-content">
+                           <img src="recept03.png" alt="Valaki undorodva kóstol bele egy sós palacsintába.">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header">Zokni a cipőre? A sorrend nem mindegy!</div>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <div class="text-content">
+                            <p>A program lefutott hiba nélkül, de a logika rossz volt, így a végeredmény használhatatlan és vicces!</p>
+                            <div class="recipe-columns">
+                                <div class="recipe-column correct">
+                                    <h4>Helyes recept ✅</h4>
+                                    <ul>
+                                        <li>Vedd fel a zoknit.</li>
+                                        <li>Vedd fel a cipőt.</li>
+                                    </ul>
+                                </div>
+                                <div class="recipe-column incorrect">
+                                    <h4>Hibás recept ❌</h4>
+                                    <ul>
+                                        <li>Vedd fel a cipőt.</li>
+                                        <li>Vedd fel a zoknit.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-content">
+                           <img src="recept04.png" alt="Rajzfilmfigura, aki a cipőjére húzta a zoknit és csodálkozik.">
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="accordion-item">
+                <div class="accordion-header">A robot, aki körbeutazta a Földet</div>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <div class="text-content">
+                            <p>Ha azt mondod a robotnak, hogy "Menj előre!", de nem adsz neki egy célt, ahol megállhat, akkor szó szerint a világ végéig (és vissza) fog menni! Ezt hívják "végtelen ciklusnak".</p>
+                            <div class="recipe-columns">
+                                <div class="recipe-column correct">
+                                    <h4>Helyes recept ✅</h4>
+                                    <ul>
+                                        <li>Cél = "a kert vége"</li>
+                                        <li><strong>AMÍG</strong> nem vagy a Célnál:</li>
+                                        <li>Menj előre egy lépést.</li>
+                                    </ul>
+                                </div>
+                                <div class="recipe-column incorrect">
+                                    <h4>Hibás recept ❌</h4>
+                                    <ul>
+                                        <li><strong>AMÍG</strong> tudsz:</li>
+                                        <li>Menj előre egy lépést.</li>
+                                        <li><em>(Soha nem áll meg!)</em></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-content">
+                           <img src="recept05-loop.png" alt="Rajzfilm egy robotról, aki fáradtan rója a köröket a Földgolyó körül.">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header">Esik az eső, vagy süt a nap?</div>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <div class="text-content">
+                            <p>Egy programnak tudnia kell dönteni! Elmondjuk neki, hogy <strong>HA</strong> valami történik, <strong>AKKOR</strong> mit tegyen, <strong>KÜLÖNBEN</strong> pedig mit csináljon.</p>
+                            <div class="recipe-columns">
+                                <div class="recipe-column correct">
+                                    <h4>Helyes recept ✅</h4>
+                                    <ul>
+                                       <li><strong>HA</strong> esik az eső:</li>
+                                       <li>Vegyél esőkabátot.</li>
+                                       <li><strong>KÜLÖNBEN</strong>: Vegyél napszemüveget.</li>
+                                    </ul>
+                                </div>
+                                <div class="recipe-column incorrect">
+                                    <h4>Hibás recept ❌</h4>
+                                    <ul>
+                                       <li>Vegyél esőkabátot.</li>
+                                       <li><em>(Mindig ezt teszi, akkor is, ha süt a nap!)</em></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-content">
+                           <img src="recept07-eso.png" alt="Rajzfilmfigura esőkabátban izzad a tűző napon a strandon.">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header">Mi a közös az almában és a narancsban?</div>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <div class="text-content">
+                            <p>Képzeld el, hogy a robotod csak egyféle dolgot tud cipelni. Ha külön kéred az almát és a narancsot, összezavarodik. De ha azt mondod neki, hogy hozzon "gyümölcsöt", akkor már tudni fogja, hogy mindkettő beletartozik a csoportba. Ezt hívják <strong>absztrakciónak</strong>.</p>
+                            <div class="recipe-columns">
+                                <div class="recipe-column correct">
+                                    <h4>Okos recept ✅</h4>
+                                    <ul>
+                                       <li><u>Csoport:</u> `gyümölcs` = (alma, narancs)</li>
+                                       <li>Hozz egy `gyümölcs`-öt!</li>
+                                    </ul>
+                                </div>
+                                <div class="recipe-column incorrect">
+                                    <h4>Zavaros recept ❌</h4>
+                                    <ul>
+                                       <li>Hozz egy `almá`-t!</li>
+                                       <li>Hozz egy `narancs`-ot!</li>
+                                       <li><em>(A robotnak ez két külön feladat.)</em></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-content">
+                           <img src="recept08-gyumolcs.png" alt="Egy robot boldogan tesz bele egy kosárba almát és narancsot, a kosáron a 'Gyümölcs' felirat látható.">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header">Uncsi a szendvics, vagy a recept?</div>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <div class="text-content">
+                            <p>Ha egy feladatot sokszor kell elvégezni, készítünk egy mini-receptet (ezt hívják <strong>függvénynek</strong>). Ha minden alkalommal elmondanánk az összes lépést, még a robot is elaludna unalmában!</p>
+                             <div class="recipe-columns">
+                                <div class="recipe-column correct">
+                                    <h4>Okos recept ✅</h4>
+                                    <ul>
+                                       <li><u>Mini-recept:</u> "KészítsSzendvicset"</li>
+                                       <li>Reggel: "KészítsSzendvicset"</li>
+                                       <li>Este: "KészítsSzendvicset"</li>
+                                    </ul>
+                                </div>
+                                <div class="recipe-column incorrect">
+                                    <h4>Unalmas recept ❌</h4>
+                                    <ul>
+                                       <li>Reggel: Végy kenyeret, kenj vajat...</li>
+                                       <li>Este: Végy kenyeret, kenj vajat...</li>
+                                       <li><em>(A robot már ásít: Zzz...)</em></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-content">
+                           <img src="recept09-uncsi.png" alt="Egy rajzfilm robot ásít és majdnem elalszik egy hosszú, ismétlődő lista olvasása közben.">
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="accordion-item">
+                <div class="accordion-header">Az első igazi "bogár"!</div>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <div class="text-content">
+                            <p>Tudtad, hogy az első számítógépes "bogár" (angolul <strong>bug</strong>) egy igazi, hús-vér rovar volt? 1947-ben egy molylepke repült bele egy óriási számítógépbe, és hibát okozott. A mérnökök ragasztószalaggal beragasztották a naplóba, és odaírták: "Az első tényleges eset, hogy bogarat találtunk." Azóta hívjuk a programhibákat "bug"-nak!</p>
+                        </div>
+                        <div class="image-content">
+                           <img src="recept06-moth.png" alt="Rajzfilm egy molylepkéről, ami épp megráz egy régi, szoba méretű számítógépet.">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup-overlay">
+      <img id="popup-image" src="" alt="Nagyított kép">
+    </div>
+
+    <script>
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            header.addEventListener('click', () => {
+                const currentlyOpen = document.querySelector('.accordion-item.is-open');
+                if (currentlyOpen && currentlyOpen !== item) {
+                    currentlyOpen.classList.remove('is-open');
+                }
+                item.classList.toggle('is-open');
+            });
+        });
+
+        // New popup functionality
+        const popupOverlay = document.getElementById('popup-overlay');
+        const popupImage = document.getElementById('popup-image');
+
+        // Part 1: Setup for images that should be blurred initially
+        document.querySelectorAll('.recipe-column.incorrect').forEach(column => {
+            const image = column.closest('.accordion-item').querySelector('.image-content img');
+            if (image) {
+                image.classList.add('blurred');
+                column.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent accordion from closing
+                    if (image.classList.contains('blurred')) {
+                        image.classList.remove('blurred');
+                        popupImage.src = image.src;
+                        popupOverlay.classList.add('show');
+                    }
+                });
+            }
+        });
+
+        // Part 2: Make ALL images open the popup if they are not blurred
+        document.querySelectorAll('.accordion-item .image-content img').forEach(image => {
+            image.addEventListener('click', () => {
+                if (!image.classList.contains('blurred')) {
+                    popupImage.src = image.src;
+                    popupOverlay.classList.add('show');
+                }
+            });
+        });
+
+        // Part 3: Close popup
+        popupOverlay.addEventListener('click', () => {
+            popupOverlay.classList.remove('show');
+        });
+
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') { window.location.href = '04-szuperkepessegek.html'; }
+            if (event.key === 'ArrowRight' || event.key === ' ') { window.location.href = '06-szuperero.html'; }
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>
+
