@@ -121,8 +121,8 @@
         .slide-title-main-container { padding: 22px 60px; background-color: #f8f8f8; border-bottom: 2px solid #ddd; }
         .slide-title-main-container h1 { font-size: 36px; color: #2c3e50; margin: 0; font-weight: 600; }
         .slide-content { padding: 22px 60px; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; }
-        .slide-content p, .slide-content ul { font-size: 17px; line-height: 1.65; color: #333; margin-bottom: 12px; }
-        .slide-content ul { list-style-type: disc; padding-left: 35px; margin-left: 5px; }
+        .slide-content p, .slide-content ul:not(.agenda-list) { font-size: 17px; line-height: 1.65; color: #333; margin-bottom: 12px; }
+        .slide-content ul:not(.agenda-list) { list-style-type: disc; padding-left: 35px; margin-left: 5px; }
         .slide-content strong { font-weight: 600; color: #0A2B4C; }
         .section-wrapper { padding: 25px 15px 15px 15px; margin: 0 -15px 15px -15px; border-radius: 6px; position: relative; border: 1px dashed #ccc; }
         .section-wrapper h2, .section-wrapper h3 { font-size: 23px; color: #34495e; margin-top: 0; margin-bottom: 15px; border-bottom: 3px solid #79C7E3; padding-bottom: 6px; font-weight: 600; }
@@ -185,6 +185,36 @@
         }
         .raw-answers[contenteditable="true"] { outline: 2px dashed #79C7E3; }
 
+        /* Új Agenda stílusok a szerkesztőben */
+        .slide-content .agenda-list {
+            list-style-type: none;
+            padding-left: 0;
+            font-size: 24px;
+            line-height: 2.2;
+            width: 80%;
+            margin: 20px auto;
+        }
+        .slide-content .agenda-list li {
+            padding-left: 25px;
+            position: relative;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+        .slide-content .agenda-list li::before {
+            content: '✓';
+            position: absolute;
+            left: -10px;
+            top: 5px;
+            color: #79C7E3;
+            font-weight: bold;
+            font-size: 26px;
+        }
+        .slide-content .agenda-list strong {
+            color: #0A2B4C;
+            font-weight: 600;
+        }
+
         /* Szerkesztő-specifikus UI elemek */
         [contenteditable="true"] { outline: 2px dashed #79C7E3; padding: 2px 4px; border-radius: 3px; }
         [contenteditable="true"]:focus { outline: 2px solid #3498db; }
@@ -228,6 +258,7 @@
             <button id="add-chart-placeholder-btn">Diagram Szekció (Placeholder)</button>
             <button id="add-two-column-layout-btn">Kétoszlopos elrendezés</button>
             <button id="add-text-answers-btn">Szöveges válaszok</button>
+            <button id="add-agenda-list-btn">Agenda Lista</button>
         </div>
         
         <div class="control-group">
@@ -256,7 +287,7 @@
                     </text>
                     <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
                     <path d="M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z" fill="#79C7E3" fill-opacity="0.15"/>
-                    <line x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"/>
+                    <cline x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"/>
                 </svg>
             </div>
     
@@ -296,10 +327,7 @@
             </div>
         `));
         document.getElementById('add-two-column-layout-btn').addEventListener('click', () => {
-            // Az alapértelmezett lista, ami mindkét oszlopba bekerül
             const defaultColumnContent = `<ul contenteditable="true"><li>Lista...</li></ul>`;
-
-            // A teljes kétoszlopos szekció HTML kódja
             const twoColumnHtml = `
                 <h2 contenteditable="true">Kétoszlopos szekció</h2>
                 <div class="two-column-container">
@@ -311,9 +339,19 @@
                     </div>
                 </div>
             `;
-            
-            // Az új szekció hozzáadása a diához a már meglévő segédfüggvénnyel
             createWrapper(twoColumnHtml);
+        });
+
+        document.getElementById('add-agenda-list-btn').addEventListener('click', () => {
+            slideContentEditor.innerHTML = ''; // Agenda slide stands alone
+            const agendaHtml = `
+                <ul class="agenda-list" contenteditable="true">
+                    <li>A <strong>Kérdőív Eredményeinek</strong> bemutatása</li>
+                    <li>A <strong>Kontextus</strong> Szerepe és a Hatékony Prompting</li>
+                    <li>Gyakorlati <strong>Esetek és Példák</strong></li>
+                </ul>
+            `;
+            slideContentEditor.innerHTML = agendaHtml;
         });
 		
         document.getElementById('generate-code-btn').addEventListener('click', generateFinalHtml);
@@ -452,13 +490,11 @@
             if (newSvgNode && newSvgNode.tagName.toLowerCase() === 'svg') {
                 svgElement.innerHTML = ''; // Töröljük a placeholder-t
                 
-                // Attribútumok másolása (kivéve a class, amit megtartunk)
                 for (const attr of newSvgNode.attributes) {
                     if (attr.name !== 'class') {
                        svgElement.setAttribute(attr.name, attr.value);
                     }
                 }
-                // Gyerek elemek másolása
                 while (newSvgNode.firstChild) {
                     svgElement.appendChild(newSvgNode.firstChild);
                 }
@@ -480,23 +516,20 @@
         previewNode.querySelectorAll('[data-action]').forEach(el => el.removeAttribute('data-action'));
         previewNode.querySelectorAll('.column-content').forEach(el => { el.style.border = 'none'; el.style.padding = '0'; });
         
-        // JAVÍTÁS: Univerzális SVG tartalom megőrzése
         previewNode.querySelectorAll('svg.placeholder-svg').forEach(svg => {
-            // Akkor cseréljük le, ha PONTOSAN az eredeti placeholder van benne.
             const hasInitialText = svg.children.length === 1 && 
                                    svg.children[0].tagName.toLowerCase() === 'text' &&
                                    svg.children[0].textContent.includes('tartalom beállításához');
-
             if (hasInitialText) {
                 svg.innerHTML = `<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="24px" fill="#777">Kép helye</text>`;
             }
-            // Minden más esetben (beillesztett kép, rajzolt SVG, stb.) hagyjuk érintetlenül!
         });
 
         previewNode.querySelectorAll('.placeholder-for-chart').forEach(p => { p.outerHTML = `<svg class="svg-chart" id="chart-${Date.now()}"></svg>`; });
         
-        const hasScrollableHeadings = !!previewNode.querySelector('h2, h3');
-        const { finalCss, finalJs } = getFinalAssets(hasScrollableHeadings, prevPage, nextPage);
+        const isAgendaPage = !!previewNode.querySelector('.slide-content > .agenda-list');
+        const hasScrollableHeadings = !isAgendaPage && !!previewNode.querySelector('h2, h3');
+        const { finalCss, finalJs } = getFinalAssets(hasScrollableHeadings, prevPage, nextPage, isAgendaPage);
         
         const finalHtml = '<!DOCTYPE html>\n' +
             '<html lang="hu">\n' +
@@ -524,16 +557,13 @@
         alert('A HTML kód legenerálva és a letöltés előkészítve!');
     }
 
-function getFinalAssets(hasScrollableHeadings, prevPage, nextPage) {
-        let finalCss = `
+function getFinalAssets(hasScrollableHeadings, prevPage, nextPage, isAgendaPage) {
+        let commonCss = `
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
         .slide-container { width: 1500px; height: 920px; background-color: #ffffff; box-shadow: 0 0 30px rgba(0,0,0,0.15); display: flex; flex-direction: column; position: relative; overflow: hidden; }
         .header-svg-container { width: 100%; height: 120px; flex-shrink: 0; }
         .slide-title-main-container { padding: 22px 60px; background-color: #f8f8f8; border-bottom: 2px solid #ddd; }
         .slide-title-main-container h1 { font-size: 36px; color: #2c3e50; margin: 0; font-weight: 600; }
-        .slide-content { padding: 22px 60px; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
-        .slide-content p, .slide-content ul { font-size: 17px; line-height: 1.65; }
-        .slide-content ul { list-style-type: disc; padding-left: 35px; }
         .section-wrapper { padding: 15px; margin: 0 -15px 15px -15px; border-radius: 6px; }
         .section-wrapper h2, .section-wrapper h3 { font-size: 26px; color: #34495e; margin-top: 20px; margin-bottom: 10px; border-bottom: 2px solid #79C7E3; padding-bottom: 6px; font-weight: 600; }
         .section-wrapper h3 { font-size: 21px; }
@@ -559,15 +589,31 @@ function getFinalAssets(hasScrollableHeadings, prevPage, nextPage) {
         .modal-content-wrapper { position: relative; background-color: #fff; padding: 10px; border-radius: 8px; max-width: 80vw; max-height: 80vh; }
         .modal-content-wrapper img, .modal-content-wrapper svg { max-width: 100%; max-height: 100%; object-fit: contain; }
         .modal-close { position: absolute; top: -10px; right: -10px; color: #333; background-color: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; font-size: 24px; cursor: pointer; border: 1px solid #ddd; }`;
+        
+        let contentCss = '';
+        if (isAgendaPage) {
+            contentCss = `
+        .slide-content { padding: 40px 60px; flex-grow: 1; display: flex; justify-content: center; align-items: center; overflow-y: auto; }
+        .agenda-list { list-style-type: none; padding-left: 0; font-size: 24px; line-height: 2.2; width: 80%; }
+        .agenda-list li { padding-left: 25px; position: relative; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 5px; }
+        .agenda-list li::before { content: '✓'; position: absolute; left: -10px; top: 5px; color: #79C7E3; font-weight: bold; font-size: 26px; }
+        .agenda-list strong { color: #0A2B4C; font-weight: 600; }
+            `;
+        } else {
+            contentCss = `
+        .slide-content { padding: 22px 60px; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
+        .slide-content p, .slide-content ul { font-size: 17px; line-height: 1.65; }
+        .slide-content ul { list-style-type: disc; padding-left: 35px; }
+            `;
+        }
+        let finalCss = commonCss + contentCss;
 
-        // JAVÍTÁS: A görgetési logika szétválasztása
         let scrollNavSetupJs = '';
         let scrollNavKeydownJs = '';
 
         if (hasScrollableHeadings) {
             finalCss += `.current-scroll-target { text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4); }`;
             
-            // Ez a rész a 'keydown' eseménykezelőn KÍVÜLRE kerül, hogy a változók ne nullázódjanak.
             scrollNavSetupJs = `
             const headingElements = Array.from(slideContent.querySelectorAll('h2, h3'));
             let currentHeadingIndex = -1;
@@ -582,7 +628,6 @@ function getFinalAssets(hasScrollableHeadings, prevPage, nextPage) {
                 lastScrollTarget = target;
             }`;
 
-            // Ez a rész a 'keydown' eseménykezelőn BELÜL marad.
             scrollNavKeydownJs = `
             if (event.key === 'ArrowDown') {
                 if (currentHeadingIndex < headingElements.length - 1) {
@@ -603,7 +648,6 @@ function getFinalAssets(hasScrollableHeadings, prevPage, nextPage) {
             }`;
         }
         
-        // JAVÍTÁS: A JS sablon frissítése a szétválasztott logikával
         let finalJsTemplate = `document.addEventListener('DOMContentLoaded', function() {
             const slideContent = document.querySelector('.slide-content');
             
