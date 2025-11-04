@@ -1,0 +1,7 @@
+{
+  "explanation": "Az új prezentáció fedlapját és tartalomjegyzékét a 'gen-ai-használat' mappa azonos nevű fájljai alapján kell elkészíteni, ezért ezek tartalmát ismernünk kell.",
+  "relevant_files": [
+    "gen-ai-használat/01-cover.html",
+    "gen-ai-használat/01a-agenda.html"
+  ]
+}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Használat - Fedőlap</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #1a1a2e;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 10vw;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .main-title {
+            font-size: 3vw;
+            font-weight: normal;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 2.2vw;
+            font-weight: lighter;
+            margin-bottom: 40px;
+        }
+
+        .countdown-container {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .countdown-title {
+            font-size: 2.5vw;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .countdown-timer {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 4vw;
+            font-weight: bold;
+        }
+
+        .year {
+            font-size: 2.5vw;
+            position: absolute;
+            bottom: 5%;
+        }
+
+        @media (max-width: 768px) {
+            .logo { font-size: 18vw; }
+            .main-title { font-size: 5vw; }
+            .subtitle { font-size: 4vw; }
+            .countdown-title { font-size: 5vw; }
+            .countdown-timer { font-size: 8vw; }
+            .year { font-size: 4vw; bottom: 3%; }
+        }
+         @media (min-width: 1200px) {
+            .logo { font-size: 120px; }
+            .main-title { font-size: 36px; }
+            .subtitle { font-size: 28px; }
+            .countdown-title { font-size: 30px; }
+            .countdown-timer { font-size: 48px; }
+            .year { font-size: 30px; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="logo">Gemini</div>
+        <div class="main-title">Gemini Használat - Chat, IDE, API</div>
+        <div class="subtitle">Hogyan generálhatunk tűpontos kódot</div>
+        
+        <div class="countdown-container">
+            <div class="countdown-title">Hamarosan kezdünk</div>
+            <div id="countdown" class="countdown-timer">2:00</div>
+        </div>
+
+        <div class="year">2025</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const countdownElement = document.getElementById('countdown');
+            let countdownStarted = false; // Zászló, hogy a visszaszámláló ne induljon el többször
+            let timerInterval = null;
+
+            function startCountdown() {
+                // Csak akkor indul, ha még nem fut
+                if (countdownStarted) return;
+                countdownStarted = true;
+
+                let timeInSeconds = 120; // 2 perc
+
+                timerInterval = setInterval(() => {
+                    if (timeInSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        countdownElement.textContent = "Kezdünk!";
+                        return;
+                    }
+
+                    timeInSeconds--;
+
+                    const minutes = Math.floor(timeInSeconds / 60);
+                    let seconds = timeInSeconds % 60;
+                    
+                    seconds = seconds < 10 ? '0' + seconds : seconds;
+                    countdownElement.textContent = `${minutes}:${seconds}`;
+
+                }, 1000);
+            }
+
+            // Billentyűlenyomás figyelése a navigációhoz és a visszaszámláló indításához
+            document.addEventListener('keydown', function(event) {
+                // Visszaszámláló indítása a 'p' billentyűvel
+                if (event.key === 'p' || event.key === 'P') {
+                    startCountdown();
+                }
+
+                // Navigáció a következő oldalra
+                if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {
+                    event.preventDefault();
+                    window.location.href = '01a-agenda.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

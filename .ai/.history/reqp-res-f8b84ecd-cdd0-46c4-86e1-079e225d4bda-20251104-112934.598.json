@@ -1,0 +1,9 @@
+{
+  "explanation": "A kérés teljesítéséhez szükség van a `gemini-használat` prezentáció aktuális agendájának és szerkesztőjének módosítására. A `gen-ai-használat` prezentációban található `02-ai-survey-results.html` fájl mintaként szolgál a kívánt HTML/JS/SVG megjelenítéshez, míg a `Generative AI Survey(1-30).tsv` a diagramokhoz szükséges nyers adatokat tartalmazza.",
+  "relevant_files": [
+    "gemini-használat/01a-agenda.html",
+    "gemini-használat/editor.html",
+    "gen-ai-használat/02-ai-survey-results.html",
+    "gen-ai-használat/Generative AI Survey(1-30).tsv"
+  ]
+}

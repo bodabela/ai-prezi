@@ -1,0 +1,9 @@
+{
+  "git-commands": [
+    "git add .",
+    "git commit -m \"feat: Add Gemini survey results page - f8b84ecd-cdd0-46c4-86e1-079e225d4bda\""
+  ],
+  "build-commands": [],
+  "run-commands": [],
+  "unit-test-commands": null
+}

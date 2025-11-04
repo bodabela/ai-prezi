@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kérdőív Eredmények - Gemini Használat</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .slide-container {
+            width: 1500px;
+            height: 920px;
+            background-color: #ffffff;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-svg-container {
+            width: 100%;
+            height: 120px;
+            flex-shrink: 0;
+        }
+        .slide-title-main-container {
+            padding: 22px 60px;
+            background-color: #f8f8f8;
+            border-bottom: 2px solid #ddd;
+        }
+        .slide-title-main-container h1 {
+            font-size: 36px;
+            color: #2c3e50;
+            margin: 0;
+            font-weight: 600;
+        }
+        .slide-content {
+            padding: 22px 60px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column; 
+            gap: 30px; 
+            overflow-y: auto;
+        }
+        .chart-row {
+            width: 100%;
+        }
+        .chart-row.two-column {
+            display: flex;
+            gap: 38px; 
+        }
+        .column { 
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 22px; 
+            min-width: 0; 
+        }
+        .chart-container {
+            background-color: #fff;
+        }
+        .chart-container h2 {
+            font-size: 23px;
+            color: #34495e;
+            margin-top: 0;
+            margin-bottom: 12px;
+            border-bottom: 3px solid #79C7E3;
+            padding-bottom: 6px;
+            font-weight: 600;
+        }
+        .svg-chart {
+            width: 100%;
+            min-height: 180px;
+        }
+        .bar {
+            fill: #3498db;
+            transition: fill 0.2s ease, width 0.3s ease;
+        }
+        .bar:hover {
+            fill: #2980b9;
+        }
+        .bar-label {
+            font-size: 14px;
+            fill: #222;
+            text-anchor: end;
+        }
+        .bar-value {
+            font-size: 14px;
+            fill: #fff;
+            text-anchor: end;
+        }
+        .bar-value-external {
+            font-size: 14px;
+            fill: #333;
+            text-anchor: start;
+        }
+        p.no-data-message {
+            font-size: 16px;
+            color: #777;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .chart-container.current-scroll-target-container {
+            outline: 2px solid #79C7E3;
+            box-shadow: 0 0 15px rgba(121, 199, 227, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="1000" height="80" fill="#0A2B4C"/>
+                <image xlink:href="../gen-ai-használat/logo.jfif" x="25" y="15" width="50" height="50" />
+                <text x="180" y="40" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="22" font-weight="600">
+                    <tspan fill="#79C7E3">Gemini</tspan>
+                    <tspan fill="#FFFFFF"> Használat</tspan>
+                </text>
+                <text x="180" y="60" font-family="'Segoe UI', Tahoma, sans-serif" font-size="10" fill="#FFFFFF" letter-spacing="0.5">
+                    TAPASZTALATOK MEGOSZTÁSA
+                </text>
+                <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+                <path d="M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z" fill="#79C7E3" fill-opacity="0.15"/>
+                <line x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <div class="slide-title-main-container">
+            <h1>Gemini Kérdőív Eredmények Összefoglalása</h1>
+        </div>
+
+        <div class="slide-content">
+            <div class="chart-row two-column">
+                <div class="column">
+                    <div class="chart-container">
+                        <h2 id="frequencyChartTitle">Milyen gyakran használod a Gemini Pro-t?</h2>
+                        <svg class="svg-chart" id="frequencyChart"></svg>
+                    </div>
+                    <div class="chart-container">
+                        <h2 id="environmentChartTitle">Milyen környezetben használod?</h2>
+                        <svg class="svg-chart" id="environmentChart"></svg>
+                    </div>
+                    <div class="chart-container">
+                        <h2 id="languagesChartTitle">Mely programozási nyelvekben használod?</h2>
+                        <svg class="svg-chart" id="languagesChart"></svg>
+                    </div>
+                    <div class="chart-container">
+                        <h2 id="correctionChartTitle">Milyen gyakran kell manuálisan javítani a kódot?</h2>
+                        <svg class="svg-chart" id="correctionChart"></svg>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="chart-container">
+                        <h2 id="tasksChartTitle">Milyen programozási feladatokhoz veszed igénybe?</h2>
+                        <svg class="svg-chart" id="tasksChart"></svg>
+                    </div>
+                     <div class="chart-container">
+                        <h2 id="challengesChartTitle">Legnagyobb kihívások a használat során</h2>
+                        <svg class="svg-chart" id="challengesChart"></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-row two-column">
+                <div class="column">
+                    <div class="chart-container">
+                        <h2 id="productivityChartTitle">Mennyire növelte a produktivitást? (1-5)</h2>
+                        <svg class="svg-chart" id="productivityChart"></svg>
+                    </div>
+                    <div class="chart-container">
+                        <h2 id="qualityChartTitle">Generált kód minősége (1-5)</h2>
+                        <svg class="svg-chart" id="qualityChart"></svg>
+                    </div>
+                     <div class="chart-container">
+                        <h2 id="satisfactionChartTitle">Összességében mennyire vagy elégedett? (1-5)</h2>
+                        <svg class="svg-chart" id="satisfactionChart"></svg>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="chart-container">
+                        <h2 id="timeReductionChartTitle">Mennyivel csökkent a fejlesztési idő?</h2>
+                        <svg class="svg-chart" id="timeReductionChart"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const rawTsvData = `ID	Frequency	Tasks	Environment	Productivity	TimeReduction	Quality	Languages	CorrectionFrequency	Challenges	Benefits	Satisfaction
+1	Naponta többször, konkrét problémáknál	Kódgenerálás (pl. boilerplate, függvények, osztályok);Új technológiák, API-k vagy nyelvek megértése;Kód konvertálása nyelvek vagy keretrendszerek között;	A webes chat felületen (gemini.google.com)	4	11-25%	4	Python;JavaScript / TypeScript;	Gyakran, de a váz általában használható	Nem fordul le vagy futásidejű hibát tartalmaz a generált kód.;Nem létező függvényeket, könyvtárakat vagy API hívásokat "talál ki" (halucinál).;Kényelmetlen a webes chat felületről másolgatni a kódot az IDE-be.;	Gyorsabb, hogy nem nekem kell a boilerplate-et beklimpírozni;Nem kell a szintaxis után kutatnom;Beadom neki a hibaüzenetet és sokszor tudja, mi a hiba	5
+2	Folyamatosan, a munkaidőm jelentős részében	Kódgenerálás (pl. boilerplate, függvények, osztályok);Hibakeresés (debugging), hibaüzenetek értelmezése;Kódoptimalizálás, refaktorálás;Új technológiák, API-k vagy nyelvek megértése;Algoritmusok kidolgozása, komplex logika megírása;	A webes chat felületen (gemini.google.com)	5	Több mint 50%	4	JavaScript / TypeScript;Java;	Ritkán, a kód többnyire helyes és hatékony	Nem létező függvényeket, könyvtárakat vagy API hívásokat "talál ki" (halucinál).;Nincs jelentős problémám a használatával.;	Koncepcióalkotás és magas szintű tervezés;A "robotmunka" automatizálása;Hibakeresés	5
+3	Naponta többször, konkrét problémáknál	Új technológiák, API-k vagy nyelvek megértése;Unit tesztek vagy tesztesetek írása;Kódgenerálás (pl. boilerplate, függvények, osztályok);Hibakeresés (debugging), hibaüzenetek értelmezése;Kódoptimalizálás, refaktorálás;	IDE kiegészítőként (pl. VS Code, JetBrains)	4	Több mint 50%	4	Java;JavaScript / TypeScript;	Néha, többnyire csak kisebb finomítások kellenek	Nem hatékony vagy nem idiomatikus kódot javasol.;Nem létező függvényeket, könyvtárakat vagy API hívásokat "talál ki" (halucinál).;	tesztek írása, kód refaktorálása, probléma eredetének megtalálása	5
+4	Naponta többször, konkrét problémáknál	Hibakeresés (debugging), hibaüzenetek értelmezése;Unit tesztek vagy tesztesetek írása;Kódgenerálás (pl. boilerplate, függvények, osztályok);	IDE kiegészítőként (pl. VS Code, JetBrains)	3	11-25%	4	Java;	Néha, többnyire csak kisebb finomítások kellenek	Lassú a válaszadás, ami megtöri a fejlesztői flow-t.;Az IDE integráció hiányos vagy nem elég hatékony.;	gyorsabb hibakeresés, maven dependency optimalizálás, boilerplate kód generálás	5
+5	Naponta egyszer, egy-egy nagyobb feladathoz	Hibakeresés (debugging), hibaüzenetek értelmezése;Új technológiák, API-k vagy nyelvek megértése;	A webes chat felületen (gemini.google.com)	3	11-25%	3	Python;SQL;	Gyakran, de a váz általában használható	Nem fordul le vagy futásidejű hibát tartalmaz a generált kód.;Nem létező függvényeket, könyvtárakat vagy API hívásokat "talál ki" (halucinál).;	Szintaxis ellenőrzés, ahelyett, hogy több google találatot végigolvasnék, inkább megírom neki, hogy milyen információra van szükségem. Alap kódot legenerálok vele, amit könnyen átlátok ha hiba van benne. Sajnos szokott benne lenni.	3
+6	Naponta többször, konkrét problémáknál	Hibakeresés (debugging), hibaüzenetek értelmezése;Kódoptimalizálás, refaktorálás;Kódgenerálás (pl. boilerplate, függvények, osztályok);	IDE kiegészítőként (pl. VS Code, JetBrains)	4	26-50%	3	JavaScript / TypeScript;	Gyakran, de a váz általában használható	Nem érti a kódbázisom szélesebb kontextusát, csak az adott kódrészletet.;Ha VPN-en vagyok akkor majdnem használhatatlan. Nagyon sokszor 400-al elhasal a válaszadás közben;	1. boilerplate kód generálás;2. hibakeresés;3. kisebb függvények, tool-ok generálása	4
+7	Folyamatosan, a munkaidőm jelentős részében	Kódgenerálás (pl. boilerplate, függvények, osztályok);Hibakeresés (debugging), hibaüzenetek értelmezése;Kódoptimalizálás, refaktorálás;Új technológiák, API-k vagy nyelvek megértése;	IDE kiegészítőként (pl. VS Code, JetBrains)	5	26-50%	4	JavaScript / TypeScript;Kotlin;	Néha, többnyire csak kisebb finomítások kellenek	Nem létező függvényeket, könyvtárakat vagy API hívásokat "talál ki" (halucinál).;Neha belejavit olyan dolgokba amit en direkt kijavitottam kezzel es ilyenkor kezzel kell javitgatni a diff-et. Mondjuk miota kertem hogy ne azota nem remlik.;Lassú a válaszadás, ami megtöri a fejlesztői flow-t.;	Meglevo kodbazis megertese, hibakereses, kodolas	5
+8	Naponta egyszer, egy-egy nagyobb feladathoz	Hibakeresés (debugging), hibaüzenetek értelmezése;Kódgenerálás (pl. boilerplate, függvények, osztályok);Kód konvertálása nyelvek vagy keretrendszerek között;Dokumentáció írása (pl. docstringek, kommentek);	IDE kiegészítőként (pl. VS Code, JetBrains)	3	11-25%	3	Python;JavaScript / TypeScript;	Gyakran, de a váz általában használható	Nem létező függvényeket, könyvtárakat vagy API hívásokat "talál ki" (halucinál).;	Ismeretlen technologiak lenyeget osszefoglalja es kiindulo alapot nyujt a FRISS dokumentacio mely teruleten kell tovabb keresgelni. Interaktivan egyutt tudunk megoldast keresni.	3
+9	Naponta többször, konkrét problémáknál	Hibakeresés (debugging), hibaüzenetek értelmezése;Kódoptimalizálás, refaktorálás;Kódgenerálás (pl. boilerplate, függvények, osztályok);	A webes chat felületen (gemini.google.com)	3	Több mint 50%	3	Python;	Néha, többnyire csak kisebb finomítások kellenek	Nincs jelentős problémám a használatával.;	Kérdések tisztázása, kódolás, új technológiák megértése	5
+10	Naponta egyszer, egy-egy nagyobb feladathoz	Dokumentáció írása (pl. docstringek, kommentek);	A webes chat felületen (gemini.google.com)	4	26-50%	4	JavaScript / TypeScript;SQL;	Néha, többnyire csak kisebb finomítások kellenek	Nem érti a kódbázisom szélesebb kontextusát, csak az adott kódrészletet.;	Tesztesetek készítése, tesztelési dokumentáció készítése, sql query-k írása	5
+11	Folyamatosan, a munkaidőm jelentős részében	Kódgenerálás (pl. boilerplate, függvények, osztályok);Új technológiák, API-k vagy nyelvek megértése;Kódoptimalizálás, refaktorálás;	A webes chat felületen (gemini.google.com)	5	Több mint 50%	3	Python;JavaScript / TypeScript;	Gyakran, de a váz általában használható	Nem létező függvényeket, könyvtárakat vagy API hívásokat "talál ki" (halucinál).;Kényelmetlen a webes chat felületről másolgatni a kódot az IDE-be.;Az IDE integráció hiányos vagy nem elég hatékony.;Nem érti a kódbázisom szélesebb kontextusát, csak az adott kódrészletet.;	1. sokat segít a brainstorming-ban, és tökjó megoldást tudunk találni adott problémára;2. Ha nem ismerem maga ki egy technológiában, akkor sincs gond;3. gyorsan generál szkriptet, amivel kiválthatok vmi manuális szívást :)	5
+12	Folyamatosan, a munkaidőm jelentős részében	Kódgenerálás (pl. boilerplate, függvények, osztályok);Új technológiák, API-k vagy nyelvek megértése;	A webes chat felületen (gemini.google.com)	3	11-25%	4	Python;	Néha, többnyire csak kisebb finomítások kellenek	Nem érti a kódbázisom szélesebb kontextusát, csak az adott kódrészletet.;Kényelmetlen a webes chat felületről másolgatni a kódot az IDE-be.;	Kisebb Python kódrészletek generálása, bonyolult SQLAlchemy lekérdezésekben segítség, design kérdésekben is szoktam kérni a véleményét, ha több opció közül lehet választani	5`;
+
+    function parseRawData(tsvString) {
+        const records = [];
+        const lines = tsvString.split(/\r?\n/);
+        for (let i = 1; i < lines.length; i++) { // Start from 1 to skip header
+            const line = lines[i];
+            const contentLine = line.trim();
+            if (contentLine) {
+                const parts = contentLine.split('\t');
+                if (parts.length > 10) { 
+                    records.push({
+                        frequency: parts[1] ? parts[1].trim() : '',
+                        tasks: parts[2] ? parts[2].trim() : '',
+                        environment: parts[3] ? parts[3].trim() : '',
+                        productivity: parts[4] ? parts[4].trim() : '',
+                        timeReduction: parts[5] ? parts[5].trim() : '',
+                        quality: parts[6] ? parts[6].trim() : '',
+                        languages: parts[7] ? parts[7].trim() : '',
+                        correctionFrequency: parts[8] ? parts[8].trim() : '',
+                        challenges: parts[9] ? parts[9].trim() : '',
+                        satisfaction: parts[11] ? parts[11].trim() : ''
+                    });
+                }
+            }
+        }
+        return records;
+    }
+
+    function aggregateData(records, fieldName, isMultiValue, valueMap = null, itemDelimiter = ';', translationMap = null) {
+        const counts = {};
+        records.forEach(record => {
+            let rawFieldData = record[fieldName] || "";
+            let values = [rawFieldData];
+            if (isMultiValue && rawFieldData) {
+                values = rawFieldData.split(itemDelimiter).map(v => v.trim()).filter(v => v);
+            }
+            values.forEach(val => {
+                let processedValue = val;
+                if (valueMap) {
+                    const lowerVal = val.toLowerCase();
+                    for (const keyInMap in valueMap) {
+                        if (lowerVal === keyInMap.toLowerCase()) {
+                            processedValue = valueMap[keyInMap];
+                            break;
+                        }
+                    }
+                }
+                if (processedValue) {
+                    counts[processedValue] = (counts[processedValue] || 0) + 1;
+                }
+            });
+        });
+
+        const finalCounts = {};
+        if (translationMap) {
+            for (const keyInCounts in counts) {
+                const translatedLabel = translationMap[keyInCounts] || keyInCounts;
+                finalCounts[translatedLabel] = (finalCounts[translatedLabel] || 0) + counts[keyInCounts];
+            }
+        } else {
+             for (const keyInCounts in counts) {
+                finalCounts[keyInCounts] = counts[keyInCounts];
+            }
+        }
+
+        return Object.entries(finalCounts)
+            .map(([label, value]) => ({ label, value }))
+            .sort((a, b) => b.value - a.value || a.label.localeCompare(b.label));
+    }
+    
+    const ratingTranslationMap = { "5": "5. szint", "4": "4. szint", "3": "3. szint", "2": "2. szint", "1": "1. szint" };
+
+    function generateBarChart(chartId, data, {
+        marginTop = 20, marginRight = 25, marginBottom = 20, marginLeft = 150,
+        barHeight = 25, barSpacing = 10, valueInsideMinWidth = 40
+    } = {}) {
+        const svgElement = document.getElementById(chartId);
+        if (!svgElement) { console.error('SVG element not found:', chartId); return; }
+        svgElement.innerHTML = '';
+        const numBars = data.length;
+        if (numBars === 0) {
+            svgElement.setAttribute('height', '50px');
+            const noDataText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            noDataText.setAttribute('x', '10'); noDataText.setAttribute('y', '25');
+            noDataText.setAttribute('font-family', "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif");
+            noDataText.setAttribute('font-size', '14px'); noDataText.setAttribute('fill', '#777');
+            noDataText.textContent = 'Nincs megjeleníthető adat.';
+            svgElement.appendChild(noDataText);
+            return;
+        }
+        const svgHeight = numBars * (barHeight + barSpacing) - barSpacing + marginTop + marginBottom;
+        svgElement.setAttribute('height', svgHeight + 'px');
+        const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        group.setAttribute('transform', `translate(${marginLeft}, ${marginTop})`);
+        svgElement.appendChild(group);
+        let chartAreaWidth = 0;
+        try {
+            const chartContainerStyle = getComputedStyle(svgElement.parentNode);
+            let chartContainerWidth = parseFloat(chartContainerStyle.width);
+            if (chartContainerStyle.boxSizing === 'border-box') {
+                chartContainerWidth -= (parseFloat(chartContainerStyle.paddingLeft) + parseFloat(chartContainerStyle.paddingRight));
+            }
+            chartAreaWidth = chartContainerWidth > 0 ? chartContainerWidth - marginLeft - marginRight : 300;
+        } catch (e) { chartAreaWidth = 300; }
+        chartAreaWidth = Math.max(50, chartAreaWidth);
+        const maxValue = Math.max(...data.map(d => d.value), 0);
+
+        data.forEach((d, i) => {
+            const barY = i * (barHeight + barSpacing);
+            const barActualWidth = maxValue > 0 ? (d.value / maxValue) * chartAreaWidth : 0;
+            const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            rect.setAttribute('class', 'bar'); rect.setAttribute('x', 0); rect.setAttribute('y', barY);
+            rect.setAttribute('width', barActualWidth > 0 ? barActualWidth : 0.1); rect.setAttribute('height', barHeight);
+            group.appendChild(rect);
+            const labelTextNode = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            labelTextNode.setAttribute('class', 'bar-label'); labelTextNode.setAttribute('x', -10);
+            labelTextNode.setAttribute('y', barY + barHeight / 2); labelTextNode.setAttribute('dy', '.35em');
+            labelTextNode.textContent = d.label; group.appendChild(labelTextNode);
+            const valueTextNode = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            if (barActualWidth >= valueInsideMinWidth) {
+                valueTextNode.setAttribute('class', 'bar-value'); valueTextNode.setAttribute('x', barActualWidth - 5);
+            } else {
+                valueTextNode.setAttribute('class', 'bar-value-external');
+                valueTextNode.setAttribute('x', (barActualWidth > 0 ? barActualWidth : 0) + 5);
+            }
+            valueTextNode.setAttribute('y', barY + barHeight / 2); valueTextNode.setAttribute('dy', '.35em');
+            valueTextNode.textContent = d.value; group.appendChild(valueTextNode);
+        });
+    }
+
+    const surveyRecords = parseRawData(rawTsvData);
+
+    generateBarChart('frequencyChart', aggregateData(surveyRecords, 'frequency', false), { marginLeft: 240 });
+    generateBarChart('environmentChart', aggregateData(surveyRecords, 'environment', false), { marginLeft: 280 });
+    generateBarChart('languagesChart', aggregateData(surveyRecords, 'languages', true), { marginLeft: 150 });
+    generateBarChart('correctionChart', aggregateData(surveyRecords, 'correctionFrequency', false), { marginLeft: 260 });
+    generateBarChart('tasksChart', aggregateData(surveyRecords, 'tasks', true, null, ';', {
+        "Kódgenerálás (pl. boilerplate, függvények, osztályok)": "Kódgenerálás",
+        "Hibakeresés (debugging), hibaüzenetek értelmezése": "Hibakeresés",
+        "Új technológiák, API-k vagy nyelvek megértése": "Új technológiák tanulása",
+        "Kódoptimalizálás, refaktorálás": "Kódoptimalizálás",
+        "Unit tesztek vagy tesztesetek írása": "Tesztek írása",
+        "Dokumentáció írása (pl. docstringek, kommentek)": "Dokumentáció írása",
+        "Kód konvertálása nyelvek vagy keretrendszerek között": "Kód konvertálása",
+        "Algoritmusok kidolgozása, komplex logika megírása": "Algoritmusok kidolgozása"
+    }), { marginLeft: 200 });
+    generateBarChart('challengesChart', aggregateData(surveyRecords, 'challenges', true, null, ';', {
+        'Nem létező függvényeket, könyvtárakat vagy API hívásokat "talál ki" (halucinál).': 'Halucináció (nem létező API-k)',
+        'Nem érti a kódbázisom szélesebb kontextusát, csak az adott kódrészletet.': 'Szűk kontextus-ismeret',
+        'Kényelmetlen a webes chat felületről másolgatni a kódot az IDE-be.': 'Webes UI kényelmetlen',
+        'Nem fordul le vagy futásidejű hibát tartalmaz a generált kód.': 'Hibás kódot generál',
+        'Az IDE integráció hiányos vagy nem elég hatékony.': 'Gyenge IDE integráció',
+        'Lassú a válaszadás, ami megtöri a fejlesztői flow-t.': 'Lassú válaszadás',
+        'Nincs jelentős problémám a használatával.': 'Nincs jelentős probléma',
+        'Nem hatékony vagy nem idiomatikus kódot javasol.': 'Nem hatékony kódot javasol',
+        'Ha VPN-en vagyok akkor majdnem használhatatlan. Nagyon sokszor 400-al elhasal a válaszadás közben': 'Problémák VPN használatakor',
+        'Neha belejavit olyan dolgokba amit en direkt kijavitottam kezzel es ilyenkor kezzel kell javitgatni a diff-et. Mondjuk miota kertem hogy ne azota nem remlik.': 'Feleslegesen felülírja a manuális javítást'
+    }), { marginLeft: 280 });
+    generateBarChart('productivityChart', aggregateData(surveyRecords, 'productivity', false, null, ';', ratingTranslationMap), { marginLeft: 100 });
+    generateBarChart('qualityChart', aggregateData(surveyRecords, 'quality', false, null, ';', ratingTranslationMap), { marginLeft: 100 });
+    generateBarChart('satisfactionChart', aggregateData(surveyRecords, 'satisfaction', false, null, ';', ratingTranslationMap), { marginLeft: 100 });
+    generateBarChart('timeReductionChart', aggregateData(surveyRecords, 'timeReduction', false), { marginLeft: 150 });
+
+});
+</script>
+
+<script>
+    // Navigation script
+    document.addEventListener('DOMContentLoaded', function() {
+        const slideContent = document.querySelector('.slide-content');
+        if (!slideContent) { return; }
+        const headingElements = Array.from(slideContent.querySelectorAll('h2'));
+        let currentFocusableIndex = -1;
+        let lastScrollTargetElement = null;
+        function highlightTarget(element) {
+            if (lastScrollTargetElement && lastScrollTargetElement.parentElement.classList.contains('chart-container')) {
+                lastScrollTargetElement.parentElement.classList.remove('current-scroll-target-container');
+            }
+            if (element && element.nodeName === 'H2' && element.parentElement.classList.contains('chart-container')) {
+                element.parentElement.classList.add('current-scroll-target-container');
+                element.parentElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                lastScrollTargetElement = element;
+            } else if (element === slideContent) {
+                if(lastScrollTargetElement && lastScrollTargetElement.parentElement.classList.contains('chart-container')) {
+                    lastScrollTargetElement.parentElement.classList.remove('current-scroll-target-container');
+                }
+                lastScrollTargetElement = slideContent;
+            }
+        }
+        highlightTarget(slideContent);
+        document.addEventListener('keydown', function(event) {
+            let preventDefaultBehavior = true; let scrollTarget = null;
+            if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') { window.location.href = '01a-agenda.html'; }
+            else if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') { window.location.href = '03-kontextus.html'; }
+            else if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
+                if (headingElements.length > 0) {
+                    currentFocusableIndex++;
+                    if (currentFocusableIndex >= headingElements.length) { currentFocusableIndex = headingElements.length - 1; }
+                    scrollTarget = headingElements[currentFocusableIndex];
+                }
+            } else if (event.code === 'ArrowUp' || event.key === 'ArrowUp') {
+                 if (headingElements.length > 0) {
+                    currentFocusableIndex--;
+                    if (currentFocusableIndex < 0) { currentFocusableIndex = -1; scrollTarget = slideContent; }
+                    else { scrollTarget = headingElements[currentFocusableIndex]; }
+                 }
+                 if (currentFocusableIndex === -1 && scrollTarget === slideContent) { slideContent.scrollTop = 0; }
+            } else { preventDefaultBehavior = false; }
+            if (scrollTarget) { highlightTarget(scrollTarget); }
+            if (preventDefaultBehavior) { event.preventDefault(); }
+        });
+    });
+</script>
+</body>
+</html>

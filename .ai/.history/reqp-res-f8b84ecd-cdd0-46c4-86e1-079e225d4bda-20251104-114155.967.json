@@ -1,0 +1,9 @@
+{
+  "explanation": "A feladat a 'gen-ai-használat' prezentációban írja elő a módosításokat, felülírva a 'gemini-használat' általános szabályát. Szükséges az agenda, a szerkesztő és a dedikált felmérési oldal frissítése, valamint az új TSV adatok tárolására szolgáló fájl.",
+  "relevant_files": [
+    "gen-ai-használat/01a-agenda.html",
+    "gen-ai-használat/02-ai-survey-results.html",
+    "gen-ai-használat/editor.html",
+    "gen-ai-használat/Generative AI Survey(1-30).tsv"
+  ]
+}

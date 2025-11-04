@@ -1,0 +1,292 @@
+Projekt Név: ai-prezi
+
+Feladat: Módosítsd a meglévő kódbázist a következő specifikációk alapján.
+
+[START Technológiai Stack és Szabályok]
+A Technológiai Stack és Szabályok azokra, és csak azokra a generált fájlokra érvényesek, melyek azokba a type-ok-ba, kind-okba és tier-ekbe vannak sorolva.
+
+[START App Szabályok]
+## App Szabályok
+[START General]
+### General
+- A prezentációkat vanilla html, javascript, svg kóddal álltjuk .png képekkel kiegészítve.
+[END General]
+[END App Szabályok]
+
+[END Technológiai Stack és Szabályok]
+
+--- Fájlrendszer Struktúra (ASCII) ---
+A projekt jelenlegi könyvtárszerkezete a következő:
+```
+.
+├── gen-ai-használat
+│   ├── 01-cover.html
+│   ├── 01a-agenda.html
+│   ├── 02-ai-survey-results.html
+│   ├── 03-generative-ai.html
+│   ├── 04-context.html
+│   ├── 05-context-degradation.html
+│   ├── 06-folyamatos-epites.html
+│   ├── 07
+│   │   ├── 07_01_nvi-komponensek.png
+│   │   ├── 07_02_nvi_ogy_komponensek.png
+│   │   ├── 07_03_vakir.png
+│   │   ├── 07_04_iskolai_gyakorlok.png
+│   │   ├── 07_06_python_hammer.png
+│   │   ├── 07_07_prezi.png
+│   │   └── 07_08_mfa.png
+│   ├── 07-esetek.html
+│   ├── 08-hogyan-hasznaljuk-jol.html
+│   ├── 09-kinek-mikor-segit-laikus.html
+│   ├── 10-problems.html
+│   ├── 11-jovo.html
+│   ├── Generative AI Survey(1-30).tsv
+│   ├── editor.html
+│   └── logo.jfif
+└── pálya-orientáció
+    ├── 00-nyito.html
+    ├── 01-tevhit-valosag.html
+    ├── 02-a-szoftver.html
+    ├── 03-hol-rejtoznek-a-szoftverek.html
+    ├── 04-szuperkepessegek.html
+    ├── 05-mi-a-programozas.html
+    ├── 06-szuperero.html
+    ├── 07-elso-lepesek.html
+    ├── 08-kerdesek.html
+    ├── ajtó.png
+    ├── kerdojel.png
+    ├── platform-code-org.png
+    ├── platform-legoboost.jpg
+    ├── platform-scratch.png
+    ├── power-csapatmunka.png
+    ├── power-kitartas.png
+    ├── power-kreativitas.png
+    ├── power-logika.png
+    ├── product-apps.png
+    ├── product-cartoon.png
+    ├── product-energy.png
+    ├── product-game.png
+    ├── product-health.png
+    ├── product-robots.png
+    ├── recept01.png
+    ├── recept02.png
+    ├── recept03.png
+    ├── recept04.png
+    ├── recept05-loop.png
+    ├── recept06-moth.png
+    ├── recept07-eso.png
+    ├── recept08-gyumolcs.png
+    ├── recept09-uncsi.png
+    ├── szoftver-huto.png
+    ├── szoftver-kavefozo.png
+    ├── szoftver-kozlekedesi-lampa.png
+    ├── szoftver-mosogep.png
+    ├── szoftver-ora.png
+    ├── szoftver-porszivo.png
+    ├── szoftver-égo.png
+    ├── szoftver.png
+    ├── szofver-auto.png
+    ├── tévhit.png
+    ├── valóság.png
+    ├── woman-ada.jpg
+    ├── woman-eniac-small.jpg
+    └── woman-grace.jpg
+
+```
+--- Meglévő Kódbázis releváns állományai (A kiindulási állapot) ---
+A meglévő kódbázisból a következő releváns fájlokat kaptad, JSON formátuban:
+```json
+{
+  "files": [
+    {
+      "path": "gen-ai-használat/01-cover.html",
+      "file-content": "\u003c!DOCTYPE html\u003e\r\n\u003chtml lang=\"hu\"\u003e\r\n\u003chead\u003e\r\n    \u003cmeta charset=\"UTF-8\"\u003e\r\n    \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e\r\n    \u003ctitle\u003eGeneratív AI - Lessons Learned - Fedőlap\u003c/title\u003e\r\n    \u003cstyle\u003e\r\n        body, html {\r\n            margin: 0;\r\n            padding: 0;\r\n            width: 100%;\r\n            height: 100%;\r\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n            color: white;\r\n            overflow: hidden;\r\n        }\r\n\r\n        .slide {\r\n            width: 100%;\r\n            height: 100%;\r\n            display: flex;\r\n            flex-direction: column;\r\n            justify-content: center;\r\n            align-items: center;\r\n            text-align: center;\r\n            background-color: #1a1a2e;\r\n            padding: 20px;\r\n            box-sizing: border-box;\r\n        }\r\n\r\n        .logo {\r\n            font-size: 10vw;\r\n            font-weight: bold;\r\n            margin-bottom: 20px;\r\n        }\r\n\r\n        .subtitle {\r\n            font-size: 3vw;\r\n            font-weight: normal;\r\n            margin-bottom: 40px;\r\n            letter-spacing: 1px;\r\n        }\r\n\r\n        .countdown-container {\r\n            margin-top: 50px;\r\n            margin-bottom: 50px;\r\n        }\r\n\r\n        .countdown-title {\r\n            font-size: 2.5vw;\r\n            margin-bottom: 15px;\r\n            letter-spacing: 0.5px;\r\n        }\r\n\r\n        .countdown-timer {\r\n            font-family: 'Courier New', Courier, monospace;\r\n            font-size: 4vw;\r\n            font-weight: bold;\r\n        }\r\n\r\n        .year {\r\n            font-size: 2.5vw;\r\n            position: absolute;\r\n            bottom: 5%;\r\n        }\r\n\r\n        @media (max-width: 768px) {\r\n            .logo { font-size: 18vw; }\r\n            .subtitle { font-size: 5vw; }\r\n            .countdown-title { font-size: 5vw; }\r\n            .countdown-timer { font-size: 8vw; }\r\n            .year { font-size: 4vw; bottom: 3%; }\r\n        }\r\n         @media (min-width: 1200px) {\r\n            .logo { font-size: 120px; }\r\n            .subtitle { font-size: 36px; }\r\n            .countdown-title { font-size: 30px; }\r\n            .countdown-timer { font-size: 48px; }\r\n            .year { font-size: 30px; }\r\n        }\r\n\r\n    \u003c/style\u003e\r\n\u003c/head\u003e\r\n\u003cbody\u003e\r\n    \u003cdiv class=\"slide\"\u003e\r\n        \u003cdiv class=\"logo\"\u003ewe\u003cspan class=\"c-letter\"\u003eC\u003c/span\u003ean\u003c/div\u003e\r\n        \u003cdiv class=\"subtitle\"\u003eGeneratív AI „Lessons Learned”\u003c/div\u003e\r\n        \r\n        \u003cdiv class=\"countdown-container\"\u003e\r\n            \u003cdiv class=\"countdown-title\"\u003eHamarosan kezdünk\u003c/div\u003e\r\n            \u003cdiv id=\"countdown\" class=\"countdown-timer\"\u003e2:00\u003c/div\u003e\r\n        \u003c/div\u003e\r\n\r\n        \u003cdiv class=\"year\"\u003e2025\u003c/div\u003e\r\n    \u003c/div\u003e\r\n\r\n    \u003cscript\u003e\r\n        document.addEventListener('DOMContentLoaded', function() {\r\n            const countdownElement = document.getElementById('countdown');\r\n            let countdownStarted = false; // Zászló, hogy a visszaszámláló ne induljon el többször\r\n            let timerInterval = null;\r\n\r\n            function startCountdown() {\r\n                // Csak akkor indul, ha még nem fut\r\n                if (countdownStarted) return;\r\n                countdownStarted = true;\r\n\r\n                let timeInSeconds = 120; // 2 perc\r\n\r\n                timerInterval = setInterval(() =\u003e {\r\n                    if (timeInSeconds \u003c= 0) {\r\n                        clearInterval(timerInterval);\r\n                        countdownElement.textContent = \"Kezdünk!\";\r\n                        return;\r\n                    }\r\n\r\n                    timeInSeconds--;\r\n\r\n                    const minutes = Math.floor(timeInSeconds / 60);\r\n                    let seconds = timeInSeconds % 60;\r\n                    \r\n                    seconds = seconds \u003c 10 ? '0' + seconds : seconds;\r\n                    countdownElement.textContent = `${minutes}:${seconds}`;\r\n\r\n                }, 1000);\r\n            }\r\n\r\n            // Billentyűlenyomás figyelése a navigációhoz és a visszaszámláló indításához\r\n            document.addEventListener('keydown', function(event) {\r\n                // Visszaszámláló indítása a 'p' billentyűvel\r\n                if (event.key === 'p' || event.key === 'P') {\r\n                    startCountdown();\r\n                }\r\n\r\n                // Navigáció a következő oldalra\r\n                if (event.code === 'ArrowRight' || event.key === 'ArrowRight' || event.code === 'Space' || event.key === ' ') {\r\n                    event.preventDefault();\r\n                    window.location.href = '01a-agenda.html';\r\n                }\r\n            });\r\n        });\r\n    \u003c/script\u003e\r\n\u003c/body\u003e\r\n\u003c/html\u003e",
+      "status": "existing",
+      "type": "app",
+      "description": "",
+      "keywords": null
+    },
+    {
+      "path": "gen-ai-használat/01a-agenda.html",
+      "file-content": "\u003c!DOCTYPE html\u003e\r\n\u003chtml lang=\"hu\"\u003e\r\n\u003chead\u003e\r\n    \u003cmeta charset=\"UTF-8\"\u003e\r\n    \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e\r\n    \u003ctitle\u003eAgenda - Generatív AI Tapasztalatok\u003c/title\u003e\r\n    \u003cstyle\u003e\r\n        body {\r\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n            margin: 0;\r\n            padding: 0;\r\n            background-color: #f0f0f0;\r\n            color: #333;\r\n            display: flex;\r\n            justify-content: center;\r\n            align-items: center;\r\n            min-height: 100vh;\r\n            box-sizing: border-box;\r\n        }\r\n        .slide-container {\r\n            width: 1500px;\r\n            height: 920px;\r\n            background-color: #ffffff;\r\n            box-shadow: 0 0 30px rgba(0,0,0,0.15);\r\n            display: flex;\r\n            flex-direction: column;\r\n            position: relative;\r\n            overflow: hidden;\r\n        }\r\n        .header-svg-container {\r\n            width: 100%;\r\n            height: 120px;\r\n            flex-shrink: 0;\r\n        }\r\n        .slide-title-main-container {\r\n            padding: 22px 60px;\r\n            background-color: #f8f8f8;\r\n            border-bottom: 2px solid #ddd;\r\n        }\r\n        .slide-title-main-container h1 {\r\n            font-size: 36px;\r\n            color: #2c3e50;\r\n            margin: 0;\r\n            font-weight: 600;\r\n        }\r\n        .slide-content {\r\n            padding: 40px 60px; /* Nagyobb felső padding az agenda jobb kinézetéért */\r\n            flex-grow: 1;\r\n            display: flex;\r\n            justify-content: center; /* Tartalom középre igazítása */\r\n            align-items: center;\r\n            overflow-y: auto;\r\n        }\r\n        .agenda-list {\r\n            list-style-type: none;\r\n            padding-left: 0;\r\n            font-size: 24px; /* Nagyobb betűméret */\r\n            line-height: 2.2; /* Nagyobb sorköz */\r\n            width: 80%;\r\n        }\r\n        .agenda-list li {\r\n            padding-left: 25px;\r\n            position: relative;\r\n            border-bottom: 1px solid #eee;\r\n            padding-bottom: 5px;\r\n            margin-bottom: 5px;\r\n        }\r\n        .agenda-list li::before {\r\n            content: '✓';\r\n            position: absolute;\r\n            left: -10px;\r\n            top: 5px;\r\n            color: #79C7E3;\r\n            font-weight: bold;\r\n            font-size: 26px;\r\n        }\r\n        .agenda-list strong {\r\n            color: #0A2B4C;\r\n            font-weight: 600;\r\n        }\r\n    \u003c/style\u003e\r\n\u003c/head\u003e\r\n\u003cbody\u003e\r\n    \u003cdiv class=\"slide-container\"\u003e\r\n        \u003cdiv class=\"header-svg-container\"\u003e\r\n            \u003csvg width=\"100%\" height=\"100%\" viewBox=\"0 0 1000 80\" preserveAspectRatio=\"xMidYMid slice\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"\u003e\r\n                \u003crect width=\"1000\" height=\"80\" fill=\"#0A2B4C\"/\u003e\r\n                \u003cimage xlink:href=\"logo.jfif\" x=\"25\" y=\"15\" width=\"50\" height=\"50\" /\u003e\r\n                \u003ctext x=\"180\" y=\"40\" font-family=\"'Segoe UI Semibold', Tahoma, sans-serif\" font-size=\"22\" font-weight=\"600\"\u003e\r\n                    \u003ctspan fill=\"#79C7E3\"\u003eGeneratív\u003c/tspan\u003e\r\n                    \u003ctspan fill=\"#FFFFFF\"\u003e AI\u003c/tspan\u003e\r\n                \u003c/text\u003e\r\n                \u003ctext x=\"180\" y=\"60\" font-family=\"'Segoe UI', Tahoma, sans-serif\" font-size=\"10\" fill=\"#FFFFFF\" letter-spacing=\"0.5\"\u003e\r\n                    TAPASZTALATOK MEGOSZTÁSA\r\n                \u003c/text\u003e\r\n                \u003cpath d=\"M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z\" fill=\"#79C7E3\" fill-opacity=\"0.25\"/\u003e\r\n                \u003cpath d=\"M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z\" fill=\"#79C7E3\" fill-opacity=\"0.15\"/\u003e\r\n                \u003cline x1=\"0\" y1=\"79.5\" x2=\"1000\" y2=\"79.5\" stroke=\"#FFFFFF\" stroke-width=\"1\"/\u003e\r\n            \u003c/svg\u003e\r\n        \u003c/div\u003e\r\n\r\n        \u003cdiv class=\"slide-title-main-container\"\u003e\r\n            \u003ch1\u003eAgenda\u003c/h1\u003e\r\n        \u003c/div\u003e\r\n\r\n        \u003cdiv class=\"slide-content\"\u003e\r\n            \u003cul class=\"agenda-list\"\u003e\r\n                \u003cli\u003eBevezetés és a \u003cstrong\u003eKérdőív Eredményeinek\u003c/strong\u003e bemutatása\u003c/li\u003e\r\n                \u003cli\u003eMit jelent a \u003cstrong\u003e\"Generatív\"\u003c/strong\u003e AI?\u003c/li\u003e\r\n                \u003cli\u003eA \u003cstrong\u003eKontextus\u003c/strong\u003e Szerepe és a Hatékony Prompting\u003c/li\u003e\r\n                \u003cli\u003eA \u003cstrong\u003eKontextus Degradáció\u003c/strong\u003e jelensége és kezelése\u003c/li\u003e\r\n                \u003cli\u003eA \u003cstrong\u003eFolyamatos Építés\u003c/strong\u003e Módszere\u003c/li\u003e\r\n                \u003cli\u003eGyakorlati \u003cstrong\u003eEsetek és Példák\u003c/strong\u003e\u003c/li\u003e\r\n                \u003cli\u003e\u003cstrong\u003eHogyan Használjuk Jól?\u003c/strong\u003e - Összefoglalás\u003c/li\u003e\r\n                \u003cli\u003e\u003cstrong\u003eKinek és Mikor Segít\u003c/strong\u003e a legtöbbet?\u003c/li\u003e\r\n                \u003cli\u003eGyakori \u003cstrong\u003eProblémák és Kihívások\u003c/strong\u003e\u003c/li\u003e\r\n                \u003cli\u003eA Generatív AI \u003cstrong\u003ejövője és hatásai\u003c/strong\u003e\u003c/li\u003e\r\n                \u003cli\u003eKérdéseket meg majd tegyétek fel majd az AI-nak...\u003c/li\u003e\r\n            \u003c/ul\u003e\r\n        \u003c/div\u003e\r\n    \u003c/div\u003e\r\n\r\n    \u003cscript\u003e\r\n        document.addEventListener('keydown', function(event) {\r\n            let preventDefault = true;\r\n            if (event.key === 'ArrowLeft') {\r\n                window.location.href = '01-cover.html';\r\n            } else if (event.key === 'ArrowRight' || event.key === ' ') {\r\n                window.location.href = '02-ai-survey-results.html';\r\n            } else {\r\n                preventDefault = false;\r\n            }\r\n\r\n            if (preventDefault) {\r\n                event.preventDefault();\r\n            }\r\n        });\r\n    \u003c/script\u003e\r\n\u003c/body\u003e\r\n\u003c/html\u003e",
+      "status": "existing",
+      "type": "app",
+      "description": "",
+      "keywords": null
+    }
+  ]
+}
+```
+
+--- Session Információ ---
+Session ID: 5f2f56b2-5b1b-479f-ba7e-d2344a8cc929
+
+--- KEZDETE Végrehajtandó Feladat (Üzleti Elvárás) ---
+"gemini-használat" mappába hozzunk létre egy új prezentációt a gen-ai-használat mintájára:
+- a 01-cover.html legyen hasonló, mint a "gen-ai-használat"-é
+- a 01a-agenda. html is legyen hasonló
+
+A prezentáció címe: Gemini Használat - Chat, IDE, API
+Az alcím legyen: Hogyan generálhatunk tűpontos kódot
+--- VÉGE Végrehajtandó Feladat (Üzleti Elvárás) ---
+
+
+--- KEZDETE A kódgenerálási utasításoknak ---
+**CRITICAL**: Csak azokat a módosításokat végezd el a kódon, amik a feladat megvalósításához kellenek!
+Tartsuk a generált kód méretét olyan kicsin amekkorán csak lehet, mert a fejlesztési iterációkban a méretnek komoly költség vonzata van. Amint indokolt faktoráljuk ki az elkülönülő architektúrális vagy üzleti logikákat külön fájlokba.--- VÉGE A kódgenerálási utasításoknak ---
+--- KEZDETE Generált Kódot tartalmazó helyes válasz JSON formátum leírása ---
+**CRITICAL**: A válaszod pontosan egyetlen JSON objektum legyen, melynek a struktúrája szigorúan a következő string[] típusú attribútumokból áll:## Csakis az `explanation` kulcs alatt adj egy rövid, 1-2 mondatos, magyar nyelvű összefoglalót adsz arról, hogy mit és miért módosítottál a kódbázison a kérés alapján.
+## A `generated_files` kulcs alatt egy listát tartalmaz a generált vagy módosított fájlokról. FONTOS: a stringekben adott értékeket mindig jól json escapeld, hogy masolható legyen a json!
+## A `commands` kulcs alatt az adott változás kezeléséhez szükségesek parancsokat adod vissza MINDIG!
+### A `git-commands` - a szükséges parancsokat, ha van a 'files'-ban elem MINDIG! A 'git commit -m' üzenetének végére MINDIG fűzd hozzá a megadott Session ID-t a következő formátumban: ' - <sessionId>' (pl. 'git commit -m "feat: Add user handler - 123e4567-e89b-12d3-a456-426614174000"').
+### A `build-commands` - a szükséges parancsokat MINDIG, minden alkalmazáshoz, ami projktben megtalálható! Ezek csak compile-t hajtsanak végre, teszt futtatást NE! 
+### A `run-commands` - egy OBJEKTUM TÖMB, amely mindig a fejlesztői környezethez szükséges parancsokat tartalmazza. Minden objektum tartalmazzon egy `id`-t (egyedi azonosító a parancshoz, pl. 'backend-server'), a `command` stringet, az `environment`-et (pl. 'local'), egy `isHotSwappable` boolean flag-et, és opcionálisan egy `dependsOn` string tömböt, amely más parancsok ID-jaira hivatkozik, amiknek előbb el kell indulniuk.
+### A `unit-test-commands` - ha vannak unit tesztek a projektben.
+**CRITICAL**: További utasítások a `generated_files` tömb objektumainak struktúrájához:## Csak azokkal a fájlokkal válaszolj a `generated_files` tömbben, amiket létrehozol vagy módosítasz, amihez nem nyúlsz, azt NE rakd bele a válaszba.
+## Minden files tömbelem tartalmazza a fájl relatív `path`-ját, a `file-content`-jét, a `status`-át, a `type`-ját és opcionálisan a `tierName`-jét.
+## A `status` értéke 'new' legyen, ha a fájl újonnan jön létre, és 'existing', ha egy meglévő fájl módosul.
+## A `type` értéke a következőkből kerüljön ki: 'app', 'test', 'devops', 'infra'.## A `tierName` egy opcionális string, ami megadja a fájl architekturális rétegét (pl. 'rest', 'service', 'database'), ha releváns.
+## Mindig a teljes kód fájlokkal válaszolj, amiket létrehozol vagy módosítasz, ne rövidítsd őket és ne hagyj ki semmit belőlük, ami helyes működéshez kell!
+# További utasítások a válsz JSON előállításához:## A README.md-t mindig lássuk el a szükséges és aktuális telepítési és futtatási utasításokkal, és updateljük, amikor szükséges.
+
+**CRITICAL**: A válaszod egyetlen JSON objektum legyen!
+**CRITICAL**: A válaszod az alábbi 'response_json_schema'-nak feleljen meg (NE használ semmilyen wrapper objektumot!):
+
+response_json_schema={
+"type": "object",
+"title": "CodeGenerationResponse",
+"description": "Válasz objektum, amely tartalmazza a generált kódot, a magyarázatot és a futtatandó parancsokat.",
+"properties": {
+	"explanation": {
+		"type": "string",
+		"description": "Rövid, 1-2 mondatos, magyar nyelvű összefoglaló arról, hogy mit és miért módosítottál a kódbázison a kérés alapján."
+	},
+	"files": {
+		"type": "array",
+		"description": "A generált vagy módosított fájlok listája. Csak azokat a fájlokat tartalmazza, amik ténylegesen változtak.",
+		"items": {
+			"type": "object",
+			"title": "GeneratedFile",
+			"required": [
+				"path",
+				"file-content",
+				"status",
+				"type"
+			],
+			"properties": {
+				"path": {
+					"type": "string",
+					"description": "A fájl relatív elérési útja a projekt gyökerétől."
+				},
+				"file-content": {
+					"type": "string",
+					"description": "A fájl teljes, vágatlan tartalma. A JSON stringben megfelelően kell escapelni (az UTF karakter kódokat is!)."
+				},
+				"status": {
+					"type": "string",
+					"description": "A fájl állapota: 'new', ha új fájlról van szó, 'existing', ha egy meglévő módosul.",
+					"enum": [
+						"new",
+						"existing"
+					]
+				},
+				"type": {
+					"type": "string",
+					"description": "A fájl típusa a megadott kategóriákból.",
+					"enum": [
+						"app",
+						"test",
+						"devops",
+						"infra"
+					]
+				},
+				"tierName": {
+					"type": "string",
+					"description": "Opcionális string, ami megadja a fájl architekturális rétegét (pl. 'rest', 'service', 'database')."
+				}
+			}
+		}
+	},
+	"commands": {
+		"type": "object",
+		"title": "ExecutionCommands",
+		"description": "A generált kód telepítéséhez, buildeléséhez és futtatásához szükséges parancsok gyűjteménye.",
+		"required": [
+			"git-commands",
+			"build-commands",
+			"run-commands"
+		],
+		"properties": {
+			"git-commands": {
+				"type": "array",
+				"description": "A változások commitolásához szükséges git parancsok sorozata (pl. 'git add', 'git commit').",
+				"items": {
+					"type": "string"
+				}
+			},
+			"build-commands": {
+				"type": "array",
+				"description": "A projekt fordításához szükséges parancsok. Ezek csak a fordítást végezzék el, tesztfuttatást ne.",
+				"items": {
+					"type": "string"
+				}
+			},
+			"run-commands": {
+				"type": "array",
+				"description": "A fejlesztői környezet elindításához szükséges parancsok listája.",
+				"items": {
+					"type": "object",
+					"title": "RunCommand",
+					"required": [
+						"id",
+						"command",
+						"environment",
+						"isHotSwappable"
+					],
+					"properties": {
+						"id": {
+							"type": "string",
+							"description": "Egyedi azonosító a parancshoz (pl. 'backend-server')."
+						},
+						"command": {
+							"type": "string",
+							"description": "A futtatandó parancs (pl. 'go run ./cmd/server/main.go')."
+						},
+						"environment": {
+							"type": "string",
+							"description": "A környezet, ahol a parancs fut (pl. 'local')."
+						},
+						"isHotSwappable": {
+							"type": "boolean",
+							"description": "Igaz, ha a futó processz támogatja a hot-swap vagy hot-reload funkciót."
+						},
+						"dependsOn": {
+							"type": "array",
+							"description": "Opcionális string tömb, ami megadja azoknak a parancs ID-knak a listáját, amiktől ez a parancs függ. A parancs csak akkor indul el, ha a függőségei már sikeresen futnak.",
+							"items": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			},
+			"unit-test-commands": {
+				"type": "array",
+				"description": "A unit tesztek futtatásához szükséges parancsok, ha vannak ilyenek.",
+				"items": {
+					"type": "string"
+				}
+			}
+		}
+	}
+},
+"required": [
+	"explanation",
+	"files",
+	"commands"
+]
+}\n
+	--- VÉGE Generált Kódot tartalmazó helyes válasz JSON formátum leírása ---
+** KRITIKUS!!! CSAK A FENT LEÍRT Helyes JSON választ add vissza, NE fűzz semmilyen egyéb szöveget hozzá vagy wrapper jsont köré:**
+
+ ** A JSON Válasz **:

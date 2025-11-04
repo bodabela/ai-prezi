@@ -1,0 +1,8 @@
+{
+  "explanation": "Az 'agenda első pontja' módosításához a `gemini-használat/01a-agenda.html` fájl tartalma szükséges. Mivel ez egy új feature a 'gemini-használat' prezentációban, ezért az `editor.html` fájl frissítése is szükséges lesz. Az 'gen-ai-használat' prezentációban már létezik egy hasonló slide a survey eredmények bemutatására, így a `gen-ai-használat/02-ai-survey-results.html` fájl mintaként szolgálhat az új tartalom elkészítéséhez.",
+  "relevant_files": [
+    "gemini-használat/01a-agenda.html",
+    "gemini-használat/editor.html",
+    "gen-ai-használat/02-ai-survey-results.html"
+  ]
+}

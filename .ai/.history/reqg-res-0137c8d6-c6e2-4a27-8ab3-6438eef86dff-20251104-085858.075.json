@@ -1,0 +1,26 @@
+{
+  "commands": {
+    "build-commands": [],
+    "git-commands": [
+      "git add gemini-használat/01-cover.html gemini-használat/01a-agenda.html",
+      "git commit -m \"feat: Add Gemini presentation skeleton - 0137c8d6-c6e2-4a27-8ab3-6438eef86dff\""
+    ],
+    "run-commands": [],
+    "unit-test-commands": []
+  },
+  "explanation": "Létrehoztam egy új `gemini-használat` mappát, benne két új HTML fájllal egy új prezentáció számára. A `01-cover.html` a címdia, a `01a-agenda.html` pedig a tartalomjegyzék, a megadott cím és alcím alapján.",
+  "files": [
+    {
+      "file-content": "\u003c!DOCTYPE html\u003e\n\u003chtml lang=\"hu\"\u003e\n\u003chead\u003e\n    \u003cmeta charset=\"UTF-8\"\u003e\n    \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e\n    \u003ctitle\u003eGemini Használat - Cover\u003c/title\u003e\n    \u003cstyle\u003e\n        body {\n            font-family: sans-serif;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n            background-color: #f0f0f0;\n            text-align: center;\n        }\n        .slide {\n            width: 90%;\n            height: 90%;\n            display: flex;\n            flex-direction: column;\n            justify-content: center;\n            align-items: center;\n            background-color: white;\n            border: 1px solid #ccc;\n            box-shadow: 0 4px 8px rgba(0,0,0,0.1);\n        }\n        h1 {\n            font-size: 4em;\n            margin-bottom: 0.5em;\n        }\n        p {\n            font-size: 2em;\n            color: #555;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003cdiv class=\"slide\"\u003e\n        \u003ch1\u003eGemini Használat - Chat, IDE, API\u003c/h1\u003e\n        \u003cp\u003eHogyan generálhatunk tűpontos kódot\u003c/p\u003e\n    \u003c/div\u003e\n\u003c/body\u003e\n\u003c/html\u003e\n",
+      "path": "gemini-használat/01-cover.html",
+      "status": "new",
+      "type": "app"
+    },
+    {
+      "file-content": "\u003c!DOCTYPE html\u003e\n\u003chtml lang=\"hu\"\u003e\n\u003chead\u003e\n    \u003cmeta charset=\"UTF-8\"\u003e\n    \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e\n    \u003ctitle\u003eGemini Használat - Agenda\u003c/title\u003e\n    \u003cstyle\u003e\n        body {\n            font-family: sans-serif;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n            background-color: #f0f0f0;\n        }\n        .slide {\n            width: 90%;\n            height: 90%;\n            display: flex;\n            flex-direction: column;\n            justify-content: center;\n            align-items: flex-start;\n            background-color: white;\n            border: 1px solid #ccc;\n            box-shadow: 0 4px 8px rgba(0,0,0,0.1);\n            padding: 40px;\n            box-sizing: border-box;\n        }\n        h1 {\n            font-size: 3em;\n            align-self: center;\n            margin-bottom: 1em;\n        }\n        ul {\n            list-style-type: none;\n            padding: 0;\n            font-size: 1.8em;\n            width: 100%;\n        }\n        li {\n            margin-bottom: 0.8em;\n            padding-left: 1.5em;\n            position: relative;\n        }\n        li::before {\n            content: '✓';\n            position: absolute;\n            left: 0;\n            color: #4CAF50;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003cdiv class=\"slide\"\u003e\n        \u003ch1\u003eAgenda\u003c/h1\u003e\n        \u003cul\u003e\n            \u003cli\u003eBevezetés a Gemini-be\u003c/li\u003e\n            \u003cli\u003eHasználat a gyakorlatban: Chat\u003c/li\u003e\n            \u003cli\u003eIntegráció fejlesztői környezetbe: IDE\u003c/li\u003e\n            \u003cli\u003eAutomatizálás és programozott elérés: API\u003c/li\u003e\n            \u003cli\u003eTippek és trükkök a tűpontos kódgeneráláshoz\u003c/li\u003e\n            \u003cli\u003eKérdések és válaszok\u003c/li\u003e\n        \u003c/ul\u003e\n    \u003c/div\u003e\n\u003c/body\u003e\n\u003c/html\u003e\n",
+      "path": "gemini-használat/01a-agenda.html",
+      "status": "new",
+      "type": "app"
+    }
+  ]
+}

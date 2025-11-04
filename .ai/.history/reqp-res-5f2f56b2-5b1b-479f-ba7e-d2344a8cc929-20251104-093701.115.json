@@ -1,0 +1,6 @@
+{
+  "explanation": "A feladat az agendából való pont eltávolítását kéri, és a szabályok szerint minden módosítás a 'gemini-használat' prezentáción történik, így annak agendafájlját kell szerkeszteni.",
+  "relevant_files": [
+    "gemini-használat/01a-agenda.html"
+  ]
+}

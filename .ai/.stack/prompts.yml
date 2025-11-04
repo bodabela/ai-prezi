@@ -1,0 +1,25 @@
+current-presentation:
+    name: current-presentation
+    text: Jelenleg minden módosítás a "gemini-használat" prezentáción történik.
+    type: app
+    kind: general
+look-like:
+    name: look-like
+    text: a "gen-ai-használat" prezentációhoz hasonló kinézetre és featureökre van szükség.
+    type: app
+    kind: general
+no-run-or-build-commands:
+    name: no-run-or-build-commands
+    text: Ne generálj se run se build commandot.
+    type: app
+    kind: general
+prezentation-editor:
+    name: prezentation-editor
+    text: Ha bekerül egy új feature a prezentáció oldalaira, ahhoz készítsük el a szerkesztő funkciót is az editorban.
+    type: app
+    kind: general
+vanilla-html-javascript-svg:
+    name: vanilla-html-javascript-svg
+    text: A prezentációkat vanilla html, javascript, svg kóddal álltjuk .png képekkel kiegészítve.
+    type: app
+    kind: general

@@ -1,0 +1,132 @@
+Projekt Név: ai-prezi
+
+Feladat: Elemezd a felhasználói kérést, a technológiai stacket és a meglévő fájlstruktúrát.Add vissza egy JSON objektumban a `relevant_files` kulcs alatt egy string tömböt,ami PONTOSAN azokat a fájl elérési utakat tartalmazza, amelyek tartalmát ismerned kell a kérés teljesítéséhez.Csak a létező fájlok közül válassz!
+
+Légy különs tekintettel a Fájl Struktúrában található leíráson túl a 'keywords' és a 'dependencies' részekre, mert azok fontos információkat tartalmaznak a fájlok közötti összefüggésekről![START Technológiai Stack és Szabályok]
+A Technológiai Stack és Szabályok azokra, és csak azokra a generált fájlokra érvényesek, melyek azokba a type-ok-ba, kind-okba és tier-ekbe vannak sorolva.
+
+[START App Szabályok]
+## App Szabályok
+[START General]
+### General
+- A prezentációkat vanilla html, javascript, svg kóddal álltjuk .png képekkel kiegészítve.
+[END General]
+[END App Szabályok]
+
+[END Technológiai Stack és Szabályok]
+--- Fájl Struktúra (ASCII) ---
+.
+├── "gen-ai-haszn
+│   └── 303
+│       └── 241lat
+│           ├── 01-cover.html"
+│           ├── 01a-agenda.html"
+│           ├── 02-ai-survey-results.html"
+│           ├── 03-generative-ai.html"
+│           ├── 04-context.html"
+│           ├── 05-context-degradation.html"
+│           ├── 06-folyamatos-epites.html"
+│           ├── 07
+│           │   ├── 07_01_nvi-komponensek.png"
+│           │   ├── 07_02_nvi_ogy_komponensek.png"
+│           │   ├── 07_03_vakir.png"
+│           │   ├── 07_04_iskolai_gyakorlok.png"
+│           │   ├── 07_06_python_hammer.png"
+│           │   ├── 07_07_prezi.png"
+│           │   └── 07_08_mfa.png"
+│           ├── 07-esetek.html"
+│           ├── 08-hogyan-hasznaljuk-jol.html"
+│           ├── 09-kinek-mikor-segit-laikus.html"
+│           ├── 10-problems.html"
+│           ├── 11-jovo.html"
+│           ├── Generative AI Survey(1-30).tsv"
+│           ├── editor.html"
+│           └── logo.jfif"
+└── "p
+    └── 303
+        └── 241lya-orient
+            └── 303
+                └── 241ci
+                    └── 303
+                        └── 263
+                            ├── 00-nyito.html"
+                            ├── 01-tevhit-valosag.html"
+                            ├── 02-a-szoftver.html"
+                            ├── 03-hol-rejtoznek-a-szoftverek.html"
+                            ├── 04-szuperkepessegek.html"
+                            ├── 05-mi-a-programozas.html"
+                            ├── 06-szuperero.html"
+                            ├── 07-elso-lepesek.html"
+                            ├── 08-kerdesek.html"
+                            ├── ajt
+                            │   └── 303
+                            │       └── 263.png"
+                            ├── kerdojel.png"
+                            ├── platform-code-org.png"
+                            ├── platform-legoboost.jpg"
+                            ├── platform-scratch.png"
+                            ├── power-csapatmunka.png"
+                            ├── power-kitartas.png"
+                            ├── power-kreativitas.png"
+                            ├── power-logika.png"
+                            ├── product-apps.png"
+                            ├── product-cartoon.png"
+                            ├── product-energy.png"
+                            ├── product-game.png"
+                            ├── product-health.png"
+                            ├── product-robots.png"
+                            ├── recept01.png"
+                            ├── recept02.png"
+                            ├── recept03.png"
+                            ├── recept04.png"
+                            ├── recept05-loop.png"
+                            ├── recept06-moth.png"
+                            ├── recept07-eso.png"
+                            ├── recept08-gyumolcs.png"
+                            ├── recept09-uncsi.png"
+                            ├── szoftver-
+                            │   └── 303
+                            │       └── 251go.png"
+                            ├── szoftver-huto.png"
+                            ├── szoftver-kavefozo.png"
+                            ├── szoftver-kozlekedesi-lampa.png"
+                            ├── szoftver-mosogep.png"
+                            ├── szoftver-ora.png"
+                            ├── szoftver-porszivo.png"
+                            ├── szoftver.png"
+                            ├── szofver-auto.png"
+                            ├── t
+                            │   └── 303
+                            │       └── 251vhit.png"
+                            ├── val
+                            │   └── 303
+                            │       └── 263s
+                            │           └── 303
+                            │               └── 241g.png"
+                            ├── woman-ada.jpg"
+                            ├── woman-eniac-small.jpg"
+                            └── woman-grace.jpg"
+
+
+--- Végrehajtandó Feladat (Üzleti Elvárás) ---
+"gemini-használat" mappába hozzunk létre egy új prezentációt a gen-ai-használat mintájára:
+- a 01-cover.html legyen hasonló, mint a "gen-ai-használat"-é
+- a 01a-agenda. html is legyen hasonló
+
+A prezentáció címe: Gemini Használat - Chat, IDE, API
+Az alcím legyen: Hogyan generálhatunk tűpontos kódot
+
+--- Válasz Formátuma ---
+A válaszod egyetlen JSON objektum legyen, ami a `relevant_files` kulcs alatt egy string tömböt tartalmaz a relatív fájl elérési utakkal. Az `explanation` kulcs alatt adj meg egy 1-2 mondatos magyar nyelvű indoklást, hogy miért ezeket a fájlokat választottad. Ne fűzz hozzá semmilyen magyarázatot. Csak a legszükségesebb fájlokat add vissza. Ha nincs releváns fájl, adj vissza egy üres tömböt.
+Példa:
+```json
+{
+  "explanation": "A user handler és service módosítása szükséges az új mező hozzáadásához, a README-t pedig a dokumentáció frissítése miatt választottam.",
+  "relevant_files": [
+    "api/handlers/user_handler.go",
+    "internal/service/user_service.go",
+    "README.md"
+  ]
+}
+```
+

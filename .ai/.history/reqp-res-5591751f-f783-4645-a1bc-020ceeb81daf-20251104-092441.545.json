@@ -1,0 +1,7 @@
+{
+  "explanation": "Az új prezentáció borító és agenda diái a 'gen-ai-használat' prezentáció hasonló diái alapján készülnek, ezért ezek tartalmának ismerete szükséges a minták reprodukálásához.",
+  "relevant_files": [
+    "gen-ai-használat/01-cover.html",
+    "gen-ai-használat/01a-agenda.html"
+  ]
+}

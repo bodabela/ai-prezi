@@ -1,0 +1,7 @@
+{
+  "explanation": "A kérés az 'gen-ai-használat' prezentáció két slide-jának mintájára kér új slide-okat létrehozni, ezért ezeknek a fájloknak a tartalmát kell ismernem a szerkezet és stílus megértéséhez.",
+  "relevant_files": [
+    "gen-ai-haszn/303/241lat/01-cover.html",
+    "gen-ai-haszn/303/241lat/01a-agenda.html"
+  ]
+}

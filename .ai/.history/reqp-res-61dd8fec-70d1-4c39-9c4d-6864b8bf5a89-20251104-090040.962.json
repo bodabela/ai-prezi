@@ -1,0 +1,7 @@
+{
+  "explanation": "A kérés az új prezentáció nyitó- és napirendi oldalainak (01-cover.html, 01a-agenda.html) létrehozására irányul, a 'gen-ai-használat' prezentáció azonos nevű fájljainak mintájára. Ezeknek a fájloknak a tartalmát kell megismerni a hasonlóság eléréséhez.",
+  "relevant_files": [
+    "gen-ai-haszn/303/241lat/01-cover.html",
+    "gen-ai-haszn/303/241lat/01a-agenda.html"
+  ]
+}

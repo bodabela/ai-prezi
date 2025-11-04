@@ -1,0 +1,8 @@
+{
+  "explanation": "Az `01a-agenda.html` fájl módosítása szükséges az új pont felvételéhez az agendába. A `gen-ai-használat/02-ai-survey-results.html` oldal tartalmát ismerni kell referenciaként az új survey eredmény oldal elkészítéséhez, a `gemini-használat/01-cover.html` pedig a `gemini-használat` prezentáció általános stílusának megértéséhez szükséges.",
+  "relevant_files": [
+    "gemini-használat/01a-agenda.html",
+    "gen-ai-használat/02-ai-survey-results.html",
+    "gemini-használat/01-cover.html"
+  ]
+}

@@ -1,0 +1,293 @@
+Projekt Név: ai-prezi
+
+Feladat: Módosítsd a meglévő kódbázist a következő specifikációk alapján.
+
+[START Technológiai Stack és Szabályok]
+A Technológiai Stack és Szabályok azokra, és csak azokra a generált fájlokra érvényesek, melyek azokba a type-ok-ba, kind-okba és tier-ekbe vannak sorolva.
+
+[START App Szabályok]
+## App Szabályok
+[START General]
+### General
+- A prezentációkat vanilla html, javascript, svg kóddal álltjuk .png képekkel kiegészítve.
+[END General]
+[END App Szabályok]
+
+[END Technológiai Stack és Szabályok]
+
+--- Fájlrendszer Struktúra (ASCII) ---
+A projekt jelenlegi könyvtárszerkezete a következő:
+```
+.
+├── "gen-ai-haszn
+│   └── 303
+│       └── 241lat
+│           ├── 01-cover.html"
+│           ├── 01a-agenda.html"
+│           ├── 02-ai-survey-results.html"
+│           ├── 03-generative-ai.html"
+│           ├── 04-context.html"
+│           ├── 05-context-degradation.html"
+│           ├── 06-folyamatos-epites.html"
+│           ├── 07
+│           │   ├── 07_01_nvi-komponensek.png"
+│           │   ├── 07_02_nvi_ogy_komponensek.png"
+│           │   ├── 07_03_vakir.png"
+│           │   ├── 07_04_iskolai_gyakorlok.png"
+│           │   ├── 07_06_python_hammer.png"
+│           │   ├── 07_07_prezi.png"
+│           │   └── 07_08_mfa.png"
+│           ├── 07-esetek.html"
+│           ├── 08-hogyan-hasznaljuk-jol.html"
+│           ├── 09-kinek-mikor-segit-laikus.html"
+│           ├── 10-problems.html"
+│           ├── 11-jovo.html"
+│           ├── Generative AI Survey(1-30).tsv"
+│           ├── editor.html"
+│           └── logo.jfif"
+└── "p
+    └── 303
+        └── 241lya-orient
+            └── 303
+                └── 241ci
+                    └── 303
+                        └── 263
+                            ├── 00-nyito.html"
+                            ├── 01-tevhit-valosag.html"
+                            ├── 02-a-szoftver.html"
+                            ├── 03-hol-rejtoznek-a-szoftverek.html"
+                            ├── 04-szuperkepessegek.html"
+                            ├── 05-mi-a-programozas.html"
+                            ├── 06-szuperero.html"
+                            ├── 07-elso-lepesek.html"
+                            ├── 08-kerdesek.html"
+                            ├── ajt
+                            │   └── 303
+                            │       └── 263.png"
+                            ├── kerdojel.png"
+                            ├── platform-code-org.png"
+                            ├── platform-legoboost.jpg"
+                            ├── platform-scratch.png"
+                            ├── power-csapatmunka.png"
+                            ├── power-kitartas.png"
+                            ├── power-kreativitas.png"
+                            ├── power-logika.png"
+                            ├── product-apps.png"
+                            ├── product-cartoon.png"
+                            ├── product-energy.png"
+                            ├── product-game.png"
+                            ├── product-health.png"
+                            ├── product-robots.png"
+                            ├── recept01.png"
+                            ├── recept02.png"
+                            ├── recept03.png"
+                            ├── recept04.png"
+                            ├── recept05-loop.png"
+                            ├── recept06-moth.png"
+                            ├── recept07-eso.png"
+                            ├── recept08-gyumolcs.png"
+                            ├── recept09-uncsi.png"
+                            ├── szoftver-
+                            │   └── 303
+                            │       └── 251go.png"
+                            ├── szoftver-huto.png"
+                            ├── szoftver-kavefozo.png"
+                            ├── szoftver-kozlekedesi-lampa.png"
+                            ├── szoftver-mosogep.png"
+                            ├── szoftver-ora.png"
+                            ├── szoftver-porszivo.png"
+                            ├── szoftver.png"
+                            ├── szofver-auto.png"
+                            ├── t
+                            │   └── 303
+                            │       └── 251vhit.png"
+                            ├── val
+                            │   └── 303
+                            │       └── 263s
+                            │           └── 303
+                            │               └── 241g.png"
+                            ├── woman-ada.jpg"
+                            ├── woman-eniac-small.jpg"
+                            └── woman-grace.jpg"
+
+```
+--- Meglévő Kódbázis releváns állományai (A kiindulási állapot) ---
+A meglévő kódbázisból a következő releváns fájlokat kaptad, JSON formátuban:
+```json
+{
+  "files": null
+}
+```
+
+--- Session Információ ---
+Session ID: 0137c8d6-c6e2-4a27-8ab3-6438eef86dff
+
+--- KEZDETE Végrehajtandó Feladat (Üzleti Elvárás) ---
+"gemini-használat" mappába hozzunk létre egy új prezentációt a gen-ai-használat mintájára:
+- a 01-cover.html legyen hasonló, mint a "gen-ai-használat"-é
+- a 01a-agenda. html is legyen hasonló
+
+A prezentáció címe: Gemini Használat - Chat, IDE, API
+Az alcím legyen: Hogyan generálhatunk tűpontos kódot
+--- VÉGE Végrehajtandó Feladat (Üzleti Elvárás) ---
+
+
+--- KEZDETE A kódgenerálási utasításoknak ---
+**CRITICAL**: Csak azokat a módosításokat végezd el a kódon, amik a feladat megvalósításához kellenek!
+Tartsuk a generált kód méretét olyan kicsin amekkorán csak lehet, mert a fejlesztési iterációkban a méretnek komoly költség vonzata van. Amint indokolt faktoráljuk ki az elkülönülő architektúrális vagy üzleti logikákat külön fájlokba.--- VÉGE A kódgenerálási utasításoknak ---
+--- KEZDETE Generált Kódot tartalmazó helyes válasz JSON formátum leírása ---
+**CRITICAL**: A válaszod pontosan egyetlen JSON objektum legyen, melynek a struktúrája szigorúan a következő string[] típusú attribútumokból áll:## Csakis az `explanation` kulcs alatt adj egy rövid, 1-2 mondatos, magyar nyelvű összefoglalót adsz arról, hogy mit és miért módosítottál a kódbázison a kérés alapján.
+## A `generated_files` kulcs alatt egy listát tartalmaz a generált vagy módosított fájlokról. FONTOS: a stringekben adott értékeket mindig jól json escapeld, hogy masolható legyen a json!
+## A `commands` kulcs alatt az adott változás kezeléséhez szükségesek parancsokat adod vissza MINDIG!
+### A `git-commands` - a szükséges parancsokat, ha van a 'files'-ban elem MINDIG! A 'git commit -m' üzenetének végére MINDIG fűzd hozzá a megadott Session ID-t a következő formátumban: ' - <sessionId>' (pl. 'git commit -m "feat: Add user handler - 123e4567-e89b-12d3-a456-426614174000"').
+### A `build-commands` - a szükséges parancsokat MINDIG, minden alkalmazáshoz, ami projktben megtalálható! Ezek csak compile-t hajtsanak végre, teszt futtatást NE! 
+### A `run-commands` - egy OBJEKTUM TÖMB, amely mindig a fejlesztői környezethez szükséges parancsokat tartalmazza. Minden objektum tartalmazzon egy `id`-t (egyedi azonosító a parancshoz, pl. 'backend-server'), a `command` stringet, az `environment`-et (pl. 'local'), egy `isHotSwappable` boolean flag-et, és opcionálisan egy `dependsOn` string tömböt, amely más parancsok ID-jaira hivatkozik, amiknek előbb el kell indulniuk.
+### A `unit-test-commands` - ha vannak unit tesztek a projektben.
+**CRITICAL**: További utasítások a `generated_files` tömb objektumainak struktúrájához:## Csak azokkal a fájlokkal válaszolj a `generated_files` tömbben, amiket létrehozol vagy módosítasz, amihez nem nyúlsz, azt NE rakd bele a válaszba.
+## Minden files tömbelem tartalmazza a fájl relatív `path`-ját, a `file-content`-jét, a `status`-át, a `type`-ját és opcionálisan a `tierName`-jét.
+## A `status` értéke 'new' legyen, ha a fájl újonnan jön létre, és 'existing', ha egy meglévő fájl módosul.
+## A `type` értéke a következőkből kerüljön ki: 'app', 'test', 'devops', 'infra'.## A `tierName` egy opcionális string, ami megadja a fájl architekturális rétegét (pl. 'rest', 'service', 'database'), ha releváns.
+## Mindig a teljes kód fájlokkal válaszolj, amiket létrehozol vagy módosítasz, ne rövidítsd őket és ne hagyj ki semmit belőlük, ami helyes működéshez kell!
+# További utasítások a válsz JSON előállításához:## A README.md-t mindig lássuk el a szükséges és aktuális telepítési és futtatási utasításokkal, és updateljük, amikor szükséges.
+
+**CRITICAL**: A válaszod egyetlen JSON objektum legyen!
+**CRITICAL**: A válaszod az alábbi 'response_json_schema'-nak feleljen meg (NE használ semmilyen wrapper objektumot!):
+
+response_json_schema={
+"type": "object",
+"title": "CodeGenerationResponse",
+"description": "Válasz objektum, amely tartalmazza a generált kódot, a magyarázatot és a futtatandó parancsokat.",
+"properties": {
+	"explanation": {
+		"type": "string",
+		"description": "Rövid, 1-2 mondatos, magyar nyelvű összefoglaló arról, hogy mit és miért módosítottál a kódbázison a kérés alapján."
+	},
+	"files": {
+		"type": "array",
+		"description": "A generált vagy módosított fájlok listája. Csak azokat a fájlokat tartalmazza, amik ténylegesen változtak.",
+		"items": {
+			"type": "object",
+			"title": "GeneratedFile",
+			"required": [
+				"path",
+				"file-content",
+				"status",
+				"type"
+			],
+			"properties": {
+				"path": {
+					"type": "string",
+					"description": "A fájl relatív elérési útja a projekt gyökerétől."
+				},
+				"file-content": {
+					"type": "string",
+					"description": "A fájl teljes, vágatlan tartalma. A JSON stringben megfelelően kell escapelni (az UTF karakter kódokat is!)."
+				},
+				"status": {
+					"type": "string",
+					"description": "A fájl állapota: 'new', ha új fájlról van szó, 'existing', ha egy meglévő módosul.",
+					"enum": [
+						"new",
+						"existing"
+					]
+				},
+				"type": {
+					"type": "string",
+					"description": "A fájl típusa a megadott kategóriákból.",
+					"enum": [
+						"app",
+						"test",
+						"devops",
+						"infra"
+					]
+				},
+				"tierName": {
+					"type": "string",
+					"description": "Opcionális string, ami megadja a fájl architekturális rétegét (pl. 'rest', 'service', 'database')."
+				}
+			}
+		}
+	},
+	"commands": {
+		"type": "object",
+		"title": "ExecutionCommands",
+		"description": "A generált kód telepítéséhez, buildeléséhez és futtatásához szükséges parancsok gyűjteménye.",
+		"required": [
+			"git-commands",
+			"build-commands",
+			"run-commands"
+		],
+		"properties": {
+			"git-commands": {
+				"type": "array",
+				"description": "A változások commitolásához szükséges git parancsok sorozata (pl. 'git add', 'git commit').",
+				"items": {
+					"type": "string"
+				}
+			},
+			"build-commands": {
+				"type": "array",
+				"description": "A projekt fordításához szükséges parancsok. Ezek csak a fordítást végezzék el, tesztfuttatást ne.",
+				"items": {
+					"type": "string"
+				}
+			},
+			"run-commands": {
+				"type": "array",
+				"description": "A fejlesztői környezet elindításához szükséges parancsok listája.",
+				"items": {
+					"type": "object",
+					"title": "RunCommand",
+					"required": [
+						"id",
+						"command",
+						"environment",
+						"isHotSwappable"
+					],
+					"properties": {
+						"id": {
+							"type": "string",
+							"description": "Egyedi azonosító a parancshoz (pl. 'backend-server')."
+						},
+						"command": {
+							"type": "string",
+							"description": "A futtatandó parancs (pl. 'go run ./cmd/server/main.go')."
+						},
+						"environment": {
+							"type": "string",
+							"description": "A környezet, ahol a parancs fut (pl. 'local')."
+						},
+						"isHotSwappable": {
+							"type": "boolean",
+							"description": "Igaz, ha a futó processz támogatja a hot-swap vagy hot-reload funkciót."
+						},
+						"dependsOn": {
+							"type": "array",
+							"description": "Opcionális string tömb, ami megadja azoknak a parancs ID-knak a listáját, amiktől ez a parancs függ. A parancs csak akkor indul el, ha a függőségei már sikeresen futnak.",
+							"items": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			},
+			"unit-test-commands": {
+				"type": "array",
+				"description": "A unit tesztek futtatásához szükséges parancsok, ha vannak ilyenek.",
+				"items": {
+					"type": "string"
+				}
+			}
+		}
+	}
+},
+"required": [
+	"explanation",
+	"files",
+	"commands"
+]
+}\n
+	--- VÉGE Generált Kódot tartalmazó helyes válasz JSON formátum leírása ---
+** KRITIKUS!!! CSAK A FENT LEÍRT Helyes JSON választ add vissza, NE fűzz semmilyen egyéb szöveget hozzá vagy wrapper jsont köré:**
+
+ ** A JSON Válasz **:
