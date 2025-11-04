@@ -88,6 +88,18 @@
         .bar:hover {
             fill: #2980b9;
         }
+        .bar.red {
+            fill: #e74c3c;
+        }
+        .bar.red:hover {
+            fill: #c0392b;
+        }
+        .bar.green {
+            fill: #2ecc71;
+        }
+        .bar.green:hover {
+            fill: #27ae60;
+        }
         .bar-label {
             font-size: 14px;
             fill: #222;
@@ -324,7 +336,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function generateBarChart(chartId, data, {
         marginTop = 20, marginRight = 25, marginBottom = 20, marginLeft = 150,
-        barHeight = 25, barSpacing = 10, valueInsideMinWidth = 40
+        barHeight = 25, barSpacing = 10, valueInsideMinWidth = 40,
+        colorClassMap = {}
     } = {}) {
         const svgElement = document.getElementById(chartId);
         if (!svgElement) { console.error('SVG element not found:', chartId); return; }
@@ -361,7 +374,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const barY = i * (barHeight + barSpacing);
             const barActualWidth = maxValue > 0 ? (d.value / maxValue) * chartAreaWidth : 0;
             const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-            rect.setAttribute('class', 'bar'); rect.setAttribute('x', 0); rect.setAttribute('y', barY);
+            const colorClass = colorClassMap[d.label];
+            rect.setAttribute('class', colorClass ? `bar ${colorClass}` : 'bar');
+            rect.setAttribute('x', 0); rect.setAttribute('y', barY);
             rect.setAttribute('width', barActualWidth > 0 ? barActualWidth : 0.1); rect.setAttribute('height', barHeight);
             group.appendChild(rect);
 
@@ -388,10 +403,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const surveyRecords = parseRawData(rawTsvData);
 
-    generateBarChart('frequencyChart', aggregateData(surveyRecords, 'frequency', false), { marginLeft: 240 });
-    generateBarChart('environmentChart', aggregateData(surveyRecords, 'environment', false), { marginLeft: 280 });
-    generateBarChart('languagesChart', aggregateData(surveyRecords, 'languages', true), { marginLeft: 150 });
-    generateBarChart('correctionChart', aggregateData(surveyRecords, 'correctionFrequency', false), { marginLeft: 260 });
+    const colorClassMapping = {
+        'frequencyChart': {
+            'Naponta többször, konkrét problémáknál': 'green'
+        },
+        'tasksChart': {
+            'Kódgenerálás': 'green',
+            'Hibakeresés': 'green'
+        },
+        'correctionChart': {
+            'Gyakran, de a váz általában használható': 'red',
+            'Ritkán, a kód többnyire helyes és hatékony': 'red',
+            'Néha, többnyire csak kisebb finomítások kellenek': 'green'
+        },
+        'challengesChart': {
+            'Halucináció (nem létező API-k)': 'red',
+            'Szűk kontextus-ismeret': 'red'
+        },
+        'productivityChart': {
+            '3. szint': 'red'
+        },
+        'qualityChart': {
+            '4. szint': 'red',
+            '3. szint': 'red'
+        },
+        'satisfactionChart': {
+            '5. szint': 'red'
+        },
+        'timeReductionChart': {
+            '11-25%': 'red'
+        }
+    };
+
+    generateBarChart('frequencyChart', aggregateData(surveyRecords, 'frequency', false), { marginLeft: 240, colorClassMap: colorClassMapping.frequencyChart || {} });
+    generateBarChart('environmentChart', aggregateData(surveyRecords, 'environment', false), { marginLeft: 280, colorClassMap: colorClassMapping.environmentChart || {} });
+    generateBarChart('languagesChart', aggregateData(surveyRecords, 'languages', true), { marginLeft: 150, colorClassMap: colorClassMapping.languagesChart || {} });
+    generateBarChart('correctionChart', aggregateData(surveyRecords, 'correctionFrequency', false), { marginLeft: 260, colorClassMap: colorClassMapping.correctionChart || {} });
     generateBarChart('tasksChart', aggregateData(surveyRecords, 'tasks', true, null, ';', {
         "Kódgenerálás (pl. boilerplate, függvények, osztályok)": "Kódgenerálás",
         "Hibakeresés (debugging), hibaüzenetek értelmezése": "Hibakeresés",
@@ -401,7 +448,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "Dokumentáció írása (pl. docstringek, kommentek)": "Dokumentáció írása",
         "Kód konvertálása nyelvek vagy keretrendszerek között": "Kód konvertálása",
         "Algoritmusok kidolgozása, komplex logika megírása": "Algoritmusok kidolgozása"
-    }), { marginLeft: 200 });
+    }), { marginLeft: 200, colorClassMap: colorClassMapping.tasksChart || {} });
     generateBarChart('challengesChart', aggregateData(surveyRecords, 'challenges', true, null, ';', {
         'Nem létező függvényeket, könyvtárakat vagy API hívásokat "talál ki" (halucinál).': 'Halucináció (nem létező API-k)',
         'Nem érti a kódbázisom szélesebb kontextusát, csak az adott kódrészletet.': 'Szűk kontextus-ismeret',
@@ -413,11 +460,11 @@ document.addEventListener('DOMContentLoaded', function() {
         'Nem hatékony vagy nem idiomatikus kódot javasol.': 'Nem hatékony kódot javasol',
         'Ha VPN-en vagyok akkor majdnem használhatatlan. Nagyon sokszor 400-al elhasal a válaszadás közben': 'Problémák VPN használatakor',
         'Neha belejavit olyan dolgokba amit en direkt kijavitottam kezzel es ilyenkor kezzel kell javitgatni a diff-et. Mondjuk miota kertem hogy ne azota nem remlik.': 'Feleslegesen felülírja a manuális javítást'
-    }), { marginLeft: 280 });
-    generateBarChart('productivityChart', aggregateData(surveyRecords, 'productivity', false, null, ';', ratingTranslationMap), { marginLeft: 100 });
-    generateBarChart('qualityChart', aggregateData(surveyRecords, 'quality', false, null, ';', ratingTranslationMap), { marginLeft: 100 });
-    generateBarChart('satisfactionChart', aggregateData(surveyRecords, 'satisfaction', false, null, ';', ratingTranslationMap), { marginLeft: 100 });
-    generateBarChart('timeReductionChart', aggregateData(surveyRecords, 'timeReduction', false), { marginLeft: 150 });
+    }), { marginLeft: 280, colorClassMap: colorClassMapping.challengesChart || {} });
+    generateBarChart('productivityChart', aggregateData(surveyRecords, 'productivity', false, null, ';', ratingTranslationMap), { marginLeft: 100, colorClassMap: colorClassMapping.productivityChart || {} });
+    generateBarChart('qualityChart', aggregateData(surveyRecords, 'quality', false, null, ';', ratingTranslationMap), { marginLeft: 100, colorClassMap: colorClassMapping.qualityChart || {} });
+    generateBarChart('satisfactionChart', aggregateData(surveyRecords, 'satisfaction', false, null, ';', ratingTranslationMap), { marginLeft: 100, colorClassMap: colorClassMapping.satisfactionChart || {} });
+    generateBarChart('timeReductionChart', aggregateData(surveyRecords, 'timeReduction', false), { marginLeft: 150, colorClassMap: colorClassMapping.timeReductionChart || {} });
 
 });
 </script>
