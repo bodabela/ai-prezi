@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kérdőív Eredmények - Szöveges Válaszok</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .slide-container {
+            width: 1500px;
+            height: 920px;
+            background-color: #ffffff;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-svg-container {
+            width: 100%;
+            height: 120px;
+            flex-shrink: 0;
+        }
+        .slide-title-main-container {
+            padding: 22px 60px;
+            background-color: #f8f8f8;
+            border-bottom: 2px solid #ddd;
+        }
+        .slide-title-main-container h1 {
+            font-size: 36px;
+            color: #2c3e50;
+            margin: 0;
+            font-weight: 600;
+        }
+        .slide-content {
+            padding: 22px 60px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+        }
+        .text-answer-container {
+            border: 1px solid #e0e0e0;
+            border-left: 5px solid #0A2B4C;
+            border-radius: 6px;
+            padding: 20px 25px;
+            background-color: #fdfdfd;
+            transition: box-shadow 0.3s ease, outline 0.3s ease;
+        }
+        .text-answer-container.current-scroll-target-container {
+            outline: 2px solid #79C7E3;
+            box-shadow: 0 0 15px rgba(121, 199, 227, 0.5);
+        }
+        .text-answer-container h2 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .text-answer-container .summary {
+            font-size: 17px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .text-answer-container details {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        .text-answer-container summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: #3498db;
+            font-size: 16px;
+            outline: none;
+        }
+        .text-answer-container summary:hover {
+            color: #2980b9;
+        }
+        .text-answer-container .raw-answers {
+            margin-top: 15px;
+            padding-left: 0;
+            max-height: 250px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .text-answer-container .raw-answers ul {
+            list-style-type: disc;
+            padding-left: 25px;
+            margin: 0;
+        }
+        .text-answer-container .raw-answers li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 1000 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="1000" height="80" fill="#0A2B4C"/>
+                <image xlink:href="../gen-ai-használat/logo.jfif" x="25" y="15" width="50" height="50" />
+                <text x="180" y="40" font-family="'Segoe UI Semibold', Tahoma, sans-serif" font-size="22" font-weight="600">
+                    <tspan fill="#79C7E3">Gemini</tspan>
+                    <tspan fill="#FFFFFF"> Használat</tspan>
+                </text>
+                <text x="180" y="60" font-family="'Segoe UI', Tahoma, sans-serif" font-size="10" fill="#FFFFFF" letter-spacing="0.5">
+                    TAPASZTALATOK MEGOSZTÁSA
+                </text>
+                <path d="M580,70 Q720,30 780,50 T950,20 L1000,15 L1000,80 L580,80 Z" fill="#79C7E3" fill-opacity="0.25"/>
+                <path d="M530,75 Q680,40 730,60 T920,30 L1000,25 L1000,80 L530,80 Z" fill="#79C7E3" fill-opacity="0.15"/>
+                <line x1="0" y1="79.5" x2="1000" y2="79.5" stroke="#FFFFFF" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <div class="slide-title-main-container">
+            <h1>Gemini Kérdőív: Szöveges Válaszok</h1>
+        </div>
+
+        <div class="slide-content">
+            <div class="text-answer-container">
+                <h2>Miben változott meg leginkább a fejlesztési módszered, amióta a Gemini-t használod?</h2>
+                <p class="summary">A fejlesztési módszerek leginkább a "robotmunka" automatizálásával és a problémamegoldás felgyorsításával változtak. A Gemini egy interaktív partnerként funkcionál, amely segít a koncepcióalkotásban, a boilerplate kódok generálásában, a hibakeresésben és új technológiák megértésében, így a fejlesztők a magasabb szintű logikára és tervezésre fókuszálhatnak a repetitív vagy szintaktikai feladatok helyett.</p>
+                <details>
+                    <summary>Eredeti válaszok megtekintése</summary>
+                    <div class="raw-answers">
+                        <ul id="q6-answers"></ul>
+                    </div>
+                </details>
+            </div>
+
+            <div class="text-answer-container">
+                <h2>Mi az a három legfontosabb dolog, amiben a Gemini Pro a legtöbbet segítette a munkádat?</h2>
+                <p class="summary">A válaszadók szerint a Gemini Pro leginkább a kódgenerálásban, a hibakeresésben, valamint új technológiák megértésében és a kód refaktorálásában nyújtja a legnagyobb segítséget. Ezek a konkrét feladatok, ahol az AI asszisztens a leglátványosabban tudja csökkenteni a fejlesztési időt és tehermentesíteni a fejlesztőket a repetitív vagy kutatást igénylő munkától.</p>
+                <details>
+                    <summary>Eredeti válaszok megtekintése</summary>
+                    <div class="raw-answers">
+                        <ul id="q11-answers"></ul>
+                    </div>
+                </details>
+            </div>
+
+            <div class="text-answer-container">
+                <h2>Ha egy dolgot kérhetnél, mi lenne az a funkció vagy javítás, ami a leghasznosabb lenne?</h2>
+                <p class="summary">A leggyakrabban említett kihívások alapján a legfontosabb javítási területek a generált kód megbízhatóságának növelése (kevesebb "halucináció" és hiba), a teljes kódbázis kontextusának mélyebb megértése, valamint a zökkenőmentesebb és hatékonyabb IDE integráció lennének. Ezek a fejlesztések csökkentenék a manuális javítások szükségességét és javítanák a fejlesztői flow-t.</p>
+                <details>
+                    <summary>Eredeti válaszok megtekintése</summary>
+                    <div class="raw-answers">
+                        <ul id="q12-answers"></ul>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // This is a simple CSV parser that handles quoted fields containing the delimiter.
+    function parseCsv(csvText) {
+        // Remove BOM and split into lines
+        const lines = csvText.trim().replace(/^﻿/, '').split(/\r?\n/);
+        lines.shift(); // Remove header row
+
+        return lines.map(line => {
+            const values = [];
+            let currentVal = '';
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    if (inQuotes && i + 1 < line.length && line[i+1] === '"') {
+                        // Escaped quote (e.g., "" in "some""value")
+                        currentVal += '"';
+                        i++; // Skip the second quote of the pair
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (char === ';' && !inQuotes) {
+                    values.push(currentVal);
+                    currentVal = '';
+                } else {
+                    currentVal += char;
+                }
+            }
+            values.push(currentVal); // Add the last value
+            return values;
+        });
+    }
+
+    function populateAnswers(listId, answers) {
+        const ul = document.getElementById(listId);
+        if (!ul) return;
+        ul.innerHTML = '';
+        answers.forEach(answer => {
+            const cleanedAnswer = answer.trim();
+            // Filter out empty or placeholder answers.
+            if (cleanedAnswer && cleanedAnswer.toLowerCase() !== 'nincs jelentős problémám a használatával.' && cleanedAnswer !== '.' && cleanedAnswer !== '-') {
+                const li = document.createElement('li');
+                li.textContent = cleanedAnswer.replace(/\n/g, ' '); // Replace literal newlines with spaces for better display.
+                ul.appendChild(li);
+            }
+        });
+    }
+
+    const csvData = `﻿ID;Start time;Completion time;Email;Name;Last modified time;Milyen gyakran használod a Gemini Pro-t a fejlesztési ciklus során?;Milyen programozási feladatokhoz veszed leggyakrabban igénybe?;Milyen környezetben használod a legszívesebben a Gemini Pro-t kódoláshoz?;"Egy 1-től 5-ig terjedő skálán, mennyire növelte a fejlesztői produktivitásodat a Gemini Pro? (1. szint: Egyáltalán nem, 5. szint: Rendkívüli mértékben)\n";Becslésed szerint mennyivel csökkent a fejlesztési idő azokban a feladatokban, ahol a Gemini Pro-t használod?;Miben változott meg leginkább a fejlesztési módszered (pl. prototípus-készítés, tesztelés, refaktorálás), amióta a Gemini-t használod?;Mennyire tartod megbízhatónak a Gemini Pro által generált kód minőségét? ( 1. szint: Teljesen megbízhatatlan, gyakran hibás, 5. szint: Kiváló, általában azonnal használható);Mely programozási nyelvekben használod leggyakrabban a Gemini Pro-t?;Milyen gyakran kell manuálisan javítanod vagy jelentősen átírnod a Gemini által generált kódot?;Mi a legnagyobb kihívás vagy frusztráció a Gemini Pro kódolási célú használata során?;Mi az a három legfontosabb dolog, amiben a Gemini Pro a legtöbbet segítette a munkádat?;Ha egy dolgot kérhetnél, mi lenne az a funkció vagy javítás, ami a leghasznosabb lenne számodra mint fejlesztő?;Összességében mennyire vagy elégedett a Gemini Pro-val mint fejlesztői eszközzel? ( 1. szint: Nagyon elégedetlen, 5. szint: Teljes mértékben elégedett)
+1;10.9.25 12:01:06;10.9.25 12:08:27;anonymous;;;Naponta többször, konkrét problémáknál;"Kódgenerálás (pl. boilerplate, függvények, osztályok);Új technológiák, API-k vagy nyelvek megértése;Kód konvertálása nyelvek vagy keretrendszerek között;";A webes chat felületen (gemini.google.com);4;11-25%;Azzal kezdem a kódolást, hogy legeneráltatom geminivel, ha hibát dob a kód, visszaetetem neki, a szemantikai hibákat kézzel javítom.;4;"Python;JavaScript / TypeScript;";Gyakran, de a váz általában használható;"Nem fordul le vagy futásidejű hibát tartalmaz a generált kód.;Nem létező függvényeket, könyvtárakat vagy API hívásokat ""talál ki"" (halucinál).;Kényelmetlen a webes chat felületről másolgatni a kódot az IDE-be.;";"Gyorsabb, hogy nem nekem kell a boilerplate-et beklimpírozni\nNem kell a szintaxis után kutatnom\nBeadom neki a hibaüzenetet és sokszor tudja, mi a hiba";IDE integráció;5
+2;10.9.25 11:49:25;10.9.25 12:17:10;anonymous;;;Folyamatosan, a munkaidőm jelentős részében;"Kódgenerálás (pl. boilerplate, függvények, osztályok);Hibakeresés (debugging), hibaüzenetek értelmezése;Kódoptimalizálás, refaktorálás;Új technológiák, API-k vagy nyelvek megértése;Algoritmusok kidolgozása, komplex logika megírása;";A webes chat felületen (gemini.google.com);5;Több mint 50%;Leginkább az változott, hogy már nem csak apró részfeladatokban kérem a Gemini segítségét. Ehelyett minden nagyobb feladatnak indítok egy saját „gem”-et, amibe beleteszem a specifikációt, majd közösen kitaláljuk a magas szintű tervet. A releváns kódfájlokat is folyamatosan megosztom vele, így a kontextus birtokában sokkal egységesebb és a projektbe jobban illeszkedő kódot, teszteket és refaktorálási ötleteket ad.;4;"JavaScript / TypeScript;Java;";Ritkán, a kód többnyire helyes és hatékony;"Nem létező függvényeket, könyvtárakat vagy API hívásokat ""talál ki"" (halucinál).;Nincs jelentős problémám a használatával.;";"Koncepcióalkotás és magas szintű tervezés\nA ""robotmunka"" automatizálása\nHibakeresés";Kontextushoz való hozzáférés hogy ha félremegy egy beszélgetés ne kelljen újrakezdeni;5
+3;10.9.25 12:29:16;10.9.25 12:35:36;anonymous;;;Naponta többször, konkrét problémáknál;"Új technológiák, API-k vagy nyelvek megértése;Unit tesztek vagy tesztesetek írása;Kódgenerálás (pl. boilerplate, függvények, osztályok);Hibakeresés (debugging), hibaüzenetek értelmezése;Kódoptimalizálás, refaktorálás;";IDE kiegészítőként (pl. VS Code, JetBrains);4;Több mint 50%;Ha megvan a feladat mikéntje, a megvalósitás nem okoz fejfájást;4;"Java;JavaScript / TypeScript;";Néha, többnyire csak kisebb finomítások kellenek;"Nem hatékony vagy nem idiomatikus kódot javasol.;Nem létező függvényeket, könyvtárakat vagy API hívásokat ""talál ki"" (halucinál).;";tesztek írása, kód refaktorálása, probléma eredetének megtalálása;lehetne kevésbé magabiztos adott külső könyvtár verziójában, van amikor deprecated amit ad, vagy nem létezik de az ritka;5
+4;10.9.25 12:27:04;10.9.25 12:36:39;anonymous;;;Naponta többször, konkrét problémáknál;"Hibakeresés (debugging), hibaüzenetek értelmezése;Unit tesztek vagy tesztesetek írása;Kódgenerálás (pl. boilerplate, függvények, osztályok);";IDE kiegészítőként (pl. VS Code, JetBrains);3;11-25%;.;4;"Java;";Néha, többnyire csak kisebb finomítások kellenek;"Lassú a válaszadás, ami megtöri a fejlesztői flow-t.;Az IDE integráció hiányos vagy nem elég hatékony.;";gyorsabb hibakeresés, maven dependency optimalizálás, boilerplate kód generálás;.;5
+5;10.9.25 12:37:21;10.9.25 12:41:19;anonymous;;;Naponta egyszer, egy-egy nagyobb feladathoz;"Hibakeresés (debugging), hibaüzenetek értelmezése;Új technológiák, API-k vagy nyelvek megértése;";A webes chat felületen (gemini.google.com);3;11-25%;Megiratok vele kisebb kódrészeket, ennél többet nem érzem, hogy rábízhatok.;3;"Python;SQL;";Gyakran, de a váz általában használható;"Nem fordul le vagy futásidejű hibát tartalmaz a generált kód.;Nem létező függvényeket, könyvtárakat vagy API hívásokat ""talál ki"" (halucinál).;";Szintaxis ellenőrzés, ahelyett, hogy több google találatot végigolvasnék, inkább megírom neki, hogy milyen információra van szükségem. Alap kódot legenerálok vele, amit könnyen átlátok ha hiba van benne. Sajnos szokott benne lenni.;Automatikusan ellenőrizze le a saját kódját/állítását, ne kelljen 5x visszajelezni, hogy ez meg az elbukott.;3
+6;10.9.25 12:30:15;10.9.25 12:56:28;anonymous;;;Naponta többször, konkrét problémáknál;"Hibakeresés (debugging), hibaüzenetek értelmezése;Kódoptimalizálás, refaktorálás;Kódgenerálás (pl. boilerplate, függvények, osztályok);";IDE kiegészítőként (pl. VS Code, JetBrains);4;26-50%;A legnagyobb változás az, hogy az AI-asszisztenst használok a VS Code-ban ami elég sokszor segít ha éppen nem jut eszembe a szintaxis vagy végképp nem tudom megoldani a problémámat. De olyan is volt hogy tanácsot kértem, hogy melyik megoldás az optimálisabb. Hasznos még a boilerplate kódok generálásában is az intelliSensee-el gyorsabb lett a munka. Ami hátrány, hogy sokszor nem látja az egész projektet mint kontextust és többször adott már hibás kódot is. Szóval oda kell figyelni hogy mit generál. Ha komplexebb feladatot adok neki akkor az esetek legnagyobb százalékában nem sikerül neki elsőre hibátlanra. Azt együtt kalapáljuk tovább :) A kisebb feladatokat átlalában jobban megoldja;3;"JavaScript / TypeScript;";Gyakran, de a váz általában használható;"Nem érti a kódbázisom szélesebb kontextusát, csak az adott kódrészletet.;Ha VPN-en vagyok akkor majdnem használhatatlan. Nagyon sokszor 400-al elhasal a válaszadás közben;";"1. boilerplate kód generálás\n2. hibakeresés\n3. kisebb függvények, tool-ok generálása";Ha az assistent az egész projektemet látná mint kontextus amikor kérdezem;4
+7;10.9.25 13:26:54;10.9.25 14:19:05;anonymous;;;Folyamatosan, a munkaidőm jelentős részében;"Kódgenerálás (pl. boilerplate, függvények, osztályok);Hibakeresés (debugging), hibaüzenetek értelmezése;Kódoptimalizálás, refaktorálás;Új technológiák, API-k vagy nyelvek megértése;";IDE kiegészítőként (pl. VS Code, JetBrains);5;26-50%;"Ha valami uj dolgot kell csinalni amivel korabban nem talalkoztam akkor nem dokumentacio olvasassal kezdem hanem megkerem hogy csinalja meg es magyarazza el mit miert.\nRepetativ munkafolyamatoknal nem megcsinalom, hanem leirom hogy kell, adok par edge case peldat es megcsinaltatom. Uj nem ismert kodbazisnal magyarazatot kerek hogy mi hogy mukodik.";4;"JavaScript / TypeScript;Kotlin;";Néha, többnyire csak kisebb finomítások kellenek;"Nem létező függvényeket, könyvtárakat vagy API hívásokat ""talál ki"" (halucinál).;Neha belejavit olyan dolgokba amit en direkt kijavitottam kezzel es ilyenkor kezzel kell javitgatni a diff-et. Mondjuk miota kertem hogy ne azota nem remlik.;Lassú a válaszadás, ami megtöri a fejlesztői flow-t.;";Meglevo kodbazis megertese, hibakereses, kodolas;Most nem jut eszembe semmi;5
+8;10.14.25 8:33:50;10.14.25 8:44:06;anonymous;;;Naponta egyszer, egy-egy nagyobb feladathoz;"Hibakeresés (debugging), hibaüzenetek értelmezése;Kódgenerálás (pl. boilerplate, függvények, osztályok);Kód konvertálása nyelvek vagy keretrendszerek között;Dokumentáció írása (pl. docstringek, kommentek);";IDE kiegészítőként (pl. VS Code, JetBrains);3;11-25%;"jobban ertelmezheto beszedes valtozo, fv, osztaly elnevezeseket hasznalok. uj folyamat letrehozasanal kovetem a lefutasi sorrendet.\nrouter - controller - service - repo , igy jobban kepbekerul az AI mi a celom";3;"Python;JavaScript / TypeScript;";Gyakran, de a váz általában használható;"Nem létező függvényeket, könyvtárakat vagy API hívásokat ""talál ki"" (halucinál).;";Ismeretlen technologiak lenyeget osszefoglalja es kiindulo alapot nyujt a FRISS dokumentacio mely teruleten kell tovabb keresgelni. Interaktivan egyutt tudunk megoldast keresni.;"kod valtoztataskor atnezhetne a kodot lehetseges toresek utan kutatva es figyelmeztethetne.\n ";3
+9;10.14.25 8:37:25;10.14.25 8:50:48;anonymous;;;Naponta többször, konkrét problémáknál;"Hibakeresés (debugging), hibaüzenetek értelmezése;Kódoptimalizálás, refaktorálás;Kódgenerálás (pl. boilerplate, függvények, osztályok);";A webes chat felületen (gemini.google.com);3;Több mint 50%;-;3;"Python;";Néha, többnyire csak kisebb finomítások kellenek;"Nincs jelentős problémám a használatával.;";Kérdések tisztázása, kódolás, új technológiák megértése;-;5
+10;10.14.25 11:24:15;10.14.25 11:41:03;anonymous;;;Naponta egyszer, egy-egy nagyobb feladathoz;"Dokumentáció írása (pl. docstringek, kommentek);";A webes chat felületen (gemini.google.com);4;26-50%;Eddig jellemzően tesztesetek írására, dokumentációra használtam a Geminit;4;"JavaScript / TypeScript;SQL;";Néha, többnyire csak kisebb finomítások kellenek;"Nem érti a kódbázisom szélesebb kontextusát, csak az adott kódrészletet.;";Tesztesetek készítése, tesztelési dokumentáció készítése, sql query-k írása;"Adjon információt az általa generált válasz ""biztosságáról"", ha nem elégséges információt adtam a promptban akkor ezt jelezze és ne a kevés alapján próbáljon meg biztosnak tűnő, de hibás választ adni";5
+11;10.14.25 22:32:56;10.14.25 22:39:13;anonymous;;;Folyamatosan, a munkaidőm jelentős részében;"Kódgenerálás (pl. boilerplate, függvények, osztályok);Új technológiák, API-k vagy nyelvek megértése;Kódoptimalizálás, refaktorálás;";A webes chat felületen (gemini.google.com);5;Több mint 50%;Ha Geminit használok, akkor arra törekszem, hogy a nagyobb mérföldkövek legyenek meg, aztán jöhet a finomhangolás.;3;"Python;JavaScript / TypeScript;";Gyakran, de a váz általában használható;"Nem létező függvényeket, könyvtárakat vagy API hívásokat ""talál ki"" (halucinál).;Kényelmetlen a webes chat felületről másolgatni a kódot az IDE-be.;Az IDE integráció hiányos vagy nem elég hatékony.;Nem érti a kódbázisom szélesebb kontextusát, csak az adott kódrészletet.;";"1. sokat segít a brainstorming-ban, és tökjó megoldást tudunk találni adott problémára\n2. Ha nem ismerem maga ki egy technológiában, akkor sincs gond\n3. gyorsan generál szkriptet, amivel kiválthatok vmi manuális szívást :)";Ne akarjon hozzátenni többet, mint amit kérek.;5
+12;10.15.25 8:46:24;10.15.25 9:08:34;anonymous;;;Folyamatosan, a munkaidőm jelentős részében;"Kódgenerálás (pl. boilerplate, függvények, osztályok);Új technológiák, API-k vagy nyelvek megértése;";A webes chat felületen (gemini.google.com);3;11-25%;"Egész bonyolult SQLAlchemy lekérdezéseket íratok vele, és elég jól megy neki, nem hallucinál annyit, mint a ChatGPT mostanában, így kevesebbet bajlódok a szintaxissal. Ha nem elsőre sikerül neki megalkotni a jó lekérdezést, az azért van, mert nem magyaráztam el elég jól, hogy mi kell, de ha pontosítok, végül összejön. Kb peer programmingban rakjuk össze ezeket a dolgokat, szórakoztatóbb, mint ""egyedül"", és gyorsabban is haladok.";4;"Python;";Néha, többnyire csak kisebb finomítások kellenek;"Nem érti a kódbázisom szélesebb kontextusát, csak az adott kódrészletet.;Kényelmetlen a webes chat felületről másolgatni a kódot az IDE-be.;";Kisebb Python kódrészletek generálása, bonyolult SQLAlchemy lekérdezésekben segítség, design kérdésekben is szoktam kérni a véleményét, ha több opció közül lehet választani;Nem néztem még utána, hogy VS Code-ba lehet-e integrálni, és az hogy működik. Segítene, ha nem kéne annyi copy-paste, illetve jobban ismerné a kontextust kevesebb magyarázkodással.;5
+`;
+
+    try {
+        const data = parseCsv(csvData);
+        
+        // Column indices from manual inspection of the CSV file
+        const colIdxQ6 = 11; // "Miben változott meg..."
+        const colIdxQ11 = 16; // "Mi az a három legfontosabb dolog..."
+        const colIdxQ12 = 17; // "Ha egy dolgot kérhetnél..."
+
+        const q6Answers = data.map(row => row[colIdxQ6]).filter(Boolean);
+        const q11Answers = data.map(row => row[colIdxQ11]).filter(Boolean);
+        const q12Answers = data.map(row => row[colIdxQ12]).filter(Boolean);
+
+        populateAnswers('q6-answers', q6Answers);
+        populateAnswers('q11-answers', q11Answers);
+        populateAnswers('q12-answers', q12Answers);
+    } catch (error) {
+        console.error('Error parsing inline CSV data:', error);
+    }
+});
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const slideContent = document.querySelector('.slide-content');
+        if (!slideContent) return;
+
+        const focusableElements = Array.from(slideContent.querySelectorAll('.text-answer-container'));
+        let currentFocusableIndex = -1;
+        let lastScrollTargetElement = null;
+
+        function highlightTarget(element) {
+            if (lastScrollTargetElement) {
+                lastScrollTargetElement.classList.remove('current-scroll-target-container');
+            }
+            if (element && element.classList.contains('text-answer-container')) {
+                element.classList.add('current-scroll-target-container');
+                element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+                lastScrollTargetElement = element;
+            } else {
+                lastScrollTargetElement = null;
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            let preventDefault = false;
+
+            if (event.key === 'ArrowLeft') {
+                window.location.href = '02-gemini-survey-results.html';
+                preventDefault = true;
+            } else if (event.key === 'ArrowRight' || event.key === ' ') {
+                window.location.href = '03-kontextus.html'; // Assuming next slide
+                preventDefault = true;
+            } else if (event.key === 'ArrowDown') {
+                if (focusableElements.length > 0) {
+                    currentFocusableIndex = Math.min(currentFocusableIndex + 1, focusableElements.length - 1);
+                    highlightTarget(focusableElements[currentFocusableIndex]);
+                }
+                preventDefault = true;
+            } else if (event.key === 'ArrowUp') {
+                if (currentFocusableIndex > 0) {
+                    currentFocusableIndex--;
+                    highlightTarget(focusableElements[currentFocusableIndex]);
+                } else {
+                    currentFocusableIndex = -1;
+                    highlightTarget(null); // Deselect
+                    slideContent.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                preventDefault = true;
+            }
+
+            if (preventDefault) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+</body>
+</html>
