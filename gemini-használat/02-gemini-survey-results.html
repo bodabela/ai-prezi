@@ -283,6 +283,45 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const ratingTranslationMap = { "5": "5. szint", "4": "4. szint", "3": "3. szint", "2": "2. szint", "1": "1. szint" };
 
+    function wrapSvgText(textElement, maxWidth, lineHeightEm = 1.2) {
+        const words = textElement.textContent.split(/\s+/).filter(Boolean);
+        if (!words.length) return;
+
+        const x = textElement.getAttribute('x');
+        const initialFontSize = 14; // from .bar-label css
+        textElement.textContent = ''; 
+
+        let tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+        tspan.setAttribute('x', x);
+        textElement.appendChild(tspan);
+        
+        let line = '';
+        let lineCount = 1;
+
+        for (const word of words) {
+            const testLine = line ? `${line} ${word}` : word;
+            tspan.textContent = testLine;
+            if (tspan.getComputedTextLength() > maxWidth && line !== '') {
+                tspan.textContent = line;
+                line = word;
+                tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+                tspan.setAttribute('x', x);
+                tspan.setAttribute('dy', `${lineHeightEm}em`);
+                textElement.appendChild(tspan);
+                tspan.textContent = line;
+                lineCount++;
+            } else {
+                line = testLine;
+            }
+        }
+        
+        textElement.style.dominantBaseline = 'middle';
+        if (lineCount > 1) {
+            const yAdjust = -((lineCount - 1) * initialFontSize * lineHeightEm) / 2;
+            textElement.setAttribute('transform', `translate(0, ${yAdjust})`);
+        }
+    }
+
     function generateBarChart(chartId, data, {
         marginTop = 20, marginRight = 25, marginBottom = 20, marginLeft = 150,
         barHeight = 25, barSpacing = 10, valueInsideMinWidth = 40
@@ -325,10 +364,16 @@ document.addEventListener('DOMContentLoaded', function() {
             rect.setAttribute('class', 'bar'); rect.setAttribute('x', 0); rect.setAttribute('y', barY);
             rect.setAttribute('width', barActualWidth > 0 ? barActualWidth : 0.1); rect.setAttribute('height', barHeight);
             group.appendChild(rect);
+
             const labelTextNode = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            labelTextNode.setAttribute('class', 'bar-label'); labelTextNode.setAttribute('x', -10);
-            labelTextNode.setAttribute('y', barY + barHeight / 2); labelTextNode.setAttribute('dy', '.35em');
-            labelTextNode.textContent = d.label; group.appendChild(labelTextNode);
+            labelTextNode.setAttribute('class', 'bar-label');
+            labelTextNode.setAttribute('x', -10);
+            labelTextNode.setAttribute('y', barY + barHeight / 2);
+            labelTextNode.textContent = d.label;
+            group.appendChild(labelTextNode);
+
+            wrapSvgText(labelTextNode, marginLeft - 15);
+
             const valueTextNode = document.createElementNS("http://www.w3.org/2000/svg", "text");
             if (barActualWidth >= valueInsideMinWidth) {
                 valueTextNode.setAttribute('class', 'bar-value'); valueTextNode.setAttribute('x', barActualWidth - 5);
