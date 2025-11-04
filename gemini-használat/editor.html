@@ -134,6 +134,57 @@
         .chart-container { background-color: #fff; position: relative; padding: 10px; }
         .placeholder-for-chart { border: 2px dashed #3498db; min-height: 180px; display:flex; align-items: center; justify-content: center; color: #777; font-size: 16px; background: #fafdff; }
 
+        /* Új komponens stílusok */
+        .text-answer-container {
+            border: 1px solid #e0e0e0;
+            border-left: 5px solid #0A2B4C;
+            border-radius: 6px;
+            padding: 20px 25px;
+            background-color: #fdfdfd;
+        }
+        .text-answer-container h2 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .text-answer-container .summary {
+            font-size: 17px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .text-answer-container details {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        .text-answer-container summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: #3498db;
+            font-size: 16px;
+            outline: none;
+        }
+        .text-answer-container .raw-answers {
+            margin-top: 15px;
+            padding-left: 0;
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .text-answer-container .raw-answers ul {
+            list-style-type: disc;
+            padding-left: 25px;
+            margin: 0;
+        }
+        .text-answer-container .raw-answers li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        .raw-answers[contenteditable="true"] { outline: 2px dashed #79C7E3; }
+
         /* Szerkesztő-specifikus UI elemek */
         [contenteditable="true"] { outline: 2px dashed #79C7E3; padding: 2px 4px; border-radius: 3px; }
         [contenteditable="true"]:focus { outline: 2px solid #3498db; }
@@ -176,6 +227,7 @@
             <button id="add-image-text-btn">Kép (bal) - Szöveg (jobb)</button>
             <button id="add-chart-placeholder-btn">Diagram Szekció (Placeholder)</button>
             <button id="add-two-column-layout-btn">Kétoszlopos elrendezés</button>
+            <button id="add-text-answers-btn">Szöveges válaszok</button>
         </div>
         
         <div class="control-group">
@@ -228,6 +280,21 @@
         document.getElementById('add-text-image-btn').addEventListener('click', () => createWrapper(`<h2 contenteditable="true">Szekció címe</h2><div class="two-column-container"><div class="column-content"><ul contenteditable="true"><li>Szöveges rész...</li></ul></div><div class="column-content"><svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-action="set-content"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="font-size:16px; fill:#777; pointer-events:none;">Kattints a tartalom beállításához</text></svg></div></div>`));
         document.getElementById('add-image-text-btn').addEventListener('click', () => createWrapper(`<h2 contenteditable="true">Szekció címe</h2><div class="two-column-container"><div class="column-content"><svg class="placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" data-action="set-content"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="font-size:16px; fill:#777; pointer-events:none;">Kattints a tartalom beállításához</text></svg></div><div class="column-content"><ul contenteditable="true"><li>Szöveges rész...</li></ul></div></div>`));
         document.getElementById('add-chart-placeholder-btn').addEventListener('click', () => createWrapper(`<div class="chart-container"><h2 contenteditable="true">Diagram címe</h2><div class="placeholder-for-chart">SVG diagram helye</div></div>`));
+        document.getElementById('add-text-answers-btn').addEventListener('click', () => createWrapper(`
+            <div class="text-answer-container">
+                <h2 contenteditable="true">Kérdés Címe</h2>
+                <p contenteditable="true" class="summary">Ide jön a válaszok összefoglalója.</p>
+                <details open>
+                    <summary>Eredeti válaszok megtekintése</summary>
+                    <div class="raw-answers" contenteditable="true">
+                        <ul>
+                            <li>Válasz 1...</li>
+                            <li>Válasz 2...</li>
+                        </ul>
+                    </div>
+                </details>
+            </div>
+        `));
         document.getElementById('add-two-column-layout-btn').addEventListener('click', () => {
             // Az alapértelmezett lista, ami mindkét oszlopba bekerül
             const defaultColumnContent = `<ul contenteditable="true"><li>Lista...</li></ul>`;
@@ -315,7 +382,7 @@
                      col.insertAdjacentHTML('beforeend', `<div class="column-adder-controls"><button data-action="add-text-to-column">Szöveg</button><button data-action="add-chart-to-column">Diagram</button></div>`);
                 }
             });
-            slideContent.querySelectorAll('h1, h2, h3, p, ul, li').forEach(el => el.setAttribute('contenteditable', 'true'));
+            slideContent.querySelectorAll('h1, h2, h3, p, ul, li, .summary, .raw-answers').forEach(el => el.setAttribute('contenteditable', 'true'));
             slideContent.querySelectorAll('.placeholder-svg').forEach(svg => svg.setAttribute('data-action', 'set-content'));
             const editorContentDiv = document.getElementById('slide-content-editor');
             editorContentDiv.innerHTML = '';
@@ -477,6 +544,16 @@ function getFinalAssets(hasScrollableHeadings, prevPage, nextPage) {
         .chart-container { background-color: #fff; }
         .chart-container h2 { font-size: 23px; color: #34495e; margin-top: 0; margin-bottom: 12px; border-bottom: 3px solid #79C7E3; padding-bottom: 6px; font-weight: 600; }
         .svg-chart { width: 100%; min-height: 180px; }
+        /* Text answer styles */
+        .text-answer-container { border: 1px solid #e0e0e0; border-left: 5px solid #0A2B4C; border-radius: 6px; padding: 20px 25px; background-color: #fdfdfd; }
+        .text-answer-container h2 { font-size: 24px; color: #2c3e50; margin-top: 0; margin-bottom: 15px; }
+        .text-answer-container .summary { font-size: 17px; line-height: 1.6; color: #333; margin-bottom: 20px; font-style: italic; }
+        .text-answer-container details { border-top: 1px solid #eee; padding-top: 15px; }
+        .text-answer-container summary { cursor: pointer; font-weight: 600; color: #3498db; font-size: 16px; outline: none; }
+        .text-answer-container .raw-answers { margin-top: 15px; padding-left: 0; max-height: 250px; overflow-y: auto; background-color: #f9f9f9; border: 1px solid #eee; padding: 15px; border-radius: 4px; }
+        .text-answer-container .raw-answers ul { list-style-type: disc; padding-left: 25px; margin: 0; }
+        .text-answer-container .raw-answers li { margin-bottom: 10px; line-height: 1.5; }
+
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
         .modal-overlay.show { opacity: 1; visibility: visible; }
         .modal-content-wrapper { position: relative; background-color: #fff; padding: 10px; border-radius: 8px; max-width: 80vw; max-height: 80vh; }
